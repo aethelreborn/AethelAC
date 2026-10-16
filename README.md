@@ -73,6 +73,10 @@ The default configuration ships hardened for competitive PvP:
   channels, see `client-fingerprint` in `config.yml`) flag the `Fingerprint`
   check: alerts and logs from the first match, a console kick at 15 repeated
   matches, and a 30-day ban at 30.
+- Attack cadence analysis (`attack-patterns` in `config.yml`) flags the
+  `Autoclicker` check on sustained 18+ CPS over a full minute, 20+ CPS over
+  twenty seconds, or machine-regular click intervals: alerts from 10
+  violations, console kick at 80, 30-day ban at 140.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.
