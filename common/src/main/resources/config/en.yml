@@ -153,12 +153,12 @@ TimerLimit:
 
 NegativeTimer:
     # Number of milliseconds lost while moving before we should start flagging
-    drift: 1000
+    drift: 500
 
 # Same check method as TimerA, but for vehicles
 VehicleTimer:
     # Target 1.005 timer
-    setbackvl: 5
+    setbackvl: 2
 
 PacketOrderI:
     # enable if players are getting flagged for using 1.7 animations mods

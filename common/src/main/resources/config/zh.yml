@@ -174,12 +174,12 @@ TimerLimit:
 
 NegativeTimer:
     # 玩家的移动丢失了多少毫秒？
-    drift: 1000
+    drift: 500
 
 # 与 TimerA 相同的检查方法，但适用于坐骑
 VehicleTimer:
     # 实体的1.0005Timer 检查
-    setbackvl: 5
+    setbackvl: 2
     # VL达到多少时回弹？
 
 PacketOrderI:

@@ -153,12 +153,12 @@ TimerLimit:
 
 NegativeTimer:
     # Uyarı vermeye başlamadan önce hareket halindeyken kaybedilen milisaniye sayısı
-    drift: 1000
+    drift: 500
 
     # TimerA ile aynı kontrol yöntemi, ancak araçlar için
 VehicleTimer:
     # Hedef 1.005 timer
-    setbackvl: 5
+    setbackvl: 2
 
 PacketOrderI:
     # Oyuncular 1.7 animasyon modlarını kullandıkları için işaretleniyorsa etkinleştirin
