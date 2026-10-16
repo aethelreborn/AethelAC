@@ -157,7 +157,7 @@ PacketOrderI:
 
 Reach:
     # Limite per rilevare un attacco oltre la distanza massima
-    threshold: 0.0005
+    threshold: 0.0001
     # Annulla gli attacchi impossibili
     block-impossible-hits: true
     # Abilita l'invio di pacchetti aggiuntivi per il rilevamento degli attacchi

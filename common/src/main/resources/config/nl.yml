@@ -169,7 +169,7 @@ Reach:
     #
     # Er is 0.03 geforceerde uitbreiding met 1.9-1.18.1 (niet 1.18.2), of sommige client/server combinaties vanwege
     # protocol veranderingen en beperkingen. Deze controle is het krachtigst met 1.7/1.8 clients op 1.8 servers
-    threshold: 0.0005
+    threshold: 0.0001
     # Moeten we hits annuleren waarvan we weten dat ze onmogelijk zijn?
     # 3.00-3.03 hits kunnen doorkomen, maar toch gemarkeerd worden, vanwege pakketvolgorderbeperkingen
     block-impossible-hits: true

@@ -169,7 +169,7 @@ Reach:
     #
     # Wymuszone zwiększenie o 0.03 występuje w wersjach 1.9-1.18.1 (z wyjątkiem 1.18.2) lub w niektórych kombinacjach klient/serwer
     # ze względu na zmiany i ograniczenia protokołu. Ta kontrola jest najskuteczniejsza dla klientów 1.7/1.8 na serwerach 1.8.
-    threshold: 0.0005
+    threshold: 0.0001
     # Czy powinniśmy anulować trafienia, które wiemy, że są niemożliwe?
     # Trafienia w przedziale 3.00-3.03 mogą przejść, ale nadal będą wykrywane z powodu ograniczeń kolejności pakietów.
     block-impossible-hits: true

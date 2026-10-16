@@ -187,7 +187,7 @@ PacketOrderI:
     exempt-placing-while-digging: false
 
 Reach:
-    threshold: 0.0005
+    threshold: 0.0001
     # 我们应该将实体碰撞箱扩大多少？ 0.0005 应该检测到 3.0005+ reach
     #
     # 在 1.9-1.18.1（不是 1.18.2）或某些客户端/服务器组合中存在 0.03 距离的增加，因为

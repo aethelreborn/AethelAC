@@ -169,7 +169,7 @@ Reach:
     #
     # Există o extindere forțată de 0.03 cu clienți 1.9-1.18.1 (nu 1.18.2), sau unele combinații client/server datorită
     # schimbărilor și limitărilor protocolului. Acest check este cel mai puternic cu clienți 1.7/1.8 pe servere 1.8.
-    threshold: 0.0005
+    threshold: 0.0001
     # Ar trebui să anulăm loviturile imposibile?
     # Lovituri de 3.00-3.03 pot trece dar tot vor fi marcate, din cauza limitărilor de ordine a pachetelor
     block-impossible-hits: true

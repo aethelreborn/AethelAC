@@ -172,7 +172,7 @@ Reach:
     #
     # Es gibt eine 0,03 erzwungene Erweiterung mit 1.9-1.18.1 (nicht 1.18.2), oder einigen Client/Server-Kombinationen aufgrund von
     # Protokolländerungen und -beschränkungen. Diese Prüfung ist am stärksten mit 1.7/1.8 Clients auf 1.8 Servern.
-    threshold: 0.0005
+    threshold: 0.0001
     # Sollten wir Treffer annullieren, von denen wir wissen, dass sie unmöglich sind?
     # 3.00-3.03-Treffer können aufgrund von Beschränkungen der Paketreihenfolge durchgehen, aber dennoch gekennzeichnet werden.
     block-impossible-hits: true

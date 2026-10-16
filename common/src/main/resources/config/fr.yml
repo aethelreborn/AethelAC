@@ -170,7 +170,7 @@ Reach:
     #
     # Il y a un agrandissement forcé de 0,03 avec les versions 1.9 à 1.18.1 (pas 1.18.2) ou certaines combinaisons client/serveur en raison
     # des changements et limitations du protocole. Cette vérification est particulièrement puissante avec les clients 1.7/1.8 sur les serveurs 1.8.
-    threshold: 0.0005
+    threshold: 0.0001
     # Devons-nous annuler les coups que nous savons impossibles ?
     # Les coups entre 3,00 et 3,03 peuvent passer mais seront quand même signalés en raison des limitations de l'ordre des paquets.
     block-impossible-hits: true

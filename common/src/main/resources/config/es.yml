@@ -175,7 +175,7 @@ Reach:
     # Hay una expansion forzada de 0.03 con 1.9-1.18.1 (1.18.2 no) y algunas combinaciones de clientes/servidores
     # debido a cambios en el protocolo y limitaciones. Esta comprobación es más poderosa en clientes 1.7 y 1.8
     # conectados a un servidor 1.8
-    threshold: 0.0005
+    threshold: 0.0001
     # ¿Deberíamos cancelar golpes que sabemos que son imposibles?
     # Golpes de 3.00-3.03 puede que aun asi pasen, pero se marcaran debido a limitaciones del orden de paquetes.
     block-impossible-hits: true
