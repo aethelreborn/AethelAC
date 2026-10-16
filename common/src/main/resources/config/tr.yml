@@ -33,6 +33,40 @@ client-brand:
     # Setting this option to false will allow said clients to connect to the server. Disable this at your own risk.
     disconnect-blacklisted-forge-versions: true
 
+client-fingerprint:
+    # Substrings matched case-insensitively against the client brand packet.
+    # A match flags the Fingerprint check. Keep this list to known cheat clients.
+    brands:
+        - "wurst"
+        - "meteor"
+        - "sigma"
+        - "impact"
+        - "future"
+        - "salhack"
+        - "konas"
+        - "novoline"
+        - "astolfo"
+        - "aristois"
+        - "bleachhack"
+        - "lambda"
+        - "aethelclient"
+        - "tru3club"
+    # Substrings matched case-insensitively against channels registered by the
+    # client (minecraft:register payload). A match flags the Fingerprint check.
+    channels:
+        - "wurst:"
+        - "meteor-client:"
+        - "bleachhack:"
+        - "aethelclient"
+        - "tru3club"
+        - "impact"
+        - "future:"
+        - "konas"
+        - "novoline"
+        - "sigma"
+        - "salhack"
+        - "lambda"
+
 spectators:
     # Seyirciler aktif olarak izliyor olsalar bile, aethel.spectate iznine sahip tüm seyircileri gizle
     hide-regardless: false
@@ -239,4 +273,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 11
+config-version: 12

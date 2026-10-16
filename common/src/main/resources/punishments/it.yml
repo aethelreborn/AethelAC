@@ -80,6 +80,17 @@ Punishments:
       - "10:5 [proxy]"
       - "25:0 kick %player% AethelAC: Hitbox violation"
       - "50:0 ban %player% 30d AethelAC: Hitboxes (%vl% violations)"
+  Fingerprint:
+    remove-violations-after: 600
+    checks:
+      - "Fingerprint"
+    commands:
+      - "1:1 [alert]"
+      - "1:1 [log]"
+      - "5:5 [webhook]"
+      - "5:5 [proxy]"
+      - "15:0 kick %player% AethelAC: Known cheat client fingerprint"
+      - "30:0 ban %player% 30d AethelAC: Known cheat client (%vl% fingerprint violations)"
   Misc:
     remove-violations-after: 600
     checks:
