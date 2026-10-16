@@ -156,12 +156,12 @@ TimerLimit:
 
 NegativeTimer:
     # Número de milissegundos perdidos ao se mover antes de começarmos a registrar violações.
-    drift: 1200
+    drift: 1000
 
 # Mesmo método usado no TimerA, mas para veículos.
 VehicleTimer:
     # Detecta até 1.005 de timer.
-    setbackvl: 10
+    setbackvl: 5
 
 PacketOrderI:
     # Ativar se os jogadores estão sendo sinalizados por usar mods de animação 1.7
