@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.10] - 2026-10-17
+
+- Audit pass: 145 checks with unique stable keys, config and message
+  versions aligned with their updater specs, punishment bindings verified.
+- Document chat-prompt automation and legacy fishing sound coverage limits.
+
 ## [v3.9] - 2026-10-17
 
 - `/aethel profile` gains quick reel and firework boost counters

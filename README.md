@@ -182,6 +182,11 @@ All automation heuristics are experimental; each shares a punishment ladder
 - The offhand and tool-automation checks anchor on damage and dig cycles;
   macros that fire on keyboard-only triggers with no server-visible anchor
   degrade to the generic rate checks.
+- Chat-prompt automation (auto-login / auto-accept modules that answer server
+  text) is out of scope: the prompts are plugin-specific and a fast answer is
+  indistinguishable from a pasted command macro.
+- The fishing reaction check matches the modern bobber splash sound; legacy
+  1.8 sound naming variations are not covered.
 
 ## Building
 
