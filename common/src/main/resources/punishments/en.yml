@@ -129,6 +129,7 @@ Punishments:
       - "Elytra"
       - "Chat"
       - "Exploit"
+      - "FireworkCadence"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"

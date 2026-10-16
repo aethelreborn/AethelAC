@@ -177,6 +177,14 @@ reaction-analysis:
     damage-reaction-min-pairs: 6
     damage-reaction-window-seconds: 300
 
+elytra-analysis:
+    # Firework cadence detection (FireworkCadence check): how many boost
+    # intervals to judge, the interval CV ceiling, and the mean interval band.
+    firework-min-intervals: 8
+    firework-cadence-cv: 0.05
+    firework-mean-min-ms: 700
+    firework-mean-max-ms: 4000
+
 pack-spoof:
     # Resource-pack spoof detection (PackSpoof check): acceptance-to-success
     # gap window in ms that machine spoofers land in, and how many fixed-gap
@@ -399,4 +407,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 31
+config-version: 32

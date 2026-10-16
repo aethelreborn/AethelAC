@@ -118,9 +118,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v30 → v31: adds the {@code inventory-automation} menu-cadence
      * knobs for the FastClick second tier.
+     *
+     * <p>v31 → v32: adds the {@code elytra-analysis} firework cadence knobs
+     * for the FireworkCadence check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 31, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 32, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
