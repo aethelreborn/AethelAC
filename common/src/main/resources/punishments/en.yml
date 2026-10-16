@@ -56,10 +56,12 @@ Punishments:
     checks:
       - "Post"
     commands:
-      - "20:20 [alert]"
+      - "5:5 [alert]"
       - "1:1 [log]"
-      - "40:40 [webhook]"
-      - "40:40 [proxy]"
+      - "20:20 [webhook]"
+      - "20:20 [proxy]"
+      - "40:0 kick %player% AethelAC: Post violation"
+      - "70:0 ban %player% 30d AethelAC: Post (%vl% violations)"
   BadPackets:
     remove-violations-after: 300
     checks:
