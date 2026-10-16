@@ -131,6 +131,10 @@ The default configuration ships hardened for competitive PvP:
 - The experimental `DropBurst` check (`inventory-automation` in `config.yml`)
   flags drop-everything macros: twelve or more drops inside a second; it
   shares the `Misc` ladder and can also be staged with `shadow-checks`.
+- The experimental `NoSwingAttack` check (`attack-patterns` in `config.yml`)
+  flags silent-aura modes that strip the arm animation: four or more attacks
+  in a row with no swing within 200 ms; it shares the `AimHeuristics` ladder
+  and can also be staged with `shadow-checks`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

@@ -107,6 +107,11 @@ attack-patterns:
     return-window-attacks: 12
     return-window-seconds: 20
     return-fraction: 0.6
+    # No-swing aura detection (NoSwingAttack check): how stale the last arm
+    # animation may be for an attack to count as swung, and how many
+    # unswung attacks in a row trigger a flag.
+    swing-max-age-ms: 200
+    swing-miss-attacks: 4
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -379,4 +384,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 25
+config-version: 26

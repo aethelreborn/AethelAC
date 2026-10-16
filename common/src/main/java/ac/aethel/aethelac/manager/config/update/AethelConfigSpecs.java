@@ -99,9 +99,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v24 → v25: widens the metronome CV default to 0.05 so jittered
      * autoclickers are caught while human rhythm stays out.
+     *
+     * <p>v25 → v26: adds the {@code attack-patterns} swing knobs for the
+     * no-swing aura check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 25, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 26, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

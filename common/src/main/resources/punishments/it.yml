@@ -125,6 +125,7 @@ Punishments:
       - "RotationDecay"
       - "AttackRotation"
       - "ReturnFlick"
+      - "NoSwingAttack"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"
