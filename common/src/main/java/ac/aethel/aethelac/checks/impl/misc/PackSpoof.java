@@ -7,6 +7,7 @@ import ac.aethel.aethelac.player.AethelPlayer;
 import ac.grim.grimac.api.config.ConfigManager;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.wrapper.configuration.client.WrapperConfigClientResourcePackStatus;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientResourcePackStatus;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,17 +49,25 @@ public class PackSpoof extends Check implements PacketReceiveListener {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (event.getPacketType() != PacketType.Play.Client.RESOURCE_PACK_STATUS) {
+        boolean accepted;
+        boolean success;
+        if (event.getPacketType() == PacketType.Play.Client.RESOURCE_PACK_STATUS) {
+            WrapperPlayClientResourcePackStatus.Result result = new WrapperPlayClientResourcePackStatus(event).getResult();
+            accepted = result == WrapperPlayClientResourcePackStatus.Result.ACCEPTED;
+            success = result == WrapperPlayClientResourcePackStatus.Result.SUCCESSFULLY_LOADED;
+        } else if (event.getPacketType() == PacketType.Configuration.Client.RESOURCE_PACK_STATUS) {
+            WrapperConfigClientResourcePackStatus.Result result = new WrapperConfigClientResourcePackStatus(event).getResult();
+            accepted = result == WrapperConfigClientResourcePackStatus.Result.ACCEPTED;
+            success = result == WrapperConfigClientResourcePackStatus.Result.SUCCESSFULLY_LOADED;
+        } else {
             return;
         }
-        WrapperPlayClientResourcePackStatus status = new WrapperPlayClientResourcePackStatus(event);
-        WrapperPlayClientResourcePackStatus.Result result = status.getResult();
         long now = System.nanoTime();
-        if (result == WrapperPlayClientResourcePackStatus.Result.ACCEPTED) {
+        if (accepted) {
             acceptNanos = now;
             return;
         }
-        if (result != WrapperPlayClientResourcePackStatus.Result.SUCCESSFULLY_LOADED || acceptNanos == 0L) {
+        if (!success || acceptNanos == 0L) {
             return;
         }
 
