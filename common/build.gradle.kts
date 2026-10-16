@@ -8,7 +8,7 @@ plugins {
 repositories {
     val localOverride = if (BuildConfig.mavenLocalOverride) mavenLocal() else null
 
-    // Grim API & PacketEvents
+    // Aethel API & PacketEvents
     val grimPublicReleases = maven("https://maven.grim.ac/public/releases") {
         mavenContent { releasesOnly() }
     }

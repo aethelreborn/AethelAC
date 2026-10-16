@@ -1,7 +1,7 @@
 # ===========================================================================
 #  Postgres バックエンド設定
 #
-#  Postgres はマルチサーバー構成（複数の Grim インスタンスから 1 つの
+#  Postgres はマルチサーバー構成（複数の Aethel インスタンスから 1 つの
 #  中央 DB への書き込み）に対応します。実行時に Postgres JDBC ドライバが
 #  必要で、ドライバが見つからない場合は起動時に自己無効化し、これを
 #  参照していたルーティングはフォールバックに切り替わります。
@@ -13,14 +13,14 @@
 postgres:
   host: "localhost"
   port: 5432
-  database: "grim"
+  database: "aethel"
   user: "postgres"
   password: ""
 
   # HikariCP connection pool settings. These only apply to SQL backends
   # that use Hikari internally.
   pool-settings:
-    # Maximum physical database connections this Grim instance can keep open.
+    # Maximum physical database connections this Aethel instance can keep open.
     maximum-pool-size: 5
     # Minimum idle connections kept warm. Keep equal to maximum-pool-size
     # for a fixed-size pool, or lower it if your database has tight limits.
@@ -43,8 +43,8 @@ postgres:
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 

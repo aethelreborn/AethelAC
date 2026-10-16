@@ -1,42 +1,42 @@
 {
   "schemaVersion": 1,
-  "id": "grimac-fabric-intermediary",
+  "id": "aethelac-fabric-intermediary",
   "version": "${version}",
-  "name": "GrimAC",
+  "name": "AethelAC",
   "description": "Libre simulation anticheat designed for 26.1 with 1.8-26.1 support, powered by PacketEvents 2.0.",
   "authors": [
-    "GrimAC"
+    "AethelAC"
   ],
   "license": "GPLv3",
   "environment": "server",
   "entrypoints": {
     "main": [
-      "ac.grim.grimac.platform.fabric.GrimACFabricIntermediaryEntryPoint"
+      "ac.aethel.aethelac.platform.fabric.AethelACFabricIntermediaryEntryPoint"
     ],
     "preLaunch": [
-      "ac.grim.grimac.platform.fabric.GrimACFabricIntermediaryEntryPoint"
+      "ac.aethel.aethelac.platform.fabric.AethelACFabricIntermediaryEntryPoint"
     ]
   },
   "mixins": [
-    "grimac.mixins.json"
+    "aethelac.mixins.json"
   ],
-  "accessWidener": "grimac.accesswidener",
+  "accessWidener": "aethelac.accesswidener",
   "custom": {
     "loom:injected_interfaces": {
       "net/minecraft/world/level/Level": [
-        "ac/grim/grimac/platform/api/world/PlatformWorld"
+        "ac/aethel/aethelac/platform/api/world/PlatformWorld"
       ],
       "net/minecraft/world/entity/Entity": [
-        "ac/grim/grimac/platform/fabric/inject/FabricEntityHandle"
+        "ac/aethel/aethelac/platform/fabric/inject/FabricEntityHandle"
       ],
       "net/minecraft/server/level/ServerPlayer": [
-        "ac/grim/grimac/platform/fabric/inject/FabricServerPlayerHandle"
+        "ac/aethel/aethelac/platform/fabric/inject/FabricServerPlayerHandle"
       ],
       "net/minecraft/server/MinecraftServer": [
-        "ac/grim/grimac/platform/fabric/inject/FabricMinecraftServerHandle"
+        "ac/aethel/aethelac/platform/fabric/inject/FabricMinecraftServerHandle"
       ],
       "net/minecraft/commands/CommandSourceStack": [
-        "ac/grim/grimac/platform/api/sender/Sender"
+        "ac/aethel/aethelac/platform/api/sender/Sender"
       ]
     }
   },

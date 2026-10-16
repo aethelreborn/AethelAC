@@ -17,7 +17,7 @@ mongo:
 
   # Database om naar te schrijven. Collecties daarbinnen worden benoemd
   # via het `tables:`-blok hieronder.
-  database: "grim"
+  database: "aethel"
 
   # bulkWrite()-grootte per handler. De Mongo-driver pooled verbindingen
   # intern, dus dit stuurt commit-batching, niet het aantal verbindingen.
@@ -27,8 +27,8 @@ mongo:
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 

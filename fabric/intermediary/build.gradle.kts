@@ -39,7 +39,7 @@ dependencies {
 // The configurations below will only apply to :fabric and its submodules, not its siblings or the root project
 allprojects {
     apply(plugin = "net.fabricmc.fabric-loom-remap")
-    apply(plugin = "grim.base-conventions")
+    apply(plugin = "aethel.base-conventions")
     apply(plugin = "maven-publish")
 
 
@@ -93,7 +93,7 @@ allprojects {
     }
 
     loom {
-        accessWidenerPath = file("src/main/resources/grimac.accesswidener")
+        accessWidenerPath = file("src/main/resources/aethelac.accesswidener")
     }
 
     dependencies {

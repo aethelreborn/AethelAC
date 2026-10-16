@@ -2,8 +2,9 @@
 
 ## Supported Versions
 
-Vulnerability must be reproducible on the latest grim commit.
+Only the latest release is supported.
 
 ## Reporting a Vulnerability
 
-If there's a major bypass that would affect gameplay if reported publicly then join Grim's discord [here](https://discord.com/invite/kqQAhTmkUF) and reach out to staff.
+If you find a bypass that would give a gameplay advantage if disclosed publicly, report it privately through GitHub's
+[security advisories](https://github.com/aethelreborn/AethelAC/security/advisories/new) instead of opening a public issue.

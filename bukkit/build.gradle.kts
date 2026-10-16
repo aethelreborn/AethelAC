@@ -49,7 +49,7 @@ repositories {
     mavenCentral()
 }
 
-val configuredLiteSharedProviderJar = providers.gradleProperty("grim.liteSharedProviderJar")
+val configuredLiteSharedProviderJar = providers.gradleProperty("aethel.liteSharedProviderJar")
     .orElse(providers.gradleProperty("liteSharedProviderJar"))
 
 // PE's published Spigot artifact is thin. Its runtime jar bundles these modules,
@@ -133,10 +133,10 @@ dependencies {
 }
 
 bukkit {
-    name = "GrimAC"
-    author = "GrimAC"
-    main = "ac.grim.grimac.platform.bukkit.GrimACBukkitLoaderPlugin"
-    website = "https://grim.ac/"
+    name = "AethelAC"
+    author = "Aethel"
+    main = "ac.aethel.aethelac.platform.bukkit.AethelACBukkitLoaderPlugin"
+    website = "https://github.com/aethelreborn/AethelAC"
     apiVersion = "1.13"
     foliaSupported = true
 
@@ -166,73 +166,73 @@ bukkit {
     )
 
     permissions {
-        register("grim.alerts") {
+        register("aethel.alerts") {
             description = "Receive alerts for violations"
             default = Permission.Default.OP
         }
 
-        register("grim.alerts.enable-on-join") {
+        register("aethel.alerts.enable-on-join") {
             description = "Enable alerts on join"
             default = Permission.Default.OP
         }
 
-        register("grim.performance") {
+        register("aethel.performance") {
             description = "Check performance metrics"
             default = Permission.Default.OP
         }
 
-        register("grim.profile") {
+        register("aethel.profile") {
             description = "Check user profile"
             default = Permission.Default.OP
         }
 
-        register("grim.brand") {
+        register("aethel.brand") {
             description = "Show client brands on join"
             default = Permission.Default.OP
         }
 
-        register("grim.brand.enable-on-join") {
+        register("aethel.brand.enable-on-join") {
             description = "Enable showing client brands on join"
             default = Permission.Default.OP
         }
 
-        register("grim.sendalert") {
+        register("aethel.sendalert") {
             description = "Send cheater alert"
             default = Permission.Default.OP
         }
 
-        register("grim.nosetback") {
+        register("aethel.nosetback") {
             description = "Disable setback"
             default = Permission.Default.FALSE
         }
 
-        register("grim.nomodifypacket") {
+        register("aethel.nomodifypacket") {
             description = "Disable modifying packets"
             default = Permission.Default.FALSE
         }
 
-        register("grim.disabled") {
-            description = "Disable Grim checks while keeping player state tracked"
+        register("aethel.disabled") {
+            description = "Disable Aethel checks while keeping player state tracked"
             default = Permission.Default.FALSE
         }
 
-        register("grim.exempt") {
+        register("aethel.exempt") {
             description = "Exempt from all checks"
             default = Permission.Default.FALSE
         }
 
-        register("grim.verbose") {
+        register("aethel.verbose") {
             description = "Receive verbose alerts for violations"
             default = Permission.Default.OP
         }
 
-        register("grim.verbose.enable-on-join") {
+        register("aethel.verbose.enable-on-join") {
             description =
                 "Enable verbose alerts on join"
             default = Permission.Default.FALSE
         }
 
-        register("grim.list") {
+        register("aethel.list") {
             description =
                 "Shows lists of specific data"
             default = Permission.Default.FALSE

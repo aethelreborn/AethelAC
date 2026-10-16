@@ -15,7 +15,7 @@ mongo:
 
   # Database to write into. Collections inside this database come from the
   # `tables:` block below.
-  database: "grim"
+  database: "aethel"
 
   # Per-handler bulkWrite() size. The Mongo driver pools connections
   # internally, so this controls commit batching, not connection count.
@@ -25,8 +25,8 @@ mongo:
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 

@@ -1,39 +1,39 @@
 {
   "schemaVersion": 1,
-  "id": "grimac-fabric-official",
+  "id": "aethelac-fabric-official",
   "version": "${version}",
-  "name": "GrimAC (Fabric, official mappings)",
-  "description": "GrimAC anticheat for Minecraft 26.1-26.3. Official-mapped platform compiled directly against the deobfuscated 26.X jar, sibling to fabric-intermediary, which covers 1.16.1-1.21.11. Per-version submodules contribute grim26MainLoad entrypoints.",
+  "name": "AethelAC (Fabric, official mappings)",
+  "description": "AethelAC anticheat for Minecraft 26.1-26.3. Official-mapped platform compiled directly against the deobfuscated 26.X jar, sibling to fabric-intermediary, which covers 1.16.1-1.21.11. Per-version submodules contribute aethel26MainLoad entrypoints.",
   "license": "GPLv3",
   "environment": "server",
   "entrypoints": {
     "preLaunch": [
-      "ac.grim.grimac.platform.fabric.GrimACFabricOfficialEntryPoint"
+      "ac.aethel.aethelac.platform.fabric.AethelACFabricOfficialEntryPoint"
     ],
     "main": [
-      "ac.grim.grimac.platform.fabric.GrimACFabricOfficialEntryPoint"
+      "ac.aethel.aethelac.platform.fabric.AethelACFabricOfficialEntryPoint"
     ]
   },
   "mixins": [
-    "grimac.mixins.json"
+    "aethelac.mixins.json"
   ],
-  "accessWidener": "grimac.accesswidener",
+  "accessWidener": "aethelac.accesswidener",
   "custom": {
     "loom:injected_interfaces": {
       "net/minecraft/world/level/Level": [
-        "ac/grim/grimac/platform/api/world/PlatformWorld"
+        "ac/aethel/aethelac/platform/api/world/PlatformWorld"
       ],
       "net/minecraft/world/entity/Entity": [
-        "ac/grim/grimac/platform/fabric/inject/FabricEntityHandle"
+        "ac/aethel/aethelac/platform/fabric/inject/FabricEntityHandle"
       ],
       "net/minecraft/server/level/ServerPlayer": [
-        "ac/grim/grimac/platform/fabric/inject/FabricServerPlayerHandle"
+        "ac/aethel/aethelac/platform/fabric/inject/FabricServerPlayerHandle"
       ],
       "net/minecraft/server/MinecraftServer": [
-        "ac/grim/grimac/platform/fabric/inject/FabricMinecraftServerHandle"
+        "ac/aethel/aethelac/platform/fabric/inject/FabricMinecraftServerHandle"
       ],
       "net/minecraft/commands/CommandSourceStack": [
-        "ac/grim/grimac/platform/api/sender/Sender"
+        "ac/aethel/aethelac/platform/api/sender/Sender"
       ]
     }
   },

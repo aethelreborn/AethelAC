@@ -15,7 +15,7 @@ mongo:
 
   # Ziel-Datenbank. Die Collections darin werden über den `tables:`-Block
   # unten benannt.
-  database: "grim"
+  database: "aethel"
 
   # bulkWrite()-Größe pro Handler. Der Mongo-Treiber poolt Verbindungen
   # intern, dieser Wert steuert das Commit-Batching, nicht die
@@ -26,8 +26,8 @@ mongo:
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 

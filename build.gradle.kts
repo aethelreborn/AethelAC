@@ -1,5 +1,5 @@
 /**
- *          GrimAC Build Configuration
+ *          AethelAC Build Configuration
  *
  * Build Flags:
  * -PshadePE=true   - Enables 'lite' mode
@@ -14,16 +14,16 @@ import versioning.VersionUtil
 
 BuildConfig.init(project)
 
-val baseVersion = "2.3.74"
-group = "ac.grim.grimac"
+val baseVersion = System.getenv("AETHEL_VERSION") ?: "1.0.0"
+group = "ac.aethel.aethelac"
 version = VersionUtil.computeVersion(project, baseVersion)
-description = "Libre simulation anticheat designed for 26.3 with 1.8–26.3 support, powered by PacketEvents 2.0."
+description = "Asynchronous prediction-based anticheat for Minecraft 1.8–26.3, built on PacketEvents 2.0."
 
 ext["timestamp"] = System.currentTimeMillis().toString()
 ext["git_branch"] = VersionUtil.getGitBranch(project, true)
 ext["git_commit"] = VersionUtil.getGitCommitHash(project, true)
-ext["git_org"] = System.getenv("GRIM_GIT_ORG") ?: VersionUtil.getGitUser(project)
-ext["git_repo"] = System.getenv("GRIM_GIT_REPO") ?: "Grim"
+ext["git_org"] = System.getenv("AETHEL_GIT_ORG") ?: VersionUtil.getGitUser(project)
+ext["git_repo"] = System.getenv("AETHEL_GIT_REPO") ?: "AethelAC"
 
 println("Build configuration:")
 println("    shadePE            = ${BuildConfig.shadePE}")

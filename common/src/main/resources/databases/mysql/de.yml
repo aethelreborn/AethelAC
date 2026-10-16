@@ -1,7 +1,7 @@
 # ===========================================================================
 #  MySQL-Backend-Einstellungen.
 #
-#  MySQL unterstützt Multi-Server-Deployments (mehrere Grim-Instanzen
+#  MySQL unterstützt Multi-Server-Deployments (mehrere Aethel-Instanzen
 #  schreiben in eine zentrale DB). Benötigt zur Laufzeit den MySQL
 #  Connector/J-Treiber; fehlt der Treiber, deaktiviert sich das Backend
 #  beim Start, loggt eine klare Fehlermeldung, und auf dieses Backend
@@ -16,14 +16,14 @@ mysql:
   # Verbindungsziel.
   host: "localhost"
   port: 3306
-  database: "grim"
+  database: "aethel"
   user: "root"
   password: ""
 
   # HikariCP connection pool settings. These only apply to SQL backends
   # that use Hikari internally.
   pool-settings:
-    # Maximum physical database connections this Grim instance can keep open.
+    # Maximum physical database connections this Aethel instance can keep open.
     maximum-pool-size: 10
     # Minimum idle connections kept warm. Keep equal to maximum-pool-size
     # for a fixed-size pool, or lower it if your database has tight limits.
@@ -49,14 +49,14 @@ mysql:
   batch-flush-cap: 256
 
   # Tabellennamen-Overrides. Benenne jede der sechs logischen Stores um,
-  # damit mehrere Grim-Instanzen sich eine MySQL-Datenbank teilen können
+  # damit mehrere Aethel-Instanzen sich eine MySQL-Datenbank teilen können
   # oder ein vorhandenes Firmen-Namensschema gespiegelt wird. Defaults
   # unten.
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 

@@ -17,7 +17,7 @@ mongo:
 
   # 書き込み先のデータベース。内部のコレクション名は下の `tables:`
   # ブロックで指定します。
-  database: "grim"
+  database: "aethel"
 
   # ハンドラごとの bulkWrite() サイズ。Mongo ドライバは内部で接続を
   # プールするため、ここで制御するのはコミットのバッチング量であり、
@@ -28,8 +28,8 @@ mongo:
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 

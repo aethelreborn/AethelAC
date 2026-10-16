@@ -9,7 +9,7 @@ import versioning.BuildConfig.relocate
 import versioning.BuildConfig.shadePE
 
 /**
- * BuildConfig provides access to user-defined build flags that control how a Grim
+ * BuildConfig provides access to user-defined build flags that control how a Aethel
  * build is assembled. These flags are resolved once at configuration time using
  * [init], and are then exposed as fast, memoized values.
  *

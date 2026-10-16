@@ -21,7 +21,7 @@ java {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/grimac.accesswidener")
+    accessWidenerPath = file("src/main/resources/aethelac.accesswidener")
 }
 
 dependencies {
@@ -46,7 +46,7 @@ dependencies {
 
 allprojects {
     apply(plugin = "net.fabricmc.fabric-loom")
-    apply(plugin = "grim.base-conventions")
+    apply(plugin = "aethel.base-conventions")
     apply(plugin = "maven-publish")
 
     repositories {

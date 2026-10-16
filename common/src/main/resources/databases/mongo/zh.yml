@@ -13,7 +13,7 @@ mongo:
   connection-string: "mongodb://localhost:27017"
 
   # 写入目标数据库。其中的 collection 名由下方的 `tables:` 块决定。
-  database: "grim"
+  database: "aethel"
 
   # 每个处理器的 bulkWrite() 大小。Mongo 驱动会内部维护连接池，所以这里
   # 控制的是提交批量大小，不是连接数。
@@ -23,8 +23,8 @@ mongo:
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 

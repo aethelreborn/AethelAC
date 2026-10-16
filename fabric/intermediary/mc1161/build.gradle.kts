@@ -7,5 +7,5 @@ dependencies {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/grimac.accesswidener")
+    accessWidenerPath = file("src/main/resources/aethelac.accesswidener")
 }

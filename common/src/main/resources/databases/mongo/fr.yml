@@ -16,7 +16,7 @@ mongo:
 
   # Base de données dans laquelle écrire. Les collections à l'intérieur
   # sont nommées via le bloc `tables:` ci-dessous.
-  database: "grim"
+  database: "aethel"
 
   # Taille de bulkWrite() par handler. Le driver Mongo gère ses pools de
   # connexions en interne — ceci contrôle le batching des commits, pas le
@@ -27,8 +27,8 @@ mongo:
   tables:
     meta: grim_meta
     checks: grim_checks
-    players: grim_players
-    sessions: grim_sessions
+    players: aethel_players
+    sessions: aethel_sessions
     violations: grim_violations
     settings: grim_settings
 
