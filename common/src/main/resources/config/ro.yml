@@ -149,7 +149,7 @@ TimerLimit:
     # Ping la care check-ul începe să limiteze balanța timer, pentru a preveni abuzul.
     # Poate cauza setback pentru jucători legitimi doar dacă sunt peste acest prag de ping.
     # -1 pentru a dezactiva
-    ping-abuse-limit-threshold: 400
+    ping-abuse-limit-threshold: 250
 
 NegativeTimer:
     # Număr de milisecunde pierdute în timp ce se mișcă înainte de a începe să marcheze
@@ -212,11 +212,11 @@ debug-packet-cancel: false
 # Aethel poate impune ca un jucător scos din starea de zbor să nu aibă mai mult de X ms ping
 # Deoarece Aethel nu verifică în prezent jucătorii care zboară
 # Pentru dezactivare, folosește -1
-max-ping-out-of-flying: 300
+max-ping-out-of-flying: 200
 
 # Ping maxim când boost-ul cu artificii este eliminat de la jucător.
 # Împiedică jucătorii cu latență mare să folosească un boost cu artificii la infinit cu elytra.
-max-ping-firework-boost: 500
+max-ping-firework-boost: 350
 
 # Markeri de schemă — modifică-i doar dacă știi ce faci.
 #   config-flavor:  V2 = build Aethel 2.x, V3 = Aethel 3.x. Plugin-ul refuză să

@@ -149,7 +149,7 @@ TimerLimit:
     # Kontrolün zamanlayıcı dengesini sınırlamaya başlayacağı ping değeri, kötüye kullanımı önlemek için.
     # Bu, yalnızca bu ping eşiğini aşan meşru oyuncular için bazı geri dönüşlere neden olabilir.
     # Devre dışı bırakmak için -1 yazın
-    ping-abuse-limit-threshold: 400
+    ping-abuse-limit-threshold: 250
 
 NegativeTimer:
     # Uyarı vermeye başlamadan önce hareket halindeyken kaybedilen milisaniye sayısı
@@ -213,11 +213,11 @@ debug-packet-cancel: false
 # Aethel, uçma durumundan çıkmış bir oyuncunun X milisaniyeden fazla ping'e sahip olamayacağını uygulayabilir
 # Bu, Aethel'in şu anda uçan oyuncuları kontrol etmemesindendir
 # Devre dışı bırakmak için -1 yazın
-max-ping-out-of-flying: 300
+max-ping-out-of-flying: 200
 
 # Bir havai fişek ivmesi oyuncudan çıkarıldığında maksimum ping.
 # Bu, yüksek gecikmeli oyuncuların bir havai fişek ivmesini elytra ile sonsuza kadar kullanmalarını engeller.
-max-ping-firework-boost: 500
+max-ping-firework-boost: 350
 
 # Şema işaretçileri — yalnızca ne yaptığınızı biliyorsanız değiştirin.
 #   config-flavor:  V2 = Aethel 2.x derlemesi, V3 = Aethel 3.x. Eklenti, flavor'ı

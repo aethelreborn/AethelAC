@@ -150,7 +150,7 @@ TimerLimit:
     # Ping at which the check will start to limit timer balance, to prevent abuse.
     # Can cause some setbacks for legitimate players but only if they are over this ping threshold.
     # -1 to disable
-    ping-abuse-limit-threshold: 400
+    ping-abuse-limit-threshold: 250
 
 NegativeTimer:
     # Количество миллисекунд, потерянных во время движения, до того, как мы начнем ставить флаг
@@ -209,11 +209,11 @@ debug-packet-cancel: false
 # Aethel может обеспечить, чтобы у игрока, выведенного из состояния полёта, пинг не превышал X мс
 # Это связано с тем, что Aethel пока не проверяет игроков, находящихся в полёте
 # Для отключения используйте -1
-max-ping-out-of-flying: 300
+max-ping-out-of-flying: 200
 
 # Максимальный пинг при снятии ускорения фейерверком с игрока.
 # Это предотвращает возможность для игроков с большим пингом бесконечно использовать один фейерверк‑буст с элитрой.
-max-ping-firework-boost: 500
+max-ping-firework-boost: 350
 
 # Маркеры схемы — менять только если понимаете, что делаете.
 #   config-flavor:  V2 = сборка Aethel 2.x, V3 = Aethel 3.x. Плагин отказывается

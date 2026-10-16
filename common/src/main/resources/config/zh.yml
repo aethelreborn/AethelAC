@@ -170,7 +170,7 @@ TimerLimit:
     # 在检查玩家的延迟时对timer balance进行限制, 防止滥用
     # 在合法玩家的延迟超过这个延迟阈值时可能会造成误拉回
     # 填写-1则关闭
-    ping-abuse-limit-threshold: 400
+    ping-abuse-limit-threshold: 250
 
 NegativeTimer:
     # 玩家的移动丢失了多少毫秒？
@@ -234,12 +234,12 @@ debug-packet-cancel: false
 
 # 在玩家处于非飞行状态，且ping（延迟）大于多少毫秒后，Aethel会踢出这个玩家？
 # 填写-1则关闭
-max-ping-out-of-flying: 300
+max-ping-out-of-flying: 200
 
 # 当玩家使用鞘翅飞行，且ping（延迟）大于多少毫秒后，Aethel会取消这个玩家正在使用的烟花火箭？
 # 可以避免高延迟玩家使用一个烟花火箭就可以一直飞行
 # 填写-1则关闭
-max-ping-firework-boost: 500
+max-ping-firework-boost: 350
 
 # 模式标记 — 除非你清楚自己在做什么，否则不要修改。
 #   config-flavor:  V2 = Aethel 2.x 构建，V3 = Aethel 3.x。如果配置的 flavor
