@@ -56,7 +56,7 @@ public class AutoFish extends Check implements PacketReceiveListener, PacketSend
         WrapperPlayServerSoundEffect wrapper = new WrapperPlayServerSoundEffect(event);
         Sound sound = wrapper.getSound();
         if (sound == null || sound.getSoundId() == null
-                || !sound.getSoundId().getPath().endsWith("bobber.splash")) {
+                || !sound.getSoundId().toString().endsWith("bobber.splash")) {
             return;
         }
         Vector3i pos = wrapper.getEffectPosition();
