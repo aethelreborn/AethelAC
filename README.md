@@ -69,6 +69,10 @@ The default configuration ships hardened for competitive PvP:
 - Punishments ship tiered ladders per check group: alerts from the first flag,
   console kick at 30-80 violations, and a 30-day ban at 40-140 violations
   depending on the group. Violation memory spans ten minutes.
+- Known cheat-client fingerprints (client brands and registered plugin
+  channels, see `client-fingerprint` in `config.yml`) flag the `Fingerprint`
+  check: alerts and logs from the first match, a console kick at 15 repeated
+  matches, and a 30-day ban at 30.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.
