@@ -72,7 +72,7 @@ Simulation:
 
     # 当玩家合法时，我们应该将总移动优势乘以多少
     # 这是默认配置的样子（x 轴 = seconds ，y 轴 = 1/1000 方块）: https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # 最大允许玩家移动优势的阈值（单位：方块）
     # 已经内置了Optifine FastMath的三角函数表，设置为0.001可避免FastMath误判
     # 若玩家移动优势大于此阈值，标记玩家作弊

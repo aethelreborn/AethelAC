@@ -66,7 +66,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # Met hoeveel moeten we het totale voordeel vermenigvuldigen als de speler legitiem is?
     # Zo ziet de standaardconfiguratie eruit (x-as = seconden, y-as = 1/1000 blok): https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Hoe groot moet de afwijking van de beweging van de speler zijn?
     # Gemeten in blokken van de mogelijke beweging
     # We houden rekening met Optifine door trig-tabellen te verwisselen, maar door dit te verlagen naar 0,001 zal FastMath

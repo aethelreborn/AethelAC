@@ -66,7 +66,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # De combien devons-nous multiplier l'avantage total lorsque le joueur est légitime ?
     # Voici à quoi ressemble la configuration par défaut (l'axe x = secondes, l'axe y = 1/1000 de bloc) : https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Quel est l'écart maximal par rapport au mouvement du joueur pour lequel nous devrions créer une violation ?
     # Mesuré en blocs par rapport au mouvement possible.
     # Nous prenons en compte Optifine en changeant les tables trigonométriques, mais en réduisant cela à 0.001, cela réduira les signalements de l'anticheat

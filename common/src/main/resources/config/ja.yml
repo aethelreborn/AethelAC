@@ -68,7 +68,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # プレイヤーが違反をしていない場合、違反の度合いをどれだけ減らすかの倍率。
     # デフォルト設定のグラフ（x軸 = 秒, y軸 = 1/1000ブロック）: https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # プレイヤーの動きが、シミュレーションからどれだけズレた場合に違反とみなすか。
     # シミュレーションされた動きからのズレをブロック単位で設定します。
     # OptifineのFastMath(計算の最適化)に対応するために計算テーブルを切り替え、0.001に下げるとFastMathによる誤検知を軽減します。

@@ -66,7 +66,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # Mit wie viel soll der Gesamtvorteil multipliziert werden, wenn der Spieler legitim ist.
     # So sieht die Standardkonfiguration aus (x-Achse = Sekunden, y-Achse = 1/1000 Block): https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Wie groß sollte der Abstand zur Bewegung des Spielers sein, um eine Verletzung zu erzeugen?
     # Gemessen in Blöcken von der möglichen Bewegung.
     # Wir berücksichtigen Optifine, indem wir die Triggertabellen wechseln, aber wenn wir dies auf 0,001 senken, wird FastMath reduziert.

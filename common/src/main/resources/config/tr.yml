@@ -66,7 +66,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # Oyuncu meşru olduğunda toplam avantajı ne kadar çarpmalıyız?
     # Varsayılan yapılandırma bu şekilde görünür (x ekseni = saniye, y ekseni = 1/1000 blok): https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Oyuncunun hareketinden ne kadar büyük bir sapma ihlal oluşturmalıyız?
     # Mümkün olan hareketten blok cinsinden ölçülür
     # Optifine için trig tablolarını değiştirerek hesaba katıyoruz, ancak bunu 0.001'e düşürmek FastMath'ı azaltır

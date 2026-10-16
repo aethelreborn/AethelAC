@@ -67,7 +67,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # Por cuanto deberíamos multiplicar la ventaja total cuando el jugador es legítimo
     # Asi es como se ve la configuración por defecto (eje x = segundos, eje y = bloque 1/1000): https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # ¿Cuánta debería ser la compensacion del movimiento del jugador como para que creemos una violación?
     # Medido en bloques del posible movimiento
     # Tomamos en cuenta a OptiFine cambiando las tablas trigonometricas, pero bajar esto a 0.001 reducirá

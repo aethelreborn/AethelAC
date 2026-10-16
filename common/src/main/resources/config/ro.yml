@@ -66,7 +66,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # Cu cât ar trebui să înmulțim avantajul total atunci când jucătorul este legitim
     # Așa arată configurația implicită (axa X = secunde, axa Y = 1/1000 bloc): https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Cât de mare trebuie să fie abaterea de la mișcarea jucătorului pentru a crea o încălcare?
     # Măsurat în blocuri față de mișcarea posibilă
     # Luăm în considerare Optifine schimbând tabelele trig, dar scăderea la 0.001 va reduce FastMath

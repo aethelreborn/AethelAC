@@ -67,7 +67,7 @@ ignore-duplicate-packet-rotation: false
 Simulation:
     # Por quanto deve-se multiplicar a vantagem desde a última vez que falhou uma verificação?
     # Isso é como a configuração padrão se parece (eixo X = segundos, eixo Y = 1/1000 blocos): https://www.desmos.com/calculator/d4ufgxrxer
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # O quão longe o jogador deve estar da área simulada para registrar violações?
     # Medido em blocos do último movimento legítmo.
     # Incluímos o Optifine trocando as tabelas trigonométricas; entretanto, abaixar para 0.001 reduzirá o 'FastMath'
