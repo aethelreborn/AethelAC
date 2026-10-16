@@ -80,8 +80,12 @@ The default configuration ships hardened for competitive PvP:
   at 80, 30-day ban at 140.
 - Machine-constant rotation analysis (`aim-analysis` in `config.yml`) flags
   the experimental `LinearRotation` check when fifteen consecutive combat
-  rotation ticks hold a machine-like coefficient of variation: alerts from 5
-  violations, console kick at 60, 30-day ban at 120.
+  rotation ticks hold a machine-like coefficient of variation in the combined
+  rotation, yaw-only or pitch-only series: alerts from 5 violations, console
+  kick at 60, 30-day ban at 120.
+- `shadow-checks` in `config.yml` stages any check in alert-and-log-only mode,
+  suppressing webhooks, proxy broadcasts, kicks and bans for that check until
+  the operator removes it from the list.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

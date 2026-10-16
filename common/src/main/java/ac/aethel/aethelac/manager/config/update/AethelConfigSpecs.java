@@ -65,9 +65,13 @@ public final class AethelConfigSpecs {
      * <p>v13 → v14: adds {@code attack-patterns.no-burst-min-cps} /
      * {@code burst-gap-ms} and the {@code aim-analysis} section
      * (LinearRotation thresholds). Same drift-free default rewrite.
+     *
+     * <p>v14 → v15: adds the {@code shadow-checks} staging list and the yaw /
+     * pitch series thresholds under {@code aim-analysis}. Same drift-free
+     * default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 14, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 15, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

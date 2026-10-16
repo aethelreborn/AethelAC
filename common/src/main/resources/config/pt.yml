@@ -87,6 +87,17 @@ aim-analysis:
     # of variation ceiling across 15 consecutive combat-speed rotation ticks.
     linear-cv-threshold: 0.05
     linear-min-speed: 3.0
+    yaw-cv-threshold: 0.05
+    yaw-min-speed: 2.0
+    pitch-cv-threshold: 0.06
+    pitch-min-speed: 0.8
+
+shadow-checks:
+    # Checks listed here only send staff alerts and database logs. Webhook and
+    # proxy broadcasts, console commands, kicks and bans are suppressed, so new
+    # heuristic checks can be staged before enforcing. Substring matching, e.g.
+    # "linearrotation" or "autoclicker". A single empty entry disables it.
+    - ""
 
 spectators:
     # Esconde todos espectadores com a permissão 'aethel.spectate' mesmo se não estiverem ativamente espectando.
@@ -299,4 +310,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 14
+config-version: 15
