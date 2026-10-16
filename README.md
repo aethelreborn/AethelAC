@@ -58,10 +58,20 @@ Check for updates manually with `/aethel version`.
 
 ## Configuration
 
-The default configuration is tuned for competitive PvP: immediate setbacks, tight reach
-expansion, timer drift limits, and experimental checks enabled. Every check can be tuned
-individually in `checks.yml`, alerts and punishments in `punishments.yml`, and history
-storage in `database.yml`.
+The default configuration ships hardened for competitive PvP:
+
+- Movement and knockback simulation setbacks fire immediately (0.02 block/tick
+  threshold, 0.5 block advantage ceiling), with slow advantage decay.
+- Reach flags from 3.0001 on 1.8 clients; impossible hits are cancelled.
+- Timer checks allow 60 ms of drift; negative and vehicle timers are tightened.
+- Packet spam, transaction time, and ping abuse limits are cut to a third of
+  defaults; verbose flags are mirrored to the console.
+- Punishments ship tiered ladders per check group: alerts from the first flag,
+  console kick at 30-80 violations, and a 30-day ban at 40-140 violations
+  depending on the group. Violation memory spans ten minutes.
+
+Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
+`databases/*.yml` and can be tuned per server.
 
 ## Building
 
