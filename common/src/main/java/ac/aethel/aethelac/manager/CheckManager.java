@@ -128,6 +128,7 @@ public class CheckManager implements BasicReloadable {
                 .put(SlowCadence.class, new SlowCadence(player))
                 .put(AttackRotation.class, new AttackRotation(player))
                 .put(ReturnFlick.class, new ReturnFlick(player))
+                .put(NoSwingAttack.class, new NoSwingAttack(player))
                 .put(PacketEntityReplication.class, player.packetEntityReplication)
                 .put(PacketChangeGameState.class, new PacketChangeGameState(player))
                 .put(CompensatedInventory.class, player.inventory)
