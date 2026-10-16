@@ -148,6 +148,10 @@ inventory-automation:
     tool-swap-window-seconds: 60
     tool-swap-min-cycles: 6
     tool-swap-mean-turnaround-ms: 400.0
+    # Drop-everything macro detection (DropBurst check): lookback window in
+    # seconds and the minimum burst size that triggers a flag.
+    drop-window-seconds: 1
+    drop-min-count: 12
 
 reaction-analysis:
     # Damage reaction detection (DamageReaction check): maximum single
@@ -377,4 +381,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 23
+config-version: 24

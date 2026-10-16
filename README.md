@@ -126,6 +126,11 @@ The default configuration ships hardened for competitive PvP:
   checks (attack CPS, attack cadence CV, rotating-attack fraction, container
   click rate, idle events, tool-swap cycles, damage reactions) so staff can
   eyeball a suspect without reading flag history.
+- The experimental `FastClick` check also flags armory automation: four or
+  more direct armor-slot clicks inside 400 ms.
+- The experimental `DropBurst` check (`inventory-automation` in `config.yml`)
+  flags drop-everything macros: twelve or more drops inside a second; it
+  shares the `Misc` ladder and can also be staged with `shadow-checks`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

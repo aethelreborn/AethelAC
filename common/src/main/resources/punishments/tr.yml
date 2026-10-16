@@ -116,6 +116,7 @@ Punishments:
       - "FastClick"
       - "DamageReaction"
       - "AutoToolChain"
+      - "DropBurst"
       - "Break"
       - "TransactionOrder"
       - "Elytra"

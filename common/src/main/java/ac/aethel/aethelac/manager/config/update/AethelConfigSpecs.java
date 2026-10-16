@@ -93,9 +93,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v22 → v23: adds the {@code inventory-automation} tool-swap knobs.
      * Same drift-free default rewrite.
+     *
+     * <p>v23 → v24: adds the {@code inventory-automation} drop-burst knobs.
+     * Same drift-free default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 23, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 24, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
