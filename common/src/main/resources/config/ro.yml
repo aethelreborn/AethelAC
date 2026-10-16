@@ -67,6 +67,16 @@ client-fingerprint:
         - "salhack"
         - "lambda"
 
+attack-patterns:
+    # Autoclicker detection (sustained attacks per second within the window).
+    # 18 CPS across a full minute or 20 CPS across 20 seconds is beyond
+    # sustained human clicking; raise these on drag-click-heavy 1.8 servers.
+    cps60-threshold: 18.0
+    cps20-threshold: 20.0
+    # Coefficient of variation below which 100+ consecutive attack intervals
+    # at an elevated click rate count as machine cadence.
+    cadence-cv-threshold: 0.06
+
 spectators:
     # Ascunde toți spectatorii cu permisiunea aethel.spectate indiferent dacă spectează activ sau nu
     hide-regardless: false
@@ -273,4 +283,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 12
+config-version: 13

@@ -57,9 +57,13 @@ public final class AethelConfigSpecs {
      * client brands and registered channels) used by the Fingerprint check.
      * Like v11, no explicit migration is needed — the default rewrite adds
      * the section and auto-lift keeps any existing user lists.
+     *
+     * <p>v12 → v13: adds the {@code attack-patterns} section (autoclicker
+     * cadence thresholds) used by the Autoclicker check. Same drift-free
+     * default rewrite as v11/v12.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 12, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 13, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
