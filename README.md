@@ -91,8 +91,9 @@ The default configuration ships hardened for competitive PvP:
   hallmark of factor-based smoothing in silent-aim return and ease-out
   rotators; it shares the `AimHeuristics` ladder with `LinearRotation`.
 - The experimental `SlowCadence` check flags triggerbot-style metronome
-  cadence at human-plausible rates (48 intervals, coefficient of variation at
-  or below 0.035) and shares the `Autoclicker` ladder; the experimental
+  cadence at human-plausible rates in two tiers: 48 intervals with a
+  coefficient of variation at or below 0.035, or 100 intervals at or below
+  0.08 for randomized-delay bots. It shares the `Autoclicker` ladder; the experimental
   `AttackRotation` check flags attacks landing mid-rotation on 80% or more of
   at least twelve attacks in a minute and shares the `AimHeuristics` ladder.
   Both can be staged first with `shadow-checks`.

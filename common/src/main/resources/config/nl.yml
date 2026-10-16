@@ -85,6 +85,10 @@ attack-patterns:
     metronome-samples: 48
     metronome-cv: 0.035
     metronome-max-interval: 400
+    # Steady-band cadence detection (SlowCadence "steady" tier): long sample
+    # count and looser variation ceiling for randomized-delay triggerbots.
+    steady-samples: 100
+    steady-cv: 0.08
     # Rotating-attack detection (AttackRotation check): lookback window in
     # seconds, minimum attacks in window, required rotating fraction and the
     # per-tick rotation delta in degrees that counts as rotating.
@@ -332,4 +336,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 18
+config-version: 19

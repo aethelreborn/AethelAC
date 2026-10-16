@@ -78,9 +78,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v17 → v18: widens the {@code aim-analysis} decay band and adds the
      * attack-anchored {@code return-*} knobs. Same drift-free default rewrite.
+     *
+     * <p>v18 → v19: adds the {@code attack-patterns} steady-cadence band.
+     * Same drift-free default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 18, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 19, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
