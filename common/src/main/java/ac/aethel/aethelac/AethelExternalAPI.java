@@ -1,5 +1,6 @@
 package ac.aethel.aethelac;
 
+import ac.grim.grimac.api.AbstractProcessor;
 import ac.grim.grimac.api.GrimAbstractAPI;
 import ac.grim.grimac.api.GrimUser;
 import ac.grim.grimac.api.alerts.AlertManager;
@@ -10,6 +11,13 @@ import ac.grim.grimac.api.plugin.GrimPlugin;
 import ac.grim.grimac.api.storage.backend.BackendRegistry;
 import ac.aethel.aethelac.manager.config.ConfigManagerFileImpl;
 import ac.aethel.aethelac.manager.init.start.StartableInitable;
+import ac.aethel.aethelac.checks.impl.combat.AttackRotation;
+import ac.aethel.aethelac.checks.impl.combat.Autoclicker;
+import ac.aethel.aethelac.checks.impl.combat.SlowCadence;
+import ac.aethel.aethelac.checks.impl.misc.AutoToolChain;
+import ac.aethel.aethelac.checks.impl.misc.DamageReaction;
+import ac.aethel.aethelac.checks.impl.misc.FastClick;
+import ac.aethel.aethelac.checks.impl.misc.IdleAutomation;
 import ac.aethel.aethelac.player.AethelPlayer;
 import ac.aethel.aethelac.utils.anticheat.LogUtil;
 import ac.aethel.aethelac.utils.anticheat.MessageUtil;
@@ -20,6 +28,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
@@ -236,6 +245,13 @@ public class AethelExternalAPI implements GrimAbstractAPI, ConfigReloadObserver,
         }
     }
 
+    private static <T extends AbstractProcessor> T lookup(GrimUser user, Class<T> type) {
+        if (!(user instanceof AethelPlayer player)) {
+            return null;
+        }
+        return player.checkManager.get(type);
+    }
+
     private void updateVariables() {
         variableReplacements.putIfAbsent("%player%", GrimUser::getName);
         variableReplacements.putIfAbsent("%uuid%", user -> user.getUniqueId().toString());
@@ -246,6 +262,39 @@ public class AethelExternalAPI implements GrimAbstractAPI, ConfigReloadObserver,
         variableReplacements.putIfAbsent("%fast_math%", user -> !user.isVanillaMath() + "");
         variableReplacements.putIfAbsent("%tps%", user -> String.format("%.2f", AethelAPI.INSTANCE.getPlatformServer().getTPS()));
         variableReplacements.putIfAbsent("%version%", GrimUser::getVersionName);
+        variableReplacements.putIfAbsent("%attack_cps%", user -> {
+            Autoclicker check = lookup(user, Autoclicker.class);
+            return check == null ? "0.0" : String.format(Locale.ROOT, "%.1f", check.getCps(60));
+        });
+        variableReplacements.putIfAbsent("%attack_cadence_cv%", user -> {
+            SlowCadence check = lookup(user, SlowCadence.class);
+            double cv = check == null ? -1.0D : check.getCadenceCv();
+            return cv < 0.0D ? "n/a" : String.format(Locale.ROOT, "%.3f", cv);
+        });
+        variableReplacements.putIfAbsent("%rotating_fraction%", user -> {
+            AttackRotation check = lookup(user, AttackRotation.class);
+            return check == null ? "0" : String.format(Locale.ROOT, "%.0f%%", check.getRotatingFraction() * 100.0D);
+        });
+        variableReplacements.putIfAbsent("%fast_click_count%", user -> {
+            FastClick check = lookup(user, FastClick.class);
+            return check == null ? "0" : Integer.toString(check.getWindowClickCount());
+        });
+        variableReplacements.putIfAbsent("%idle_events%", user -> {
+            IdleAutomation check = lookup(user, IdleAutomation.class);
+            return check == null ? "0" : Integer.toString(check.getWindowEventCount());
+        });
+        variableReplacements.putIfAbsent("%tool_chain_cycles%", user -> {
+            AutoToolChain check = lookup(user, AutoToolChain.class);
+            return check == null ? "0" : Integer.toString(check.getWindowCycleCount());
+        });
+        variableReplacements.putIfAbsent("%reaction_pairs%", user -> {
+            DamageReaction check = lookup(user, DamageReaction.class);
+            return check == null ? "0" : Integer.toString(check.getWindowPairCount());
+        });
+        variableReplacements.putIfAbsent("%reaction_mean_ms%", user -> {
+            DamageReaction check = lookup(user, DamageReaction.class);
+            return check == null ? "0" : String.format(Locale.ROOT, "%.0f", check.getWindowMeanReactionMs());
+        });
         // static variables
         staticReplacements.put("%prefix%", MessageUtil.translateAlternateColorCodes('&', AethelAPI.INSTANCE.getConfigManager().getPrefix()));
         staticReplacements.putIfAbsent("%aethel_version%", getGrimVersion());

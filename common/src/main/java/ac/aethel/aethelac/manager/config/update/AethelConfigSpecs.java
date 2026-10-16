@@ -155,8 +155,16 @@ public final class AethelConfigSpecs {
                 .build();
     }
 
+    /**
+     * The messages bundle. Drift-free default rewrite, same as the main
+     * config; operators' edits to existing keys are preserved.
+     *
+     * <p>v2 → v3: adds the automation metrics (attack cadence, container
+     * clicks, idle events, tool swaps, damage reactions) to the
+     * {@code profile} template.
+     */
     public static @NotNull ConfigUpdater.Spec messages() {
-        return ConfigUpdater.Spec.builder("/messages/", 2, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/messages/", 3, ConfigUpdater.ConfigFlavor.V2)
                 .build();
     }
 

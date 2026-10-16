@@ -90,4 +90,16 @@ public class FastClick extends Check implements PacketReceiveListener {
             lastFlagNanos = now;
         }
     }
+
+    public int getWindowClickCount() {
+        long cutoff = System.nanoTime() - windowSeconds * 1_000_000_000L;
+        int count = 0;
+        for (int k = 0; k < size; k++) {
+            if (clicks[(index - 1 - k + CAPACITY * 2) % CAPACITY] <= cutoff) {
+                break;
+            }
+            count++;
+        }
+        return count;
+    }
 }

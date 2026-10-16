@@ -160,4 +160,16 @@ public class IdleAutomation extends Check implements PositionListener, RotationL
                 count, windowSeconds, meanInterval));
         lastFlagNanos = now;
     }
+
+    public int getWindowEventCount() {
+        long cutoff = System.nanoTime() - windowSeconds * 1_000_000_000L;
+        int count = 0;
+        for (int k = 0; k < eventSize; k++) {
+            if (eventTimes[(eventIndex - 1 - k + CAPACITY * 2) % CAPACITY] <= cutoff) {
+                break;
+            }
+            count++;
+        }
+        return count;
+    }
 }

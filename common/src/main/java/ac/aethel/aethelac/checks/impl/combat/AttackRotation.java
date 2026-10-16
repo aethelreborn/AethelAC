@@ -126,4 +126,22 @@ public class AttackRotation extends Check implements PacketReceiveListener, Rota
             lastFlagNanos = now;
         }
     }
+
+    public double getRotatingFraction() {
+        long now = System.nanoTime();
+        long cutoff = now - windowSeconds * 1_000_000_000L;
+        int total = 0;
+        int rotatingCount = 0;
+        for (int k = 0; k < size; k++) {
+            int slot = (index - 1 - k + CAPACITY * 2) % CAPACITY;
+            if (attackTimes[slot] <= cutoff) {
+                break;
+            }
+            total++;
+            if (attackRotating[slot]) {
+                rotatingCount++;
+            }
+        }
+        return total == 0 ? 0.0D : rotatingCount / (double) total;
+    }
 }

@@ -131,4 +131,25 @@ public class SlowCadence extends Check implements PacketReceiveListener {
         }
         return null;
     }
+
+    public double getCadenceCv() {
+        int samples = Math.min(metronomeSamples, intervalCount);
+        if (samples < 2) {
+            return -1.0D;
+        }
+        double sum = 0.0D;
+        for (int k = 0; k < samples; k++) {
+            sum += intervals[(intervalIndex - 1 - k + CAPACITY * 2) % CAPACITY];
+        }
+        double mean = sum / samples;
+        if (mean <= 0.0D) {
+            return -1.0D;
+        }
+        double variance = 0.0D;
+        for (int k = 0; k < samples; k++) {
+            double diff = intervals[(intervalIndex - 1 - k + CAPACITY * 2) % CAPACITY] - mean;
+            variance += diff * diff;
+        }
+        return Math.sqrt(variance / samples) / mean;
+    }
 }

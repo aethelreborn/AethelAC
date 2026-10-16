@@ -139,4 +139,31 @@ public class AutoToolChain extends Check implements PacketReceiveListener {
             lastFlagNanos = now;
         }
     }
+
+    public int getWindowCycleCount() {
+        long cutoff = System.nanoTime() - windowSeconds * 1_000_000_000L;
+        int count = 0;
+        for (int k = 0; k < size; k++) {
+            if (cycleTimes[(index - 1 - k + CAPACITY * 2) % CAPACITY] <= cutoff) {
+                break;
+            }
+            count++;
+        }
+        return count;
+    }
+
+    public double getWindowMeanTurnaroundMs() {
+        long cutoff = System.nanoTime() - windowSeconds * 1_000_000_000L;
+        int count = 0;
+        double sum = 0.0D;
+        for (int k = 0; k < size; k++) {
+            int slot = (index - 1 - k + CAPACITY * 2) % CAPACITY;
+            if (cycleTimes[slot] <= cutoff) {
+                break;
+            }
+            count++;
+            sum += cycleTurnarounds[slot];
+        }
+        return count == 0 ? 0.0D : sum / count;
+    }
 }

@@ -128,4 +128,31 @@ public class DamageReaction extends Check implements PacketSendListener, PacketR
             lastFlagNanos = now;
         }
     }
+
+    public int getWindowPairCount() {
+        long cutoff = System.nanoTime() - windowSeconds * 1_000_000_000L;
+        int count = 0;
+        for (int k = 0; k < size; k++) {
+            if (reactionTimes[(index - 1 - k + CAPACITY * 2) % CAPACITY] <= cutoff) {
+                break;
+            }
+            count++;
+        }
+        return count;
+    }
+
+    public double getWindowMeanReactionMs() {
+        long cutoff = System.nanoTime() - windowSeconds * 1_000_000_000L;
+        int count = 0;
+        double sum = 0.0D;
+        for (int k = 0; k < size; k++) {
+            int slot = (index - 1 - k + CAPACITY * 2) % CAPACITY;
+            if (reactionTimes[slot] <= cutoff) {
+                break;
+            }
+            count++;
+            sum += reactionMs[slot];
+        }
+        return count == 0 ? 0.0D : sum / count;
+    }
 }
