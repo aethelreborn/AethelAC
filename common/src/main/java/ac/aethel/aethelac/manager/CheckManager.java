@@ -6,6 +6,7 @@ import ac.grim.grimac.api.AbstractProcessor;
 import ac.grim.grimac.api.common.BasicReloadable;
 import ac.aethel.aethelac.checks.Check;
 import ac.aethel.aethelac.checks.impl.aim.AimDuplicateLook;
+import ac.aethel.aethelac.checks.impl.aim.AimLinear;
 import ac.aethel.aethelac.checks.impl.aim.AimModulo360;
 import ac.aethel.aethelac.checks.impl.aim.processor.AimProcessor;
 import ac.aethel.aethelac.checks.impl.badpackets.*;
@@ -162,6 +163,7 @@ public class CheckManager implements BasicReloadable {
                 .put(AimProcessor.class, new AimProcessor(player))
                 .put(AimModulo360.class, new AimModulo360(player))
                 .put(AimDuplicateLook.class, new AimDuplicateLook(player))
+                .put(AimLinear.class, new AimLinear(player))
                 .put(VehiclePredictionRunner.class, new VehiclePredictionRunner(player))
 
                 .put(NegativeTimer.class, new NegativeTimer(player))

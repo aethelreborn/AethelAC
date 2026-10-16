@@ -34,6 +34,7 @@ public class Autoclicker extends Check implements PacketReceiveListener {
     private static final long WINDOW_30S = 30_000_000_000L;
     private static final long WINDOW_20S = 20_000_000_000L;
     private static final double MAX_CADENCE_INTERVAL_MS = 70.0D;
+    private static final int NO_BURST_SAMPLES = 300;
 
     private final long[] attackTimes = new long[CAPACITY];
     private int ringIndex;
@@ -43,6 +44,8 @@ public class Autoclicker extends Check implements PacketReceiveListener {
     private double cps60Threshold;
     private double cps20Threshold;
     private double cadenceCvThreshold;
+    private double noBurstMinCps;
+    private double burstGapMs;
 
     public Autoclicker(AethelPlayer player) {
         super(player);
@@ -53,6 +56,8 @@ public class Autoclicker extends Check implements PacketReceiveListener {
         cps60Threshold = config.getDoubleElse("attack-patterns.cps60-threshold", 18.0D);
         cps20Threshold = config.getDoubleElse("attack-patterns.cps20-threshold", 20.0D);
         cadenceCvThreshold = config.getDoubleElse("attack-patterns.cadence-cv-threshold", 0.06D);
+        noBurstMinCps = config.getDoubleElse("attack-patterns.no-burst-min-cps", 14.0D);
+        burstGapMs = config.getDoubleElse("attack-patterns.burst-gap-ms", 35.0D);
     }
 
     @Override
@@ -126,6 +131,61 @@ public class Autoclicker extends Check implements PacketReceiveListener {
         }
         if (count30 >= 150) {
             evaluateCadence(now);
+        }
+        if (now - lastFlagNanos >= FLAG_COOLDOWN_NANOS) {
+            evaluateNoBurst(now);
+        }
+    }
+
+    /**
+     * Sustained high-rate clicking that never produces a same-tick style burst
+     * pair. Humans reach 14+ CPS only through multi-finger bursts (sub-35 ms
+     * click pairs); a randomised autoclicker spreads every interval evenly and
+     * never bursts.
+     */
+    private void evaluateNoBurst(long now) {
+        int samples = Math.min(NO_BURST_SAMPLES, ringSize);
+        if (samples < NO_BURST_SAMPLES) {
+            return;
+        }
+
+        long oldest = 0L;
+        long previous = 0L;
+        long newest = 0L;
+        int count = 0;
+        int bursts = 0;
+        boolean first = true;
+        for (int k = samples - 1; k >= 0; k--) {
+            int index = ringIndex - 1 - k;
+            while (index < 0) {
+                index += CAPACITY;
+            }
+            long time = attackTimes[index];
+            if (time == 0L) {
+                continue;
+            }
+            if (first) {
+                first = false;
+                oldest = time;
+                previous = time;
+                count = 1;
+                continue;
+            }
+            if ((time - previous) / 1.0e6D < burstGapMs) {
+                bursts++;
+            }
+            previous = time;
+            newest = time;
+            count++;
+        }
+
+        if (count < NO_BURST_SAMPLES || bursts > 0 || newest <= oldest) {
+            return;
+        }
+        double mean = (newest - oldest) / 1.0e6D / (count - 1);
+        if (mean <= 1000.0D / noBurstMinCps) {
+            flag(String.format(Locale.ROOT, "no sub-%.0fms bursts across %d attacks (%.1f CPS)", burstGapMs, count, 1000.0D / mean));
+            lastFlagNanos = now;
         }
     }
 
