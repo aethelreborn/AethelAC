@@ -83,7 +83,7 @@ attack-patterns:
     # Slow-cadence metronome detection (SlowCadence check): sample count,
     # coefficient-of-variation ceiling and maximum interval in milliseconds.
     metronome-samples: 48
-    metronome-cv: 0.035
+    metronome-cv: 0.05
     metronome-max-interval: 400
     # Steady-band cadence detection (SlowCadence "steady" tier): long sample
     # count and looser variation ceiling for randomized-delay triggerbots.
@@ -370,4 +370,4 @@ update-permission-ticks: 20
 #   config-version: bumped on every breaking shape change. Old configs
 #                   auto-migrate up via the bundled updater on next start.
 config-flavor: V2
-config-version: 24
+config-version: 25
