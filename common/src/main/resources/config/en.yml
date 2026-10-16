@@ -71,7 +71,7 @@ Simulation:
     # Measured in blocks from the possible movement
     # We account for Optifine by switching trig tables but dropping this to 0.001 will reduce FastMath
     # flagging the anticheat if this compensation doesn't work...
-    threshold: 0.001
+    threshold: 0.0005
     # How large of a violation in a tick before the player gets immediately setback?
     # -1 to disable
     immediate-setback-threshold: 0.02
@@ -113,7 +113,7 @@ NoSlow:
     # How much of an offset is "cheating"
     # By default this is lower than other offs
     # Flags by 0.03-0.2 consistently with NoSlow on
-    threshold: 0.001
+    threshold: 0.0005
     # Setback fast on the first item to remove any advantage NoSlow gives
     setbackvl: 2
     # Decay's when the player uses an item AND is slowed by it

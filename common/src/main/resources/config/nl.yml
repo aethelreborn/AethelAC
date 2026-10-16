@@ -71,7 +71,7 @@ Simulation:
     # Gemeten in blokken van de mogelijke beweging
     # We houden rekening met Optifine door trig-tabellen te verwisselen, maar door dit te verlagen naar 0,001 zal FastMath
     # zal ervoor zorgen dat Aethel wordt gemarkeerd als deze compensatie niet werkt...
-    threshold: 0.001
+    threshold: 0.0005
     # Hoe groot is de overtreding in een tick voordat de speler onmiddellijk een terugslag krijgt?
     # -1 om uit te schakelen
     immediate-setback-threshold: 0.02
@@ -113,7 +113,7 @@ NoSlow:
     # Hoeveel van een offset is "valsspelen"?
     # Standaard is dit lager dan andere offs
     # Flaggen met 0.03-0.2 consequent met NoSlow aan
-    threshold: 0.001
+    threshold: 0.0005
     # Snel terugzetten op het eerste item om elk voordeel dat NoSlow geeft te verwijderen
     setbackvl: 2
     # Verval treedt op wanneer de speler een voorwerp gebruikt EN erdoor wordt vertraagd

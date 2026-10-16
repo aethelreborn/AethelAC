@@ -71,7 +71,7 @@ Simulation:
     # Mümkün olan hareketten blok cinsinden ölçülür
     # Optifine için trig tablolarını değiştirerek hesaba katıyoruz, ancak bunu 0.001'e düşürmek FastMath'ı azaltır
     # Bu telafi işe yaramazsa anticheat'i işaretle...
-    threshold: 0.001
+    threshold: 0.0005
     # Bir tik içinde ne kadar büyük bir ihlal olmalı ki oyuncu hemen geri dönsün?
     # Devre dışı bırakmak için -1 yazın
     immediate-setback-threshold: 0.02
@@ -113,7 +113,7 @@ NoSlow:
     # Ne kadar bir sapma "hile" olarak kabul edilir?
     # Varsayılan olarak bu, diğer sapmalardan daha düşüktür
     # NoSlow açıkken 0.03-0.2 aralığında sürekli olarak uyarı verir
-    threshold: 0.001
+    threshold: 0.0005
     # NoSlow'un sağladığı avantajı ortadan kaldırmak için ilk itemi hızlı bir şekilde geri alın
     setbackvl: 2
     # Oyuncu bir eşya kullandığında VE onun tarafından yavaşlatıldığında beklenilen zaman

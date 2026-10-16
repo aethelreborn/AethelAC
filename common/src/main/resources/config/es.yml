@@ -72,7 +72,7 @@ Simulation:
     # Medido en bloques del posible movimiento
     # Tomamos en cuenta a OptiFine cambiando las tablas trigonometricas, pero bajar esto a 0.001 reducirá
     # que FastMath marque el anti-cheat si esta compensación no funciona...
-    threshold: 0.001
+    threshold: 0.0005
     # ¿Qué tan grande debería ser una violación en un tick antes de que el jugador se retroceda inmediatamente?
     # -1 para deshabilitar
     immediate-setback-threshold: 0.02
@@ -116,7 +116,7 @@ NoSlow:
     # ¿Cuánta debería ser la compensacion como para que se considere trampa?
     # Por defecto esto es más bajo que otras compensaciones
     # Marca por 0.03-0.2 consistentemente con NoSlow activado
-    threshold: 0.001
+    threshold: 0.0005
     # Retroceder rápidamente en el primer item para eliminar toda ventaja que NoSlow brinde
     setbackvl: 2
     # Decadencia cuando un jugador usa un item Y se ralentiza por el

@@ -71,7 +71,7 @@ Simulation:
     # Măsurat în blocuri față de mișcarea posibilă
     # Luăm în considerare Optifine schimbând tabelele trig, dar scăderea la 0.001 va reduce FastMath
     # și ar putea marca anticheatul dacă această compensație nu funcționează...
-    threshold: 0.001
+    threshold: 0.0005
     # Cât de mare trebuie să fie încălcarea într-un tick pentru a da setback imediat?
     # -1 pentru a dezactiva
     immediate-setback-threshold: 0.02
@@ -113,7 +113,7 @@ NoSlow:
     # Cât de mare abatere e considerată „cheating”
     # Implicit este mai mică decât alte offs
     # Marchează între 0.03-0.2 constant cu NoSlow activ
-    threshold: 0.001
+    threshold: 0.0005
     # Setback rapid la primul obiect pentru a elimina orice avantaj dat de NoSlow
     setbackvl: 2
     # Scade atunci când jucătorul folosește un item ȘI este încetinit de acesta

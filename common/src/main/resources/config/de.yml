@@ -71,7 +71,7 @@ Simulation:
     # Gemessen in Blöcken von der möglichen Bewegung.
     # Wir berücksichtigen Optifine, indem wir die Triggertabellen wechseln, aber wenn wir dies auf 0,001 senken, wird FastMath reduziert.
     # Markierung des Anticheats, wenn diese Kompensation nicht funktioniert...
-    threshold: 0.001
+    threshold: 0.0005
     # Wie groß ist der Verstoß in einem Tick, bevor der Spieler sofort zurückgesetzt wird?
     # -1 zum Deaktivieren
     immediate-setback-threshold: 0.02
@@ -113,7 +113,7 @@ NoSlow:
     # Wie viel von einem Offset ist "schummeln"
     # Standardmäßig ist dieser Wert niedriger als andere Offs.
     # Flags um 0,03-0,2 konsequent mit NoSlow on
-    threshold: 0.001
+    threshold: 0.0005
     # Schnell auf das erste Element zurücksetzen, um jeden Vorteil von NoSlow zu beseitigen
     setbackvl: 2
     # Verfall ist, wenn der Spieler einen Gegenstand benutzt UND dadurch verlangsamt wird

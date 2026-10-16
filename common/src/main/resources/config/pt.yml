@@ -72,7 +72,7 @@ Simulation:
     # Medido em blocos do último movimento legítmo.
     # Incluímos o Optifine trocando as tabelas trigonométricas; entretanto, abaixar para 0.001 reduzirá o 'FastMath'
     # de falhar, caso essa compensação não funcionar.
-    threshold: 0.001
+    threshold: 0.0005
     # O quão longe o jogador deve estar da área simulada para imediatamente recuá-lo?
     # -1 desabilitará
     immediate-setback-threshold: 0.02
@@ -115,7 +115,7 @@ NoSlow:
     # Quanto de desalinhamento é considerado trapaça?
     # Por padrão é menor que os outros.
     # Em 0.03-0.2 detecta com consistência.
-    threshold: 0.001
+    threshold: 0.0005
     # Recuo imediato para inibir as vantagens rapidamente.
     setbackvl: 2
     # Decai quando o jogador usa um item e é efetivamente desacelerado.

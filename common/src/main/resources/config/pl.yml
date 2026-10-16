@@ -71,7 +71,7 @@ Simulation:
     # Mierzone w blokach od możliwego ruchu.
     # Uwzględniamy Optifine, przełączając tablice trygonometryczne, ale zmniejszenie tej wartości do 0.001 zmniejszy
     # liczbę fałszywych alarmów spowodowanych przez FastMath, jeśli ta kompensacja nie zadziała...
-    threshold: 0.001
+    threshold: 0.0005
     # Jak duże naruszenie w jednym ticku spowoduje natychmiastowe cofnięcie gracza?
     # -1 aby wyłączyć
     immediate-setback-threshold: 0.02
@@ -113,7 +113,7 @@ NoSlow:
     # Jakie odchylenie jest uznawane za "oszukiwanie"?
     # Domyślnie jest niższe niż w innych kontrolach.
     # Konsekwentnie wykrywa odchylenia o 0.03-0.2 przy włączonym NoSlow.
-    threshold: 0.001
+    threshold: 0.0005
     # Szybkie cofnięcie przy pierwszym użyciu przedmiotu, aby usunąć przewagę dawaną przez NoSlow.
     setbackvl: 2
     # Spadek naruszeń, gdy gracz używa przedmiotu I jest przez niego spowalniany.

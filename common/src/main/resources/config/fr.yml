@@ -71,7 +71,7 @@ Simulation:
     # Mesuré en blocs par rapport au mouvement possible.
     # Nous prenons en compte Optifine en changeant les tables trigonométriques, mais en réduisant cela à 0.001, cela réduira les signalements de l'anticheat
     # sur FastMath si cette compensation ne fonctionne pas...
-    threshold: 0.001
+    threshold: 0.0005
     # Quelle est la distance maximale d'une violation par tick avant que le joueur ne soit immédiatement renvoyé en arrière ?
     # -1 pour désactiver
     immediate-setback-threshold: 0.02
@@ -113,7 +113,7 @@ NoSlow:
     # Quel est le niveau d'écart considéré comme "triche"
     # Par défaut, cela est inférieur à d'autres écarts.
     # Génère des avertissements avec des valeurs comprises entre 0,03 et 0,2 lors de l'utilisation de NoSlow
-    threshold: 0.001
+    threshold: 0.0005
     # Renvoyer en arrière sur le premier objet pour éliminer tout avantage donné par NoSlow
     setbackvl: 2
     # Décroissance lorsque le joueur utilise un objet ET est ralenti par celui-ci.

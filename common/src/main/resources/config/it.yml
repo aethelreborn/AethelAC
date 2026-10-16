@@ -67,7 +67,7 @@ Simulation:
     # Riduce gradualmente l'avanzamento totale del giocatore quando è legittimo
     setback-decay-multiplier: 0.9998
     # Limite per creare una violazione rispetto al movimento del giocatore
-    threshold: 0.001
+    threshold: 0.0005
     # Soglia per arretrare immediatamente il giocatore dopo una violazione significativa
     immediate-setback-threshold: 0.02
     # Massimo vantaggio ammesso prima di arretrare il giocatore
@@ -106,7 +106,7 @@ RotationPlace:
 
 NoSlow:
     # Limite per rilevare l'uso scorretto dell'oggetto
-    threshold: 0.001
+    threshold: 0.0005
     # Livello di violazione per l'uso scorretto dell'oggetto
     setbackvl: 2
     # Decadimento per l'uso scorretto dell'oggetto
