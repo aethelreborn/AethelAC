@@ -101,6 +101,10 @@ The default configuration ships hardened for competitive PvP:
   that reverse and land back on their starting heading within a few ticks,
   the restore pass of silent aim; it shares the `AimHeuristics` ladder and
   can also be staged with `shadow-checks`.
+- The experimental `PhantomBreak` check flags finish or abort dig actions
+  that never had a matching start, the payload anti-cheat-aware velocity
+  modules spam to confuse knockback handling; it shares the `BadPackets`
+  ladder and can also be staged with `shadow-checks`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.
