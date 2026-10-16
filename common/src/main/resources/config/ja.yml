@@ -43,7 +43,7 @@ spectators:
         - ""
 
 # プレイヤーがタイムアウトでKickされるまでの時間を設定します。 | デフォルト= 60(秒)
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -215,7 +215,7 @@ reset-item-usage-on-item-use: true
 
 # Aethelは "Timer" のような違反パケットをキャンセルすることがありますが、1秒間にキャンセルされたパケット数がXを超えた場合、
 # プレイヤーを強制的にキックしますか？これは、いくつかのパケットリミッターがAethelによってキャンセルされたパケットをカウントしないためです。
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # packet-spam-threshold によりプレイヤーがキックされたときにスタックトレースを出力する場合は有効にする
 debug-packet-cancel: false
 

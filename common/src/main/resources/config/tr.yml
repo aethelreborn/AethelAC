@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Oyuncuların zaman aşımından dolayı sunucudan atılmadan önce ne kadar süreleri olmalı? Varsayılan = 60 saniye
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -206,7 +206,7 @@ reset-item-usage-on-item-use: true
 
 # Aethel bazen timer gibi yasa dışı paketleri iptal eder; bir saniyede X paket iptal edildikten sonra, ne zaman
 # oyuncuyu basitçe atmalıyız? Bu, bazı paket sınırlayıcılarının Aethel tarafından iptal edilen paketleri saymaması gerektiğindendir.
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Bir oyuncu packet-spam-threshold nedeniyle atıldığında stacktrace yazdırmak için bunu etkinleştirin
 debug-packet-cancel: false
 

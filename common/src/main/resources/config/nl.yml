@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Hoe lang moeten spelers hebben voordat we ze schoppen voor timing-out? Standaard = 60 seconden
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -206,7 +206,7 @@ reset-item-usage-on-item-use: true
 
 # Aethel annuleert soms illegale pakketten zoals met timer, na X pakketten in een seconde geannuleerd, wanneer moeten
 # we de speler gewoon schoppen? Dit is nodig omdat sommige pakket-begrenzers pakketten die door Aethel worden geannuleerd niet tellen
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Schakel dit in om een stacktrace af te drukken wanneer een speler wordt gekickt wegens packet-spam-threshold
 debug-packet-cancel: false
 

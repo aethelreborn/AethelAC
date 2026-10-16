@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Ile czasu powinni mieć gracze, zanim ich wyrzucimy za przekroczenie limitu czasu? Domyślnie = 60 sekund
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Włącz tę opcję, aby uniemożliwić Aethelowi anulowanie komunikatów Pong otrzymanych od graczy.
 # Może to poprawić kompatybilność z innymi programami antycheatowymi. Może to powodować problemy z limiterami pakietów.
@@ -206,7 +206,7 @@ reset-item-usage-on-item-use: true
 
 # Aethel czasami anuluje nielegalne pakiety, np. przy użyciu timera. Po anulowaniu X pakietów na sekundę, kiedy powinniśmy
 # po prostu wyrzucić gracza? Jest to wymagane, ponieważ niektóre limitery pakietów nie liczą pakietów anulowanych przez Aethela.
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Włącz to, aby wydrukować stack trace, gdy gracz zostanie wyrzucony z powodu przekroczenia packet-spam-threshold.
 debug-packet-cancel: false
 

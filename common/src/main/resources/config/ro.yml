@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Cât timp au jucătorii până să fie deconectați pentru timeout? Implicit = 60 secunde
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Activează pentru a opri Aethel din a anula pongs primite de la jucători.
 # Poate îmbunătăți compatibilitatea cu alte anticheaturi. Poate cauza probleme cu limitatoarele de pachete.
@@ -205,7 +205,7 @@ reset-item-usage-on-slot-change: true
 
 # Aethel uneori anulează pachete ilegale precum timer, după X pachete anulate într-o secundă, când să
 # deconectăm jucătorul? Este necesar deoarece unele limitatoare de pachete nu numără pachetele anulate de Aethel.
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Activează pentru a afișa stacktrace când un jucător e deconectat din cauza packet-spam-threshold
 debug-packet-cancel: false
 

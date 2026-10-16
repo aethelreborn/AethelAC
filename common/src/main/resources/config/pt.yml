@@ -42,7 +42,7 @@ spectators:
         - ""
 
 # Quanto tempo os jogadores tem até expulsarmos eles por inatividade? Padrão = 60 segundos.
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -212,7 +212,7 @@ reset-item-usage-on-item-use: true
 # Aethel às vezes cancela pacotes ilegais como com o timer, depois de X pacotes em um segundo que foram cancelados, quando
 # deve-se simplesmente expulsar o jogador? Isso é requirido já que alguns limitadores de pacotes não contam pacotes
 # cancelados pelo Aethel.
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Habilite isto para imprimir um stacktrace quando um jogador for expulso devido ao packet-spam-threshold
 debug-packet-cancel: false
 # Aethel pode impor que o jogador fora do estado de voo não possa ter mais de X milissegundos de ping.

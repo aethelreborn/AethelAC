@@ -44,7 +44,7 @@ spectators:
 # 在玩家无法接收 AethelAC 的 transaction 数据包后,多少秒对玩家进行踢出
 # 默认踢出原因为: disconnect.timeout
 # 玩家超时踢出时间（单位：秒）（默认 = 60）
-max-transaction-time: 45
+max-transaction-time: 30
 
 # 启用此选项可禁止Aethel取消接收到的Pong包。
 # 可能会优化和其他反作弊的兼容性，但可能会与数据包限制器冲突
@@ -228,7 +228,7 @@ reset-item-usage-on-item-use: true
 # Aethel有时会取消非法的数据包，比如Timer。
 # 在一秒钟内取消了多少个数据包后，我们应该踢掉这个玩家？
 # 我们认为你应该启用此项，因为有些数据包限制器并不记录被Aethel取消的数据包。
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # 启用此项可在玩家因 packet-spam-threshold 被踢时打印堆栈追踪
 debug-packet-cancel: false
 

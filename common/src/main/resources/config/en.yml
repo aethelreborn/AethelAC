@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # How long should players have until we kick them for timing out? Default = 60 seconds
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -206,7 +206,7 @@ reset-item-usage-on-item-use: true
 
 # Aethel sometimes cancels illegal packets such as with timer, after X packets in a second cancelled, when should
 # we simply kick the player? This is required as some packet limiters don't count packets cancelled by Aethel.
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Enable this to print a stacktrace when a player is kicked due to packet-spam-threshold
 debug-packet-cancel: false
 

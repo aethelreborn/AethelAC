@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Сколько времени должно быть у игроков, пока мы не выкинем их за тайм-аут? По умолчанию = 60 секунд
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -202,7 +202,7 @@ reset-item-usage-on-item-use: true
 
 # Грим иногда отменяет незаконные пакеты, например, с таймером, после X пакетов в секунду отмененных, когда следует
 # нам просто кикнуть игрока? Это необходимо, так как некоторые ограничители пакетов не учитывают пакеты, отмененные Гримом.
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Включите, чтобы вывести stacktrace, когда игрок кикается из-за packet-spam-threshold
 debug-packet-cancel: false
 

@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Au bout de combien de temps les joueurs doivent-ils être expulsés en cas de perte de connexion ? Défault = 60 secondes
-max-transaction-time: 45
+max-transaction-time: 30
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -203,7 +203,7 @@ reset-item-usage-on-item-use: true
 # Aethel annule parfois des paquets illégaux, comme ceux liés au chronomètre, après avoir annulé X paquets en une seconde,
 # à partir de combien de paquets annulés devrions-nous simplement expulser le joueur ?
 # Cela est nécessaire car certains limiteurs de paquets ne comptent pas les paquets annulés par Aethel.
-packet-spam-threshold: 60
+packet-spam-threshold: 30
 # Activez ceci pour afficher une trace de pile lorsqu’un joueur est expulsé à cause du packet-spam-threshold
 debug-packet-cancel: false
 
