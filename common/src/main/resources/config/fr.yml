@@ -80,6 +80,18 @@ attack-patterns:
     # interval counts as machine cadence (humans burst at high CPS).
     no-burst-min-cps: 14.0
     burst-gap-ms: 35.0
+    # Slow-cadence metronome detection (SlowCadence check): sample count,
+    # coefficient-of-variation ceiling and maximum interval in milliseconds.
+    metronome-samples: 48
+    metronome-cv: 0.035
+    metronome-max-interval: 400
+    # Rotating-attack detection (AttackRotation check): lookback window in
+    # seconds, minimum attacks in window, required rotating fraction and the
+    # per-tick rotation delta in degrees that counts as rotating.
+    rotating-window-seconds: 60
+    rotating-min-attacks: 12
+    rotating-fraction: 0.8
+    rotating-min-delta: 20.0
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -308,4 +320,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 16
+config-version: 17

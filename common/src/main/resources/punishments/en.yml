@@ -134,6 +134,7 @@ Punishments:
     checks:
       - "LinearRotation"
       - "RotationDecay"
+      - "AttackRotation"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"
@@ -158,6 +159,7 @@ Punishments:
     remove-violations-after: 600
     checks:
       - "Autoclicker"
+      - "SlowCadence"
     commands:
       - "10:20 [alert]"
       - "1:1 [log]"

@@ -72,9 +72,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v15 → v16: adds the {@code aim-analysis} decay band used by the
      * RotationDecay check. Same drift-free default rewrite.
+     *
+     * <p>v16 → v17: adds the {@code attack-patterns} metronome and
+     * rotating-attack knobs. Same drift-free default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 16, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 17, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
