@@ -121,18 +121,18 @@ NoSlow:
 
 Knockback:
     # Oyuncu legit olduğunda toplam avantajı ne kadarla çarpmalıyız
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Oyuncunun hızından ne kadar büyük bir sapma ihlal oluşturmalıyız?
     # Mümkün olan hızdan blok cinsinden ölçülür
     threshold: 0.001
     # Bir tik içinde ne kadar büyük bir ihlal olmalı ki oyuncu hemen geri dönsün?
     # Devre dışı bırakmak için -1 yazın
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Tüm tikler boyunca ne kadar büyük bir avantaja sahip olmalıyız ki geri dönüş yapmaya başlayalım?
     # Devre dışı bırakmak için -1 yazın
-    max-advantage: 1
+    max-advantage: 0.5
     # Bu, oyuncunun çok fazla ihlal toplamasını ve asla hepsini temizleyememesini engellemek içindir
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     threshold: 0.001

@@ -121,18 +121,18 @@ NoSlow:
 
 Knockback:
     # Met hoeveel moeten we het totale voordeel vermenigvuldigen als de speler legitiem is?
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Hoe groot moet de afwijking van de snelheid van de speler zijn?
     # Gemeten in blokken van de mogelijke snelheid
     threshold: 0.001
     # Hoe groot is de overtreding in een tick voordat de speler onmiddellijk een terugslag krijgt?
     # -1 om uit te schakelen
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Hoe groot is het voordeel ten opzichte van alle teken voordat we een terugslag krijgen?
     # -1 om uit te schakelen
-    max-advantage: 1
+    max-advantage: 0.5
     # Dit is om te voorkomen dat de speler te veel overtredingen verzamelt en ze nooit allemaal kan verwijderen
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     threshold: 0.001

@@ -123,18 +123,18 @@ NoSlow:
 
 Knockback:
     # Por quanto deve-se multiplicar a vantagem desde a última vez que falhou na verificação?
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # O quão longe da área do recuo recebido o jogador deve estar para registrar violações?
     # Medido em blocos do recuo recebido.
     threshold: 0.001
     # O quão longe o jogador deve estar da área simulada para imediatamente recuá-lo?
     # -1 desabilitará.
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Qual é a soma do desalinhamento da simulação em todos os ticks até começarmos a recuar?
     # -1 desabilitará.
-    max-advantage: 1
+    max-advantage: 0.5
     # Isso serve para previnir o jogador de alcançar violações demais e nunca conseguir se livrar delas.
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     threshold: 0.001

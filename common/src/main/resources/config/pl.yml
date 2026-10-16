@@ -121,18 +121,18 @@ NoSlow:
 
 Knockback:
     # O ile powinniśmy pomnożyć całkowitą przewagę, gdy gracz gra zgodnie z zasadami?
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Jak duże odchylenie od prędkości nadanej graczowi (velocity) powinno skutkować naruszeniem?
     # Mierzone w blokach od możliwej prędkości.
     threshold: 0.001
     # Jak duże naruszenie w jednym ticku spowoduje natychmiastowe cofnięcie gracza?
     # -1 aby wyłączyć
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Jak dużą całkowitą przewagę (we wszystkich tickach) trzeba osiągnąć, zanim zaczniemy cofać gracza?
     # -1 aby wyłączyć
-    max-advantage: 1
+    max-advantage: 0.5
     # Ma to na celu zapobieżenie gromadzeniu zbyt wielu naruszeń, których gracz nie mógłby później wyzerować.
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     threshold: 0.001

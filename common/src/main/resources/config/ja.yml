@@ -123,18 +123,18 @@ NoSlow:
 
 Knockback:
     # プレイヤーが違反していない場合、総アドバンテージにどれだけの倍率を掛けるか
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # プレイヤーの速度からどれだけズレたら違反とみなすか
     # 許容速度からのズレをブロック単位で測定します
     threshold: 0.001
     # プレイヤーが即座にセットバックされる前に、1ティックで発生しなければならない違反のしきい値
     # -1で無効化できます
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # 全ティックでの累積アドバンテージがこの値を超えたらセットバックを開始します
     # -1で無効化できます
-    max-advantage: 1
+    max-advantage: 0.5
     # 違反が過剰に蓄積し、リセットが難しくなるのを防ぐための上限です
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     threshold: 0.001

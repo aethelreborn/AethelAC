@@ -121,18 +121,18 @@ NoSlow:
 
 Knockback:
     # Cu cât ar trebui să înmulțim avantajul total atunci când jucătorul este legitim
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Cât de mare trebuie să fie abaterea față de viteza jucătorului pentru a crea o încălcare?
     # Măsurat în blocuri față de viteza posibilă
     threshold: 0.001
     # Cât de mare trebuie să fie încălcarea într-un tick pentru setback imediat?
     # -1 pentru a dezactiva
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Cât de mare este avantajul acumulat înainte de a aplica setback-ul?
     # -1 pentru a dezactiva
-    max-advantage: 1
+    max-advantage: 0.5
     # Previne acumularea prea multor încălcări imposibil de resetat
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     threshold: 0.001

@@ -114,15 +114,15 @@ NoSlow:
 
 Knockback:
     # Riduce gradualmente l'avanzamento totale del giocatore quando è legittimo
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # Limite per creare una violazione rispetto alla velocità del giocatore
     threshold: 0.001
     # Soglia per arretrare immediatamente il giocatore dopo una violazione significativa
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Massimo vantaggio ammesso prima di arretrare il giocatore
-    max-advantage: 1
+    max-advantage: 0.5
     # Limite massimo di vantaggio accumulabile prima di arretrare il giocatore
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     # Limite per rilevare l'esplosione

@@ -121,18 +121,18 @@ NoSlow:
 
 Knockback:
     # How much should we multiply total advantage by when the player is legit
-    setback-decay-multiplier: 0.999
+    setback-decay-multiplier: 0.9998
     # How large of an offset from the player's velocity should we create a violation for?
     # Measured in blocks from the possible velocity
     threshold: 0.001
     # How large of a violation in a tick before the player gets immediately setback?
     # -1 to disable
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # How large of an advantage over all ticks before we start to setback?
     # -1 to disable
-    max-advantage: 1
+    max-advantage: 0.5
     # This is to stop the player from gathering too many violations and never being able to clear them all
-    max-ceiling: 4
+    max-ceiling: 2
 
 Explosion:
     threshold: 0.001
