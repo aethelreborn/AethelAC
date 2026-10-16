@@ -103,6 +103,7 @@ Punishments:
       - "Baritone"
       - "IdleAutomation"
       - "FastClick"
+      - "DamageReaction"
       - "Break"
       - "TransactionOrder"
       - "Elytra"

@@ -113,6 +113,10 @@ The default configuration ships hardened for competitive PvP:
   flags chest-stealer style container clicking: sixty or more pickup or
   shift-move clicks in ten seconds at a mean interval of 110 ms or less; it
   shares the `Misc` ladder and can also be staged with `shadow-checks`.
+- The experimental `DamageReaction` check (`reaction-analysis` in
+  `config.yml`) flags ClickPearl/AutoGApple style automation: six or more item
+  uses within 120 ms (mean) of a health decrease over five minutes; it shares
+  the `Misc` ladder and can also be staged with `shadow-checks`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

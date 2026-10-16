@@ -142,6 +142,15 @@ inventory-automation:
     click-min-count: 60
     click-mean-interval-ms: 110.0
 
+reaction-analysis:
+    # Damage reaction detection (DamageReaction check): maximum single
+    # reaction in ms, mean reaction ceiling, minimum sample pairs and the
+    # lookback window in seconds.
+    damage-reaction-max-ms: 300.0
+    damage-reaction-mean-ms: 120.0
+    damage-reaction-min-pairs: 6
+    damage-reaction-window-seconds: 300
+
 shadow-checks:
     # Checks listed here only send staff alerts and database logs. Webhook and
     # proxy broadcasts, console commands, kicks and bans are suppressed, so new
@@ -352,4 +361,4 @@ update-permission-ticks: 20
 #   config-version: bumped on every breaking shape change. Old configs
 #                   auto-migrate up via the bundled updater on next start.
 config-flavor: V2
-config-version: 21
+config-version: 22
