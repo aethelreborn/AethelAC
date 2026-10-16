@@ -20,7 +20,7 @@ alerts:
 verbose:
     print-to-console: false
 
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # プレイヤーのクライアントブランドが以下の正規表現のいずれかと一致する場合、オペレータにはそのプレイヤーの情報が送信されません。
@@ -43,7 +43,7 @@ spectators:
         - ""
 
 # プレイヤーがタイムアウトでKickされるまでの時間を設定します。 | デフォルト= 60(秒)
-max-transaction-time: 60
+max-transaction-time: 45
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -153,7 +153,7 @@ TimerLimit:
     # タイマーバランスの制限を開始し、不正利用を防止するためのPingのしきい値
     # 正当なプレイヤーであっても、このPingのしきい値を超えるとセットバックが発生する場合があります
     # -1で無効化
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # プレイヤーが移動中にどれだけミリ秒の遅延が発生した場合にフラグを立て始めるかを指定します
@@ -185,18 +185,18 @@ Reach:
     # 有効にすることでさらに多くのチーターを検出できますが、
     # 無効のままでもチーターを検出でき、誤検知も発生しません
     # PvP特化の1.8サーバーでない限り、この追加パケットの有効化は推奨されません
-    enable-post-packet: false
+    enable-post-packet: true
 
 exploit:
     # エリトラでダッシュジャンプを行うと非常に高い速度を得られるエクスプロイト（意図しない挙動）があります。
     # この設定をfalseにすると、そのエクスプロイトを防ぎます
     # Mojangのネットコードにより、エリトラの動作は開始がクライアント側、終了がサーバー側で処理されるためにズレが生じています。
     # エリトラは水平摩擦0.99を持ち、水平速度0.2が常に追加されると非常に高速度になります。
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
 
     # このオプションは、ゴーストブロックが発生したときにプレイヤーを再同期させることで、
     # ゴーストブロックへのブロック設置をできるだけ制限します
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
 
     # 上記の設定に基づき、ゴーストブロックのチェック距離を定義します
     # 設定可能な範囲は2から4です
@@ -206,7 +206,7 @@ exploit:
 debug-pipeline-on-join: false
 
 # 実験的なチェックを有効にします
-experimental-checks: false
+experimental-checks: true
 
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
@@ -215,18 +215,18 @@ reset-item-usage-on-item-use: true
 
 # Aethelは "Timer" のような違反パケットをキャンセルすることがありますが、1秒間にキャンセルされたパケット数がXを超えた場合、
 # プレイヤーを強制的にキックしますか？これは、いくつかのパケットリミッターがAethelによってキャンセルされたパケットをカウントしないためです。
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # packet-spam-threshold によりプレイヤーがキックされたときにスタックトレースを出力する場合は有効にする
 debug-packet-cancel: false
 
 # Aethelは、飛行状態を解除されたプレイヤーがXミリ秒以上のPingを持つことを許可しません
 # これは、現在Aethelが飛行中のプレイヤーをチェックしていないためです
 # 無効にするには、-1を設定してください
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # プレイヤーから、ロケット花火による加速効果を削除する際の最大ピン値
 # これにより、レイテンシの高いプレイヤーが1つのロケット花火による加速でエリトラを永久に使用するのを防ぎます。
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # スキーマ用マーカー — 内容を理解した上でのみ変更してください。
 #   config-flavor:  V2 = Aethel 2.x ビルド、V3 = Aethel 3.x。プラグインは自身の

@@ -18,7 +18,7 @@ alerts:
 verbose:
     print-to-console: false
 
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # Bu, giriş yapılan clientin aşağıdaki regex'lerle eşleşmesi durumunda markalarını operatörlere yayınlamayacağı anlamına gelir
@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Oyuncuların zaman aşımından dolayı sunucudan atılmadan önce ne kadar süreleri olmalı? Varsayılan = 60 saniye
-max-transaction-time: 60
+max-transaction-time: 45
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -149,7 +149,7 @@ TimerLimit:
     # Kontrolün zamanlayıcı dengesini sınırlamaya başlayacağı ping değeri, kötüye kullanımı önlemek için.
     # Bu, yalnızca bu ping eşiğini aşan meşru oyuncular için bazı geri dönüşlere neden olabilir.
     # Devre dışı bırakmak için -1 yazın
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # Uyarı vermeye başlamadan önce hareket halindeyken kaybedilen milisaniye sayısı
@@ -180,15 +180,15 @@ Reach:
     # Bunu etkinleştirmek, daha fazla hilecinin yakalanmasını sağlar
     # Bu özellik devre dışı bırakılsa bile hileciler yakalanır ve yanlış pozitifler oluşmaz
     # 1.8 PvP odaklı bir sunucu değilseniz, bu ek paket önerilmez
-    enable-post-packet: false
+    enable-post-packet: true
 
 exploit:
     # Elytra ile sprint zıplarken yüksek hızlar kazanabilirsiniz, bu ayar false olarak ayarlandığında bu istismarı önler
     # Mojang, elytra'nın istemci tarafında başlamasını ve sunucu tarafında bitmesini sağlayarak netcode'u bozdu
     # Elytra'lar 0.99 yatay sürtünme alır, bu yüzden sürekli olarak 0.2 yatay hız eklemek çok yüksek hızlara yol açar
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
     # Bu seçenek, oyuncunun hayalet bloklar üzerindeki yerleşimini, gerçekleştiğinde oyuncuyu yeniden senkronize ederek hafifletir
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
     # Bu ayar, yukarıdaki boolean ile etkilenen hayalet blokları kontrol etmek için mesafeyi tanımlar
     # Geçerli aralığı 2 ile 4 arasında sınırlıdır
     distance-to-check-if-ghostblocks: 2
@@ -197,7 +197,7 @@ exploit:
 debug-pipeline-on-join: false
 
 # Deneysel kontrolleri etkinleştir
-experimental-checks: false
+experimental-checks: true
 
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
@@ -206,18 +206,18 @@ reset-item-usage-on-item-use: true
 
 # Aethel bazen timer gibi yasa dışı paketleri iptal eder; bir saniyede X paket iptal edildikten sonra, ne zaman
 # oyuncuyu basitçe atmalıyız? Bu, bazı paket sınırlayıcılarının Aethel tarafından iptal edilen paketleri saymaması gerektiğindendir.
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # Bir oyuncu packet-spam-threshold nedeniyle atıldığında stacktrace yazdırmak için bunu etkinleştirin
 debug-packet-cancel: false
 
 # Aethel, uçma durumundan çıkmış bir oyuncunun X milisaniyeden fazla ping'e sahip olamayacağını uygulayabilir
 # Bu, Aethel'in şu anda uçan oyuncuları kontrol etmemesindendir
 # Devre dışı bırakmak için -1 yazın
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # Bir havai fişek ivmesi oyuncudan çıkarıldığında maksimum ping.
 # Bu, yüksek gecikmeli oyuncuların bir havai fişek ivmesini elytra ile sonsuza kadar kullanmalarını engeller.
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # Şema işaretçileri — yalnızca ne yaptığınızı biliyorsanız değiştirin.
 #   config-flavor:  V2 = Aethel 2.x derlemesi, V3 = Aethel 3.x. Eklenti, flavor'ı

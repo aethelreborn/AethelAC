@@ -18,7 +18,7 @@ alerts:
 verbose:
     print-to-console: false
 
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # Dit betekent dat het merk niet wordt uitgezonden naar operators als het merk overeenkomt met de volgende regexen
@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Hoe lang moeten spelers hebben voordat we ze schoppen voor timing-out? Standaard = 60 seconden
-max-transaction-time: 60
+max-transaction-time: 45
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -149,7 +149,7 @@ TimerLimit:
     # Ping waarop de controle zal beginnen om de timer-balans te beperken, om misbruik te voorkomen
     # Kan wat tegenslag veroorzaken voor legitieme spelers, maar alleen als ze boven deze ping drempel zitten.
     # -1 om uit te schakelen
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # Aantal milliseconden dat verloren gaat tijdens het bewegen voordat we moeten beginnen met flaggen
@@ -180,15 +180,15 @@ Reach:
     # Door dit in te schakelen worden meer valsspelers gepakt
     # Als je dit uitgeschakeld laat, worden nog steeds valsspelers gepakt en zullen er geen valse positieven ontstaan
     # Tenzij je een 1.8 PvP server bent, wordt dit extra pakket niet aangeraden
-    enable-post-packet: false
+    enable-post-packet: true
 
 exploit:
     # Je kunt hoge snelheden krijgen als je sprint met een elytra, dit voorkomt de exploit als het op false staat
     # Mojang heeft de netcode verpest door elytra's client-sided te laten starten en elytra's server-sided te laten eindigen
     # Elytra's hebben 0.99 horizontale wrijving, dus het constant toevoegen van 0.2 horizontale snelheden resulteert in zeer hoge snelheden.
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
     # Deze optie verzacht de plaatsing van de speler op ghostblocks door de speler opnieuw te synchroniseren wanneer dit gebeurt
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
     # Deze instelling, beïnvloed door de boolean hierboven, bepaalt de afstand om te controleren op ghostblocks
     # Het geldige bereik is beperkt van 2 tot 4
     distance-to-check-if-ghostblocks: 2
@@ -197,7 +197,7 @@ exploit:
 debug-pipeline-on-join: false
 
 # Experimentele controles inschakelen
-experimental-checks: false
+experimental-checks: true
 
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
@@ -206,18 +206,18 @@ reset-item-usage-on-item-use: true
 
 # Aethel annuleert soms illegale pakketten zoals met timer, na X pakketten in een seconde geannuleerd, wanneer moeten
 # we de speler gewoon schoppen? Dit is nodig omdat sommige pakket-begrenzers pakketten die door grim worden geannuleerd niet tellen
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # Schakel dit in om een stacktrace af te drukken wanneer een speler wordt gekickt wegens packet-spam-threshold
 debug-packet-cancel: false
 
 # Aethel kan afdwingen dat een speler die uit de vliegmodus is gezet niet meer dan X ms ping heeft
 # Dit komt doordat Aethel momenteel vliegende spelers niet controleert
 # Om uit te schakelen, gebruik -1
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # Maximale ping wanneer een vuurwerkboost van de speler wordt verwijderd.
 # Dit voorkomt dat spelers met hoge latency oneindig één vuurwerkboost met een elytra kunnen gebruiken.
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # Schemamarkers — alleen aanpassen als je weet wat je doet.
 #   config-flavor:  V2 = Aethel 2.x-build, V3 = Aethel 3.x. De plugin weigert een

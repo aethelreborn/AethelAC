@@ -18,7 +18,7 @@ alerts:
 verbose:
     print-to-console: false
 
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # This means it won't broadcast their brand to operators if the brand matches the following regexes
@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # How long should players have until we kick them for timing out? Default = 60 seconds
-max-transaction-time: 60
+max-transaction-time: 45
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -149,7 +149,7 @@ TimerLimit:
     # Ping at which the check will start to limit timer balance, to prevent abuse.
     # Can cause some setbacks for legitimate players but only if they are over this ping threshold.
     # -1 to disable
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # Number of milliseconds lost while moving before we should start flagging
@@ -180,15 +180,15 @@ Reach:
     # Enabling this will catch more cheaters.
     # Leaving this disabled will still catch cheaters and will not cause false positives
     # Unless you are a 1.8 PvP focused server, this additional packet is not recommended
-    enable-post-packet: false
+    enable-post-packet: true
 
 exploit:
     # You can gain high speeds when sprint jumping with an elytra, this prevents the exploit when set to false
     # Mojang screwed up netcode by making elytra start client sided and elytra end server sided
     # Elytras take 0.99 horizontal friction, so constantly adding 0.2 horizontal speeds results in very high speeds.
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
     # This option mitigates the player's placement on ghostblocks by resynchronizing the player when it happens
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
     # This setting, influenced by the boolean above defines the distance to check for ghost blocks
     # Its valid range is limited from 2 to 4
     distance-to-check-if-ghostblocks: 2
@@ -197,7 +197,7 @@ exploit:
 debug-pipeline-on-join: false
 
 # Enables experimental checks
-experimental-checks: false
+experimental-checks: true
 
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
@@ -206,18 +206,18 @@ reset-item-usage-on-item-use: true
 
 # Aethel sometimes cancels illegal packets such as with timer, after X packets in a second cancelled, when should
 # we simply kick the player? This is required as some packet limiters don't count packets cancelled by grim.
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # Enable this to print a stacktrace when a player is kicked due to packet-spam-threshold
 debug-packet-cancel: false
 
 # Aethel is able to enforce that a player set out of flying state cannot have more than X milliseconds of ping
 # This is due to Aethel not currently checking flying players
 # To disable, use -1
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # Maximum ping when a firework boost is removed from the player.
 # This prevents high latency players from being able to use 1 firework boost with an elytra forever.
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # Aethel always refreshes cached permissions when a player joins and when Aethel reloads,
 # whether or not LuckPerms is installed.

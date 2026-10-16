@@ -18,7 +18,7 @@ alerts:
 verbose:
     print-to-console: false
 
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # Cela signifie qu'il n'enverra pas la nature du client aux opérateurs si il correspond aux clients suivants
@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Au bout de combien de temps les joueurs doivent-ils être expulsés en cas de perte de connexion ? Défault = 60 secondes
-max-transaction-time: 60
+max-transaction-time: 45
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -150,7 +150,7 @@ TimerLimit:
     # Ping at which the check will start to limit timer balance, to prevent abuse.
     # Can cause some setbacks for legitimate players but only if they are over this ping threshold.
     # -1 to disable
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # Le nombre de millisecondes perdus pendant le déplacement avant de commencer à signaler des infractions.
@@ -181,19 +181,19 @@ Reach:
     # Activer cette fonctionnalité permettra de détecter davantage de tricheurs.
     # Laisser cette fonctionnalité désactivée permettra tout de même de détecter les tricheurs et n'entraînera pas de faux positifs.
     # À moins d'être un serveur axé sur le PvP en 1.8, l'envoi de ce paquet supplémentaire n'est pas recommandé.
-    enable-post-packet: false
+    enable-post-packet: true
 
 exploit:
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
     # Cette option atténue le placement du joueur sur les ghostblocks en resynchronisant le joueur lorsque cela se produit.
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
     distance-to-check-if-ghostblocks: 2
 
 # Activer l'enregistrement des plugins ayant injecté dans Netty lors de la connexion pour déboguer les problèmes de compatibilité
 debug-pipeline-on-join: false
 
 # Active les vérifications expérimentales
-experimental-checks: false
+experimental-checks: true
 
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
@@ -203,18 +203,18 @@ reset-item-usage-on-item-use: true
 # Aethel annule parfois des paquets illégaux, comme ceux liés au chronomètre, après avoir annulé X paquets en une seconde,
 # à partir de combien de paquets annulés devrions-nous simplement expulser le joueur ?
 # Cela est nécessaire car certains limiteurs de paquets ne comptent pas les paquets annulés par Aethel.
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # Activez ceci pour afficher une trace de pile lorsqu’un joueur est expulsé à cause du packet-spam-threshold
 debug-packet-cancel: false
 
 # Aethel peut faire en sorte qu’un joueur sorti de l’état de vol n’ait pas plus de X ms de ping
 # Cela est dû au fait que Aethel ne vérifie pas encore les joueurs en vol
 # Pour désactiver, utilisez -1
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # Ping maximal lorsque la propulsion de feu d’artifice est retirée du joueur.
 # Cela empêche les joueurs à forte latence d’utiliser indéfiniment un seul boost de feu d’artifice avec une élytra.
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # Marqueurs de schéma — ne modifier qu'en sachant ce que l'on fait.
 #   config-flavor:  V2 = build Aethel 2.x, V3 = Aethel 3.x. Le plugin refuse de

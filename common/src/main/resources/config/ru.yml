@@ -18,7 +18,7 @@ alerts:
 verbose:
     print-to-console: false
 
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # Это означает, что он не будет транслировать свой бренд операторам, если бренд соответствует следующим регексам
@@ -41,7 +41,7 @@ spectators:
         - ""
 
 # Сколько времени должно быть у игроков, пока мы не выкинем их за тайм-аут? По умолчанию = 60 секунд
-max-transaction-time: 60
+max-transaction-time: 45
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -150,7 +150,7 @@ TimerLimit:
     # Ping at which the check will start to limit timer balance, to prevent abuse.
     # Can cause some setbacks for legitimate players but only if they are over this ping threshold.
     # -1 to disable
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # Количество миллисекунд, потерянных во время движения, до того, как мы начнем ставить флаг
@@ -181,19 +181,19 @@ Reach:
     # Если включить эту функцию, будет поймано больше читеров.
     # Если оставить эту функцию отключенной, читеры все равно будут отлавливаться и не будут вызывать ложных срабатываний.
     # Если вы не являетесь PvP-сервером 1.8, этот дополнительный пакет не рекомендуется.
-    enable-post-packet: false
+    enable-post-packet: true
 
 exploit:
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
     # Эта опция смягчает размещение игрока на блоках-призраках, ресинхронизируя его, когда это происходит.
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
     distance-to-check-if-ghostblocks: 2
 
 # Включить запись в журнал плагинов, которые внедрились в netty при присоединении для отладки проблем совместимости
 debug-pipeline-on-join: false
 
 # Включает экспериментальные проверки
-experimental-checks: false
+experimental-checks: true
 
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
@@ -202,18 +202,18 @@ reset-item-usage-on-item-use: true
 
 # Грим иногда отменяет незаконные пакеты, например, с таймером, после X пакетов в секунду отмененных, когда следует
 # нам просто кикнуть игрока? Это необходимо, так как некоторые ограничители пакетов не учитывают пакеты, отмененные Гримом.
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # Включите, чтобы вывести stacktrace, когда игрок кикается из-за packet-spam-threshold
 debug-packet-cancel: false
 
 # Aethel может обеспечить, чтобы у игрока, выведенного из состояния полёта, пинг не превышал X мс
 # Это связано с тем, что Aethel пока не проверяет игроков, находящихся в полёте
 # Для отключения используйте -1
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # Максимальный пинг при снятии ускорения фейерверком с игрока.
 # Это предотвращает возможность для игроков с большим пингом бесконечно использовать один фейерверк‑буст с элитрой.
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # Маркеры схемы — менять только если понимаете, что делаете.
 #   config-flavor:  V2 = сборка Aethel 2.x, V3 = Aethel 3.x. Плагин отказывается

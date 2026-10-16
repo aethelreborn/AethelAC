@@ -19,7 +19,7 @@ verbose:
     # Mostra dettagli su console?
     print-to-console: false
 
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # Ignora i seguenti client nella trasmissione del marchio agli operatori
@@ -41,7 +41,7 @@ spectators:
     allowed-worlds:
         - ""
 
-max-transaction-time: 60
+max-transaction-time: 45
 
 # Enable this to stop Aethel cancelling pongs received from players.
 # This may improve compatibility with other anticheats. It may cause issues with packet limiters.
@@ -141,7 +141,7 @@ TimerLimit:
     # Ping at which the check will start to limit timer balance, to prevent abuse.
     # Can cause some setbacks for legitimate players but only if they are over this ping threshold.
     # -1 to disable
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # Millisecondi persi prima di rilevare il timer negativo
@@ -161,13 +161,13 @@ Reach:
     # Annulla gli attacchi impossibili
     block-impossible-hits: true
     # Abilita l'invio di pacchetti aggiuntivi per il rilevamento degli attacchi
-    enable-post-packet: false
+    enable-post-packet: true
 
 exploit:
     # Abilita il salto in sprint con l'elytra
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
     # Abilita la costruzione su ghost blocks
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
     # Distanza per controllare i ghost blocks
     distance-to-check-if-ghostblocks: 2
 
@@ -175,7 +175,7 @@ exploit:
 debug-pipeline-on-join: false
 
 # Enables experimental checks
-experimental-checks: false
+experimental-checks: true
 
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
@@ -184,18 +184,18 @@ reset-item-usage-on-item-use: true
 
 # Aethel sometimes cancels illegal packets such as with timer, after X packets in a second cancelled, when should
 # we simply kick the player? This is required as some packet limiters don't count packets cancelled by grim.
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # Abilita questa opzione per stampare uno stacktrace quando un giocatore viene espulso a causa del packet-spam-threshold
 debug-packet-cancel: false
 
 # Aethel può imporre che un giocatore uscito dallo stato di volo non abbia più di X ms di ping
 # Questo perché Aethel al momento non controlla i giocatori in volo
 # Per disattivare, usa -1
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # Ping massimo quando il boost del fuoco d’artificio viene rimosso dal giocatore.
 # Impedisce ai giocatori con alta latenza di usare all’infinito un solo boost con fuochi d’artificio ed elytra.
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # Marcatori di schema — toccare solo se si sa cosa si sta facendo.
 #   config-flavor:  V2 = build di Aethel 2.x, V3 = Aethel 3.x. Il plugin si rifiuta

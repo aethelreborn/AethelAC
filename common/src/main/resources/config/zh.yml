@@ -19,7 +19,7 @@ verbose:
     # 是否在控制台中打印verbose信息
     print-to-console: false
 # 是否检查更新
-check-for-updates: true
+check-for-updates: false
 
 client-brand:
     # 这意味着如果客户端型号匹配以下正则表达式，它将不会将其客户端版本显示在聊天栏中
@@ -44,7 +44,7 @@ spectators:
 # 在玩家无法接收 AethelAC 的 transaction 数据包后,多少秒对玩家进行踢出
 # 默认踢出原因为: disconnect.timeout
 # 玩家超时踢出时间（单位：秒）（默认 = 60）
-max-transaction-time: 60
+max-transaction-time: 45
 
 # 启用此选项可禁止Aethel取消接收到的Pong包。
 # 可能会优化和其他反作弊的兼容性，但可能会与数据包限制器冲突
@@ -170,7 +170,7 @@ TimerLimit:
     # 在检查玩家的延迟时对timer balance进行限制, 防止滥用
     # 在合法玩家的延迟超过这个延迟阈值时可能会造成误拉回
     # 填写-1则关闭
-    ping-abuse-limit-threshold: 1000
+    ping-abuse-limit-threshold: 400
 
 NegativeTimer:
     # 玩家的移动丢失了多少毫秒？
@@ -195,7 +195,7 @@ Reach:
     block-impossible-hits: true
     # 我们应该取消不合法的攻击吗？
     # 攻击距离为3.00-3.03可能不会被取消，但仍会被作弊标记，因为有数据包顺序限制
-    enable-post-packet: false
+    enable-post-packet: true
     # 这将在每个游戏刻（tick）结束时发送一个额外的数据包，以检查更多的作弊
     # 这会注入服务器的连接列表以在服务器刷新之前发送最终数据
     # 启用这将增加所有玩家的带宽占用
@@ -205,9 +205,9 @@ Reach:
     # 除非你是专注于1.8版本的PvP服务器，否则不建议使用这个额外的数据包
 
 exploit:
-    allow-sprint-jumping-when-using-elytra: true
+    allow-sprint-jumping-when-using-elytra: false
     # 是否允许玩家在使用鞘翅时候进行的疾跑跳跃
-    allow-building-on-ghostblocks: true
+    allow-building-on-ghostblocks: false
     # 该选项可在发生假方块时重新同步玩家方块，并允许玩家在假方块上继续放置方块
     distance-to-check-if-ghostblocks: 2
     # 检查假方块的距离。
@@ -217,7 +217,7 @@ exploit:
 debug-pipeline-on-join: false
 
 # 启用实验性检查
-experimental-checks: false
+experimental-checks: true
 
 # 取消有问题的格挡
 reset-item-usage-on-item-update: true
@@ -228,18 +228,18 @@ reset-item-usage-on-item-use: true
 # Aethel有时会取消非法的数据包，比如Timer。
 # 在一秒钟内取消了多少个数据包后，我们应该踢掉这个玩家？
 # 我们认为你应该启用此项，因为有些数据包限制器并不记录被Aethel取消的数据包。
-packet-spam-threshold: 100
+packet-spam-threshold: 60
 # 启用此项可在玩家因 packet-spam-threshold 被踢时打印堆栈追踪
 debug-packet-cancel: false
 
 # 在玩家处于非飞行状态，且ping（延迟）大于多少毫秒后，Aethel会踢出这个玩家？
 # 填写-1则关闭
-max-ping-out-of-flying: 1000
+max-ping-out-of-flying: 300
 
 # 当玩家使用鞘翅飞行，且ping（延迟）大于多少毫秒后，Aethel会取消这个玩家正在使用的烟花火箭？
 # 可以避免高延迟玩家使用一个烟花火箭就可以一直飞行
 # 填写-1则关闭
-max-ping-firework-boost: 1000
+max-ping-firework-boost: 500
 
 # 模式标记 — 除非你清楚自己在做什么，否则不要修改。
 #   config-flavor:  V2 = Aethel 2.x 构建，V3 = Aethel 3.x。如果配置的 flavor
