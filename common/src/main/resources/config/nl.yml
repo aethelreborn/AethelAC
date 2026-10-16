@@ -1,7 +1,7 @@
 # AethelAC configuratie
-# Broncode: https://github.com/GrimAnticheat/Grim
+# Broncode: https://github.com/aethelreborn/AethelAC
 # Copyright 2025 DefineOutside en bijdragers, gelicentieerd onder GPLv3.
-# Gewijzigde binaire bestanden, of plugins met gekopieerde Aethel code, moeten privé zijn,
+# Gewijzigde binaire bestanden, of plugins met gekopieerde AethelAC code, moeten privé zijn,
 # of met volledige broncode beschikbaar voor kopers zonder extra kosten.
 
 alerts:
@@ -34,7 +34,7 @@ client-brand:
     disconnect-blacklisted-forge-versions: true
 
 spectators:
-    # Verberg alle toeschouwers met de grim.spectator-toestemming, ongeacht of ze daadwerkelijk actief toeschouwer zijn
+    # Verberg alle toeschouwers met de aethel.spectate-toestemming, ongeacht of ze daadwerkelijk actief toeschouwer zijn
     hide-regardless: false
     # Maakt toeschouwers alleen verborgen in deze werelden, houdt leeg om alle werelden toe te laten
     allowed-worlds:
@@ -205,7 +205,7 @@ reset-item-usage-on-slot-change: true
 reset-item-usage-on-item-use: true
 
 # Aethel annuleert soms illegale pakketten zoals met timer, na X pakketten in een seconde geannuleerd, wanneer moeten
-# we de speler gewoon schoppen? Dit is nodig omdat sommige pakket-begrenzers pakketten die door grim worden geannuleerd niet tellen
+# we de speler gewoon schoppen? Dit is nodig omdat sommige pakket-begrenzers pakketten die door Aethel worden geannuleerd niet tellen
 packet-spam-threshold: 60
 # Schakel dit in om een stacktrace af te drukken wanneer een speler wordt gekickt wegens packet-spam-threshold
 debug-packet-cancel: false

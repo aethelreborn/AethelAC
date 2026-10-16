@@ -35,7 +35,7 @@ public class ConfigManagerFileImpl implements ConfigManager, BasicReloadable {
     static final List<String> BACKEND_IDS = List.of("sqlite", "mysql", "postgres", "mongo", "redis");
 
     private void runConfigUpdates() {
-        Logger logger = Logger.getLogger("grim-config");
+        Logger logger = Logger.getLogger("Aethel-config");
         ConfigUpdater updater = new ConfigUpdater(AethelAPI.class, logger);
         // Use the multi-file API so cross-file migrations (e.g. config.yml
         // v9 → v10 lifting history.database.* into database.yml + the
@@ -309,14 +309,14 @@ public class ConfigManagerFileImpl implements ConfigManager, BasicReloadable {
     }
 
     private void removeAlertsOnJoin(File config, String configString) throws IOException {
-        configString = configString.replaceAll("  # Should players with grim\\.alerts permission automatically enable alerts on join\\?\r?\n  enable-on-join: (?:true|false)\r?\n", ""); // en
+        configString = configString.replaceAll("  # Should players with Aethel\\.alerts permission automatically enable alerts on join\\?\r?\n  enable-on-join: (?:true|false)\r?\n", ""); // en
         configString = configString.replaceAll("  # 管理员进入时是否自动开启警告？\r?\n  enable-on-join: (?:true|false)\r?\n", ""); // zh
         Files.write(config.toPath(), configString.getBytes());
     }
 
     private void addPacketSpamThreshold(File config, String configString) throws IOException {
         configString += "\n# Aethel sometimes cancels illegal packets such as with timer, after X packets in a second cancelled, when should\n" +
-                "# we simply kick the player? This is required as some packet limiters don't count packets cancelled by grim.\n" +
+                "# we simply kick the player? This is required as some packet limiters don't count packets cancelled by Aethel.\n" +
                 "packet-spam-threshold: 150\n";
         Files.write(config.toPath(), configString.getBytes());
     }

@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.UUID;
 
 @Mixin(CommandSourceStack.class)
-@Implements(@Interface(iface = Sender.class, prefix = "grim$"))
+@Implements(@Interface(iface = Sender.class, prefix = "aethelac$"))
 abstract class FabricIntermediaryCommandSourceStackMixin {
 
     @Unique
@@ -29,43 +29,43 @@ abstract class FabricIntermediaryCommandSourceStackMixin {
         return AethelACFabricIntermediaryLoaderPlugin.LOADER.getFabricSenderFactory();
     }
 
-    public UUID grim$getUniqueId() {
+    public UUID aethelac$getUniqueId() {
         return aethelac$factory().getUniqueId(aethelac$self());
     }
 
-    public String grim$getName() {
+    public String aethelac$getName() {
         return aethelac$factory().getName(aethelac$self());
     }
 
-    public void grim$sendMessage(String message) {
+    public void aethelac$sendMessage(String message) {
         aethelac$factory().sendMessage(aethelac$self(), message);
     }
 
-    public void grim$sendMessage(Component message) {
+    public void aethelac$sendMessage(Component message) {
         aethelac$factory().sendMessage(aethelac$self(), message);
     }
 
-    public boolean grim$hasPermission(String permission) {
+    public boolean aethelac$hasPermission(String permission) {
         return aethelac$factory().hasPermission(aethelac$self(), permission);
     }
 
-    public boolean grim$hasPermission(String permission, boolean defaultIfUnset) {
+    public boolean aethelac$hasPermission(String permission, boolean defaultIfUnset) {
         return aethelac$factory().hasPermission(aethelac$self(), permission, defaultIfUnset);
     }
 
-    public void grim$performCommand(String commandLine) {
+    public void aethelac$performCommand(String commandLine) {
         aethelac$factory().performCommand(aethelac$self(), commandLine);
     }
 
-    public boolean grim$isConsole() {
+    public boolean aethelac$isConsole() {
         return aethelac$factory().isConsole(aethelac$self());
     }
 
-    public Object grim$getNativeSender() {
+    public Object aethelac$getNativeSender() {
         return aethelac$self();
     }
 
-    public @Nullable PlatformPlayer grim$getPlatformPlayer() {
-        return AethelAPI.INSTANCE.getPlatformPlayerFactory().getFromUUID(grim$getUniqueId());
+    public @Nullable PlatformPlayer aethelac$getPlatformPlayer() {
+        return AethelAPI.INSTANCE.getPlatformPlayerFactory().getFromUUID(aethelac$getUniqueId());
     }
 }

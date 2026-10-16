@@ -18,7 +18,7 @@ public class FabricTickEndEvent extends AbstractTickEndEvent {
 
     private void tickAllPlayers() {
         for (AethelPlayer player : AethelAPI.INSTANCE.getPlayerDataManager().getEntries()) {
-            if (player.disableGrim) continue;
+            if (player.disableAethel) continue;
             super.onEndOfTick(player, true);
         }
     }

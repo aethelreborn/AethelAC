@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 /**
  * Binds a Polymer/fabric-api {@code PacketContext} around Aethel's out-of-pipeline {@code ItemStack}
- * encoding so that Polymer can encode items without crashing. See GrimAnticheat/Aethel#2701.
+ * encoding so that Polymer can encode items without crashing. See GrimAnticheat/Grim#2701.
  *
  * <p>Polymer 0.16+ (Minecraft 26.x) routes vanilla {@code ItemStack} stream-codec encoding through
  * fabric-api's {@code net.fabricmc.fabric.api.networking.v1.context.PacketContext}. Its

@@ -92,7 +92,7 @@ final class OwnershipHeartbeatScheduler {
         synchronized (lifecycleLock) {
             if (executor != null) return;
             executor = Executors.newSingleThreadScheduledExecutor(r -> {
-                Thread t = new Thread(r, "grim-storage-ownership-" + serverName);
+                Thread t = new Thread(r, "Aethel-storage-ownership-" + serverName);
                 t.setDaemon(true);
                 schedulerThread = t;
                 return t;

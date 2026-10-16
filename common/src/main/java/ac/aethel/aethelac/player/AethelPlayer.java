@@ -274,9 +274,9 @@ public class AethelPlayer implements GrimUser {
     // end config
     public boolean noModifyPacketPermission;
     public boolean noSetbackPermission;
-    // This variable is for support with test servers that want to be able to disable grim
+    // This variable is for support with test servers that want to be able to disable Aethel
     // Aethel disabler 2022 still working!
-    public boolean disableGrim;
+    public boolean disableAethel;
     public final @NotNull ArrayDeque<@NotNull Movement> movementThisTick = new ArrayDeque<>(8);
     public final @NotNull List<@NotNull Movement> finalMovementsThisTick = new ObjectArrayList<>();
     public final @NotNull LongSet visitedBlocks = new LongOpenHashSet();
@@ -490,7 +490,7 @@ public class AethelPlayer implements GrimUser {
         if (user.getEncoderState() != ConnectionState.PLAY) return;
 
         // Send a packet once every 15 seconds to avoid any memory leaks
-        if (disableGrim && (System.nanoTime() - getPlayerClockAtLeast()) > 15e9) {
+        if (disableAethel && (System.nanoTime() - getPlayerClockAtLeast()) > 15e9) {
             return;
         }
 
@@ -638,7 +638,7 @@ public class AethelPlayer implements GrimUser {
 
                 this.noModifyPacketPermission = noModifyPacketPermission;
                 this.noSetbackPermission = noSetbackPermission;
-                this.disableGrim = disabledPermission;
+                this.disableAethel = disabledPermission;
                 if (exemptPermission) {
                     AethelAPI.INSTANCE.getPlayerDataManager().exemptUser(user);
                 }

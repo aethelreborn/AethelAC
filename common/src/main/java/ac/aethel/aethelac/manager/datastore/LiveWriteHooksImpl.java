@@ -186,7 +186,7 @@ public final class LiveWriteHooksImpl implements LiveWriteHooks {
             // the legacy map, and warn exactly once per display so the
             // missing declaration surfaces without spamming the log.
             if (missingStableKeyLogged.add(key)) {
-                LogUtil.warn("[grim-history] check " + display
+                LogUtil.warn("[Aethel-history] check " + display
                         + " has no stableKey declared; falling back to StableKeyMapping. "
                         + "Populate the @CheckData.stableKey / CheckInfo.stableKey field.");
             }

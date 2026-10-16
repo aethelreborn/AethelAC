@@ -1,7 +1,7 @@
 # AethelACのメイン設定
-# ソースコード: https://github.com/GrimAnticheat/Grim
+# ソースコード: https://github.com/aethelreborn/AethelAC
 # Copyright 2025 DefineOutside and contributors, Licensed under GPLv3.
-# 改変されたバイナリやAethelのコードをコピーしたプラグインは、私的なものとするか、
+# 改変されたバイナリやAethelACのコードをコピーしたプラグインは、私的なものとするか、
 # 購入者に追加料金なしで完全なソースコードを公開する必要があります
 
 # "セットバック"は、Aethelによってプレイヤーの違反が検知された際、プレイヤーを元の位置/状態に戻すことを意味します。
@@ -36,7 +36,7 @@ client-brand:
     disconnect-blacklisted-forge-versions: true
 
 spectators:
-    # 'grim.spectator' パーミッションを持つプレイヤーを、実際にスペクテイター状態でなくても非表示にするかどうか。
+    # 'aethel.spectate' パーミッションを持つプレイヤーを、実際にスペクテイター状態でなくても非表示にするかどうか。
     hide-regardless: false
     # スペクテイター状態のプレイヤーを指定したワールドでのみ非表示にする。（空欄にするとすべてのワールドで有効）
     allowed-worlds:

@@ -44,12 +44,12 @@ redis:
   # segmenten van de sleutel (Redis heeft geen native tabellen).
   # Defaults hieronder.
   tables:
-    meta: grim_meta
-    checks: grim_checks
+    meta: aethel_meta
+    checks: aethel_checks
     players: aethel_players
     sessions: aethel_sessions
-    violations: grim_violations
-    settings: grim_settings
+    violations: aethel_violations
+    settings: aethel_settings
 
 # Schemamarkers — zie de header-comment in config.yml.
 config-flavor: V2

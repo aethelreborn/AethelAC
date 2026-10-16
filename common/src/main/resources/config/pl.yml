@@ -1,7 +1,7 @@
 # AethelAC główna konfiguracja
-# Kod źródłowy: https://github.com/GrimAnticheat/Grim
+# Kod źródłowy: https://github.com/aethelreborn/AethelAC
 # Prawa autorskie 2025 DefineOutside i współautorzy, licencjonowane na podstawie GPLv3.
-# Zmodyfikowane pliki binarne, albo pluginy z skopiowanym kodem grim, muszą być prywatne,
+# Zmodyfikowane pliki binarne, albo pluginy z skopiowanym kodem AethelAC, muszą być prywatne,
 # lub z pełnym kodem źródłowym dostępnym dla kupujących bez dodatkowych kosztów.
 
 alerts:
@@ -34,7 +34,7 @@ client-brand:
     disconnect-blacklisted-forge-versions: true
 
 spectators:
-    # Ukryj wszystkich widzów z uprawnieniem grim.spectator, niezależnie od tego, czy są oni faktycznie aktywnymi widzami
+    # Ukryj wszystkich widzów z uprawnieniem aethel.spectate, niezależnie od tego, czy są oni faktycznie aktywnymi widzami
     hide-regardless: false
     # Spowoduje, że widzowie będą ukryci tylko w tych światach, a pozostawienie pustego pola umożliwi dostęp do wszystkich światów
     allowed-worlds:

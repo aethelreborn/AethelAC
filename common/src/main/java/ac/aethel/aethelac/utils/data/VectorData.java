@@ -104,7 +104,7 @@ public class VectorData {
                 '}';
     }
 
-    // TODO: This is a stupid idea that slows everything down, remove it! There are easier ways to debug grim.
+    // TODO: This is a stupid idea that slows everything down, remove it! There are easier ways to debug Aethel.
     // Would make false positives really easy to fix
     // But seriously, we could trace the code to find the mistake
     public enum VectorType {

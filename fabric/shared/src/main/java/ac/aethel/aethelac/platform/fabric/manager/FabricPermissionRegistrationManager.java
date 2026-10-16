@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * <p>Each call does two things:
  * <ul>
  *   <li>{@code fabricSenderFactory.registerPermissionDefault(...)} records Aethel's default
- *       (e.g. {@code grim.exempt = FALSE}) in the shared registry, so an unset permission
+ *       (e.g. {@code Aethel.exempt = FALSE}) in the shared registry, so an unset permission
  *       resolves to that default instead of silently granting access.</li>
  *   <li>{@code onRegister.accept(name)} runs the per-variant permissions-API hook. That hook is
  *       exactly the old {@code if (HAS_PERMISSIONS_API) Permissions.check(commandSource, name)}

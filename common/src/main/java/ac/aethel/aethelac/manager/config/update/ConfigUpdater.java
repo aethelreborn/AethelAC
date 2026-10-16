@@ -196,7 +196,7 @@ public final class ConfigUpdater {
         for (Map.Entry<String, List<WriteLog.Entry>> q : pendingCrossFile.entrySet()) {
             File sibling = filesByName.get(q.getKey());
             if (sibling == null || !sibling.exists()) {
-                logger.warning("[grim-config-updater] queued cross-file write to '"
+                logger.warning("[aethel-config-updater] queued cross-file write to '"
                         + q.getKey() + "' has no resolvable file in this batch — dropping "
                         + q.getValue().size() + " op(s)");
                 continue;
@@ -204,7 +204,7 @@ public final class ConfigUpdater {
             try {
                 applyEntries(sibling, q.getValue());
             } catch (IOException e) {
-                logger.log(Level.WARNING, "[grim-config-updater] failed to flush "
+                logger.log(Level.WARNING, "[aethel-config-updater] failed to flush "
                         + "cross-file writes into " + sibling.getName(), e);
             }
         }
@@ -236,7 +236,7 @@ public final class ConfigUpdater {
             String warning = configFile.getName() + " has config-flavor=" + onDiskFlavor
                     + " but this build is " + spec.flavor + "; refusing to migrate. "
                     + "Move/rename the file and let the bundled default be written fresh.";
-            logger.log(Level.SEVERE, "[grim-config-updater] " + warning);
+            logger.log(Level.SEVERE, "[aethel-config-updater] " + warning);
             return new Result(false, -1, spec.latestVersion, warning);
         }
 
@@ -260,7 +260,7 @@ public final class ConfigUpdater {
         if (newData == null) {
             String warning = "bundled default " + resolvedResource
                     + " is unparseable; backup at " + backup;
-            logger.log(Level.SEVERE, "[grim-config-updater] " + warning);
+            logger.log(Level.SEVERE, "[aethel-config-updater] " + warning);
             return new Result(false, oldVersion, spec.latestVersion, warning);
         }
 
@@ -282,7 +282,7 @@ public final class ConfigUpdater {
             try {
                 m.apply(ctx);
             } catch (RuntimeException e) {
-                logger.log(Level.WARNING, "[grim-config-updater] migration to v" + v
+                logger.log(Level.WARNING, "[aethel-config-updater] migration to v" + v
                         + " failed for " + configFile.getName()
                         + " — partial state may have been applied", e);
             }
@@ -298,7 +298,7 @@ public final class ConfigUpdater {
                         e.getKey(), e.getValue()))
                 .toList());
 
-        logger.info("[grim-config-updater] " + configFile.getName()
+        logger.info("[aethel-config-updater] " + configFile.getName()
                 + " migrated v" + oldVersion + " → v" + spec.latestVersion
                 + " (flavor " + spec.flavor + ", backup at " + backup.getFileName() + ")");
         return new Result(true, oldVersion, spec.latestVersion, null);
@@ -332,14 +332,14 @@ public final class ConfigUpdater {
         List<ConfigPatcher.PendingChange> pending = new ArrayList<>();
         for (WriteLog.Entry e : entries) {
             if (e.op() == WriteLog.Op.REMOVE) {
-                logger.log(Level.FINE, "[grim-config-updater] REMOVE op for '"
+                logger.log(Level.FINE, "[aethel-config-updater] REMOVE op for '"
                         + e.path() + "' on " + configFile.getName()
                         + " is not yet supported; expected the bundled default to drop the key");
                 continue;
             }
             ConfigPatcher.NodePosition pos = patcher.getNodePosition(e.path());
             if (pos == null) {
-                logger.log(Level.FINE, "[grim-config-updater] no slot for migrated path '"
+                logger.log(Level.FINE, "[aethel-config-updater] no slot for migrated path '"
                         + e.path() + "' in " + configFile.getName() + "; dropping");
                 continue;
             }

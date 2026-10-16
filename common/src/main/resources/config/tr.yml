@@ -1,7 +1,7 @@
 # AethelAC ana konfigrasyon dosyası
-# Kaynak kodu: https://github.com/GrimAnticheat/Grim
+# Kaynak kodu: https://github.com/aethelreborn/AethelAC
 # Telif Hakkı 2025 DefineOutside ve katkıda bulunanlar, GPLv3 altında lisanslanmıştır.
-# Değiştirilmiş ikili dosyalar veya kopyalanmış grim kodlu eklentiler özel olmalıdır,
+# Değiştirilmiş ikili dosyalar veya kopyalanmış AethelAC kodlu eklentiler özel olmalıdır,
 # veya ek ücret ödemeden alıcılara sunulan tam kaynak kodu ile.
 
 alerts:
@@ -34,7 +34,7 @@ client-brand:
     disconnect-blacklisted-forge-versions: true
 
 spectators:
-    # Seyirciler aktif olarak izliyor olsalar bile, grim.spectator iznine sahip tüm seyircileri gizle
+    # Seyirciler aktif olarak izliyor olsalar bile, aethel.spectate iznine sahip tüm seyircileri gizle
     hide-regardless: false
     # Sadece bu dünyalarda seyircileri gizleyecek, tüm dünyalara izin vermek için boş bırakın
     allowed-worlds:

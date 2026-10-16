@@ -536,7 +536,7 @@ public enum BlockPlaceResult {
 
     // Blocks that have both wall and standing states
     TORCH_OR_HEAD((player, place) -> {
-        // type doesn't matter to grim, same hitbox.
+        // type doesn't matter to Aethel, same hitbox.
         // If it's a torch, create a wall torch
         // Otherwise, it's going to be a head.  The type of this head also doesn't matter
         WrappedBlockState dir;
@@ -667,7 +667,7 @@ public enum BlockPlaceResult {
         for (BlockFace face : place.getNearestPlacingDirections()) {
             if (place.isSolidBlocking(face) && face != BlockFace.UP) {
                 if (BlockFaceHelper.isFaceHorizontal(face)) {
-                    // type doesn't matter to grim, same hitbox.
+                    // type doesn't matter to Aethel, same hitbox.
                     // If it's a torch, create a wall torch
                     // Otherwise, it's going to be a head.  The type of this head also doesn't matter.
                     WrappedBlockState dir = StateTypes.BLACK_WALL_BANNER.createBlockState(CompensatedWorld.blockVersion);
@@ -825,7 +825,7 @@ public enum BlockPlaceResult {
     // Checks for solid faces in the direction that it is in
     // Also checks for vines with the same directional above itself
     // However, as all vines have the same hitbox (to collisions and climbing)
-    // As long as one of these properties is met, it is good enough for grim!
+    // As long as one of these properties is met, it is good enough for Aethel!
     VINE((player, place) -> {
         if (place.getAboveState().getType() == StateTypes.VINE) {
             place.set();
@@ -1012,7 +1012,7 @@ public enum BlockPlaceResult {
                 }
             }
             if (i == 7) return; // Cancel block place
-        } // else, cancel if the scaffolding is exactly 7 away, grim doesn't handle this edge case yet.
+        } // else, cancel if the scaffolding is exactly 7 away, Aethel doesn't handle this edge case yet.
 
 
         // A scaffolding has a distance of 0 IFF it is placed above a sturdy face

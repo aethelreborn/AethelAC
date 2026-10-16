@@ -523,7 +523,7 @@ public class AethelHistory implements BuildableCommand {
             int prewarmed = prewarmCatalog(lifecycle, liveChecks);
             RepairPlan plan = buildRepairPlan(backend);
             CheckCatalogRepairResult result = backend.repairCheckCatalog(
-                    plan.legacyToCatalogIds(), currentGrimVersion());
+                    plan.legacyToCatalogIds(), currentAethelVersion());
             runOnGlobalThread(() -> reportRepairComplete(sender, prewarmed, plan, result));
         } catch (Exception e) {
             runOnGlobalThread(() -> logBoth(sender, Component.text("Repair failed: " + e.getMessage(), NamedTextColor.RED)));
@@ -573,7 +573,7 @@ public class AethelHistory implements BuildableCommand {
         if (registry == null) return 0;
 
         int prewarmed = 0;
-        String version = currentGrimVersion();
+        String version = currentAethelVersion();
         for (CheckDefinition definition : definitions) {
             registry.intern(definition.stableKey(), definition.display(), definition.description(), version);
             prewarmed++;
@@ -610,7 +610,7 @@ public class AethelHistory implements BuildableCommand {
         return new RepairPlan(repairIds, ambiguousHashes, catalogIdCollisions);
     }
 
-    private static String currentGrimVersion() {
+    private static String currentAethelVersion() {
         return AethelAPI.INSTANCE.getExternalAPI().getGrimVersion();
     }
 

@@ -36,7 +36,7 @@ import java.util.Set;
  * Placing ladders in worldguard regions
  * Some plugin thinking it's funny to spam levitation effects rapidly
  * Some plugin thinking it's funny to spam gravity effects rapidly
- * Someone trying to false grim by using negative levitation effects
+ * Someone trying to false Aethel by using negative levitation effects
  * Open trapdoor, 0.03 upward into closed trapdoor, open trapdoor the tick before the next movement.
  * <p>
  * We must separate horizontal and vertical movement
@@ -158,7 +158,7 @@ public class PointThreeEstimator {
         }
 
         if (pointThreeBox.isIntersected(new SimpleCollisionBox(x, y, z)) && !data.isNull()) {
-            // https://github.com/MWHunter/Aethel/issues/613
+            // https://github.com/MWHunter/Grim/issues/613
             int controllingEntityId = player.inVehicle() ? player.getRidingVehicleId() : player.entityID;
 
             // This can allow a player to ignore knockback and explosions within 0.03 (e.g. if standing still)

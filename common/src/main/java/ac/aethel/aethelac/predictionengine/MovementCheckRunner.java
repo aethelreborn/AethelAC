@@ -85,7 +85,7 @@ public class MovementCheckRunner extends AethelProcessor {
         check(data);
         long length = System.nanoTime() - start;
 
-        if (!player.disableGrim) {
+        if (!player.disableAethel) {
             predictionNanos = (predictionNanos * 499 / 500d) + (length / 500d);
             longPredictionNanos = (longPredictionNanos * 19999 / 20000d) + (length / 20000d);
         }
@@ -226,7 +226,7 @@ public class MovementCheckRunner extends AethelProcessor {
                 //
                 // Value patching this is not allowed.
                 // NoCheatPlus suffers from this type of exploit, so attacks against
-                // their similar code may also work on grim.
+                // their similar code may also work on Aethel.
                 //
                 // This is the best I can do, but I think it might just work.
                 player.lastX = cutTo.getX();
@@ -491,7 +491,7 @@ public class MovementCheckRunner extends AethelProcessor {
             // Dead players can't cheat, if you find a way how they could, open an issue
             player.predictedVelocity = new VectorData(new Vector3dm(), VectorData.VectorType.Dead);
             player.clientVelocity = new Vector3dm();
-        } else if (player.disableGrim || (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_8) && player.gamemode == GameMode.SPECTATOR) || player.isFlying || (player.isExemptElytra() && player.isGliding)) {
+        } else if (player.disableAethel || (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_8) && player.gamemode == GameMode.SPECTATOR) || player.isFlying || (player.isExemptElytra() && player.isGliding)) {
             // We could technically check spectator but what's the point...
             // Added complexity to analyze a gamemode used mainly by moderators
             //

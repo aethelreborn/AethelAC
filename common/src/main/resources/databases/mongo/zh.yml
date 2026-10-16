@@ -21,12 +21,12 @@ mongo:
 
   # collection 名覆盖。默认值见下方。
   tables:
-    meta: grim_meta
-    checks: grim_checks
+    meta: aethel_meta
+    checks: aethel_checks
     players: aethel_players
     sessions: aethel_sessions
-    violations: grim_violations
-    settings: grim_settings
+    violations: aethel_violations
+    settings: aethel_settings
 
 # 模式标记 — 参见 config.yml 顶部的注释。
 config-flavor: V2

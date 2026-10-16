@@ -15,27 +15,27 @@ import java.util.Set;
 import java.util.UUID;
 
 @Mixin(MinecraftServer.class)
-@Implements(@Interface(iface = FabricMinecraftServerHandle.class, prefix = "grim$", remap = Interface.Remap.NONE))
+@Implements(@Interface(iface = FabricMinecraftServerHandle.class, prefix = "aethelac$", remap = Interface.Remap.NONE))
 abstract class FabricIntermediaryServerMixin {
 
-    public boolean grim$isPlayerOnline(UUID uuid) {
+    public boolean aethelac$isPlayerOnline(UUID uuid) {
         return ((MinecraftServer) (Object) this).getPlayerList().getPlayer(uuid) != null;
     }
 
-    public FabricServerPlayerHandle grim$playerByUuid(UUID uuid) {
+    public FabricServerPlayerHandle aethelac$playerByUuid(UUID uuid) {
         return (FabricServerPlayerHandle) ((MinecraftServer) (Object) this).getPlayerList().getPlayer(uuid);
     }
 
-    public FabricServerPlayerHandle grim$playerByName(String name) {
+    public FabricServerPlayerHandle aethelac$playerByName(String name) {
         return (FabricServerPlayerHandle) ((MinecraftServer) (Object) this).getPlayerList().getPlayerByName(name);
     }
 
     @SuppressWarnings("unchecked")
-    public Collection<FabricServerPlayerHandle> grim$onlinePlayers() {
+    public Collection<FabricServerPlayerHandle> aethelac$onlinePlayers() {
         return (Collection<FabricServerPlayerHandle>) (Collection<?>) ((MinecraftServer) (Object) this).getPlayerList().getPlayers();
     }
 
-    public Collection<UUID> grim$savedPlayerUuids() {
+    public Collection<UUID> aethelac$savedPlayerUuids() {
         PlayerDataStorage storage = ((MinecraftServer) (Object) this).playerDataStorage;
         String[] files = storage.playerDir.list((dir, name) -> name.endsWith(".dat"));
         Set<UUID> uuids = new HashSet<>();
@@ -50,27 +50,27 @@ abstract class FabricIntermediaryServerMixin {
         return uuids;
     }
 
-    public int grim$getTickCount() {
+    public int aethelac$getTickCount() {
         return ((MinecraftServer) (Object) this).getTickCount();
     }
 
-    public String grim$getServerVersion() {
+    public String aethelac$getServerVersion() {
         return ((MinecraftServer) (Object) this).getServerVersion();
     }
 
-    public Sender grim$createCommandSender() {
+    public Sender aethelac$createCommandSender() {
         return (Sender) (Object) ((MinecraftServer) (Object) this).createCommandSourceStack();
     }
 
-    public boolean grim$usesAuthentication() {
+    public boolean aethelac$usesAuthentication() {
         return ((MinecraftServer) (Object) this).usesAuthentication();
     }
 
-    public boolean grim$isRunning() {
+    public boolean aethelac$isRunning() {
         return ((MinecraftServer) (Object) this).isRunning();
     }
 
-    public int grim$getPlayerCount() {
+    public int aethelac$getPlayerCount() {
         return ((MinecraftServer) (Object) this).getPlayerCount();
     }
 }

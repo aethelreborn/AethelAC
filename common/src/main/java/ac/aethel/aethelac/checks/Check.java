@@ -84,7 +84,7 @@ public class Check extends AethelProcessor implements AbstractCheck {
 
     public boolean shouldModifyPackets() {
         return isEnabled
-                && !player.disableGrim
+                && !player.disableAethel
                 && !player.noModifyPacketPermission
                 && !noModifyPacketPermission
                 && !exemptPermission;
@@ -138,7 +138,7 @@ public class Check extends AethelProcessor implements AbstractCheck {
     }
 
     private boolean recordFlag(@NotNull Supplier<String> verbose) {
-        if (player.disableGrim || (experimental && !player.isExperimentalChecks()) || exemptPermission)
+        if (player.disableAethel || (experimental && !player.isExperimentalChecks()) || exemptPermission)
             return false; // Avoid calling event if disabled
 
         if (FLAG_CHANNEL.fire(player, this, verbose)) return false;
@@ -154,7 +154,7 @@ public class Check extends AethelProcessor implements AbstractCheck {
         Supplier<String> rendered = verbose.rendered();
         byte[] verboseData = verbose.data();
 
-        if (player.disableGrim || (experimental && !player.isExperimentalChecks()) || exemptPermission)
+        if (player.disableAethel || (experimental && !player.isExperimentalChecks()) || exemptPermission)
             return false; // Avoid calling event if disabled
 
         if (FLAG_CHANNEL.fire(player, this, rendered)) return false;

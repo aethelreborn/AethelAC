@@ -72,14 +72,14 @@ public class BukkitTickEndEvent extends AbstractTickEndEvent implements Listener
 
     private void tickAllPlayers(boolean flush) {
         for (AethelPlayer player : AethelAPI.INSTANCE.getPlayerDataManager().getEntries()) {
-            if (player.disableGrim) continue;
+            if (player.disableAethel) continue;
             super.onEndOfTick(player, flush);
         }
     }
 
     private void tickAllFoliaPlayers() {
         for (AethelPlayer player : AethelAPI.INSTANCE.getPlayerDataManager().getEntries()) {
-            if (player.disableGrim) continue;
+            if (player.disableAethel) continue;
             if (player.platformPlayer == null) continue;
             Player p = ((BukkitPlatformPlayer) player.platformPlayer).getNative();
             if (!Bukkit.isOwnedByCurrentRegion(p)) continue;

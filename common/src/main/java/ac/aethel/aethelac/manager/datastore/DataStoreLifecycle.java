@@ -144,7 +144,7 @@ public final class DataStoreLifecycle implements StartableInitable, StoppableIni
     public DataStoreLifecycle(@NotNull GrimPlugin plugin, @NotNull BackendRegistry backendRegistry) {
         this.plugin = Objects.requireNonNull(plugin, "plugin");
         this.backendRegistry = Objects.requireNonNull(backendRegistry, "backendRegistry");
-        this.logger = Logger.getLogger("grim-datastore");
+        this.logger = Logger.getLogger("Aethel-datastore");
     }
 
     @Override
@@ -762,7 +762,7 @@ public final class DataStoreLifecycle implements StartableInitable, StoppableIni
         if (!config.ownership().cleanupOtherServers() || instanceRegistry == null || startupId == null) return;
         stopRecoverySweep();
         recoverySweepExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
-            Thread t = new Thread(r, "grim-storage-recovery-sweep");
+            Thread t = new Thread(r, "Aethel-storage-recovery-sweep");
             t.setDaemon(true);
             return t;
         });
@@ -897,7 +897,7 @@ public final class DataStoreLifecycle implements StartableInitable, StoppableIni
         stopDuplicateWarning();
         logger.warning(message);
         duplicateWarningExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
-            Thread t = new Thread(r, "grim-storage-duplicate-warning");
+            Thread t = new Thread(r, "Aethel-storage-duplicate-warning");
             t.setDaemon(true);
             return t;
         });

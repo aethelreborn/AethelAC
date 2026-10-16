@@ -30,7 +30,7 @@ public class PacketHidePlayerInfo extends PacketListenerAbstract {
     @Override
     public void onPacketSend(PacketSendEvent event) {
         if (event.getPacketType() == PacketType.Play.Server.PLAYER_INFO) {
-            // iterate through players and fake their game mode if they are spectating via grim spectate
+            // iterate through players and fake their game mode if they are spectating via Aethel spectate
             if (PacketEvents.getAPI().getServerManager().getVersion().isOlderThanOrEquals(ServerVersion.V_1_12_2))
                 return;
 

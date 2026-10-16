@@ -122,7 +122,7 @@ public class PacketEntityReplication extends AethelProcessor implements PacketRe
 
     @Override
     public void onPacketSend(PacketSendEvent event) {
-        // ensure grim is the one that sent the transaction
+        // ensure Aethel is the one that sent the transaction
         if ((event.getPacketType() == PacketType.Play.Server.PING || event.getPacketType() == PacketType.Play.Server.WINDOW_CONFIRMATION) && player.packetStateData.lastServerTransWasValid) {
             despawnedEntitiesThisTransaction.clear();
         } else if (event.getPacketType() == PacketType.Play.Server.SPAWN_LIVING_ENTITY) {
@@ -401,7 +401,7 @@ public class PacketEntityReplication extends AethelProcessor implements PacketRe
 
             // If this is mounting rather than leashing
             if (!attach.isLeash()) {
-                // Alright, let's convert this to the 1.9+ format to make it easier for grim
+                // Alright, let's convert this to the 1.9+ format to make it easier for Aethel
                 int vehicleID = attach.getHoldingId();
                 int attachID = attach.getAttachedId();
                 TrackerData trackerData = player.compensatedEntities.getTrackedEntity(attachID);
@@ -529,7 +529,7 @@ public class PacketEntityReplication extends AethelProcessor implements PacketRe
 
             // ViaVersion sends two relative packets when moving more than 4 blocks
             // This is broken and causes the client to interpolate like (0, 4) and (1, 3) instead of (1, 7)
-            // This causes impossible hits, so grim must replace this with a teleport entity packet
+            // This causes impossible hits, so Aethel must replace this with a teleport entity packet
             // Not ideal, but neither is 1.8 players on a 1.9+ server.
             if (vanillaVehicleFlight ||
                     ((Math.abs(deltaX) >= 3.9375 || Math.abs(deltaY) >= 3.9375 || Math.abs(deltaZ) >= 3.9375) && player.getClientVersion().isOlderThan(ClientVersion.V_1_9) && PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_9))) {

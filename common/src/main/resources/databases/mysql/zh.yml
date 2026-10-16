@@ -47,12 +47,12 @@ mysql:
   # 表名覆盖。可以重命名六个逻辑存储中的任意一个，从而让多个 Aethel 实例
   # 共用同一个 MySQL 数据库，或对齐已有的企业命名规范。默认值见下方。
   tables:
-    meta: grim_meta
-    checks: grim_checks
+    meta: aethel_meta
+    checks: aethel_checks
     players: aethel_players
     sessions: aethel_sessions
-    violations: grim_violations
-    settings: grim_settings
+    violations: aethel_violations
+    settings: aethel_settings
 
 # 模式标记 — 参见 config.yml 顶部的注释。
 config-flavor: V2

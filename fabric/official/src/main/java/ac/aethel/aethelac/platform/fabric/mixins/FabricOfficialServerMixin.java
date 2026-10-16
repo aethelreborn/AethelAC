@@ -15,27 +15,27 @@ import java.util.Set;
 import java.util.UUID;
 
 @Mixin(MinecraftServer.class)
-@Implements(@Interface(iface = FabricMinecraftServerHandle.class, prefix = "grim$", remap = Interface.Remap.NONE))
+@Implements(@Interface(iface = FabricMinecraftServerHandle.class, prefix = "aethelac$", remap = Interface.Remap.NONE))
 abstract class FabricOfficialServerMixin {
 
-    public boolean grim$isPlayerOnline(UUID uuid) {
+    public boolean aethelac$isPlayerOnline(UUID uuid) {
         return ((MinecraftServer) (Object) this).getPlayerList().getPlayer(uuid) != null;
     }
 
-    public FabricServerPlayerHandle grim$playerByUuid(UUID uuid) {
+    public FabricServerPlayerHandle aethelac$playerByUuid(UUID uuid) {
         return (FabricServerPlayerHandle) ((MinecraftServer) (Object) this).getPlayerList().getPlayer(uuid);
     }
 
-    public FabricServerPlayerHandle grim$playerByName(String name) {
+    public FabricServerPlayerHandle aethelac$playerByName(String name) {
         return (FabricServerPlayerHandle) ((MinecraftServer) (Object) this).getPlayerList().getPlayerByName(name);
     }
 
     @SuppressWarnings("unchecked")
-    public Collection<FabricServerPlayerHandle> grim$onlinePlayers() {
+    public Collection<FabricServerPlayerHandle> aethelac$onlinePlayers() {
         return (Collection<FabricServerPlayerHandle>) (Collection<?>) ((MinecraftServer) (Object) this).getPlayerList().getPlayers();
     }
 
-    public Collection<UUID> grim$savedPlayerUuids() {
+    public Collection<UUID> aethelac$savedPlayerUuids() {
         PlayerDataStorage storage = ((MinecraftServer) (Object) this).playerDataStorage;
         String[] files = storage.playerDir.list((dir, name) -> name.endsWith(".dat"));
         Set<UUID> uuids = new HashSet<>();
@@ -52,12 +52,12 @@ abstract class FabricOfficialServerMixin {
 
     // getTickCount/getServerVersion/usesAuthentication/isRunning/getPlayerCount are NOT bodied
     // here: on the mojmap runtime the vanilla MinecraftServer methods of the same name satisfy
-    // the injected interface directly. A grim$ body would graft a same-named synonym and the
+    // the injected interface directly. A aethelac$ body would graft a same-named synonym and the
     // ((MinecraftServer)this).getTickCount() call would resolve to it -> self-recursion ->
     // StackOverflow on the first server tick. The intermediary mixin DOES body them (vanilla is
-    // method_3780 etc. there, so the grim$-stripped name doesn't clash).
+    // method_3780 etc. there, so the aethelac$-stripped name doesn't clash).
 
-    public Sender grim$createCommandSender() {
+    public Sender aethelac$createCommandSender() {
         return (Sender) (Object) ((MinecraftServer) (Object) this).createCommandSourceStack();
     }
 }

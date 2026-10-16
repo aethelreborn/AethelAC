@@ -27,7 +27,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-// This is used for grim's external API. It has its own class just for organization.
+// This is used for Aethel's external API. It has its own class just for organization.
 public class AethelExternalAPI implements GrimAbstractAPI, ConfigReloadObserver, StartableInitable {
 
     // Holder class — AethelExternalAPI is constructed inside AethelAPI's ctor,

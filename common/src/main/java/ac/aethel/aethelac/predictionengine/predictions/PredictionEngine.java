@@ -328,7 +328,7 @@ public class PredictionEngine {
 
         // Fluid pushing is done BEFORE 0.003
         addFluidPushingToStartingVectors(player, velocities);
-        // Inputs are done AFTER fluid pushing, https://github.com/MWHunter/Aethel/issues/660
+        // Inputs are done AFTER fluid pushing, https://github.com/MWHunter/Grim/issues/660
         addAttackSlowToPossibilities(player, velocities);
         // Non-effective AI for vehicles is done AFTER fluid pushing but BEFORE 0.003
         addNonEffectiveAI(player, velocities);
@@ -596,7 +596,7 @@ public class PredictionEngine {
         SimpleCollisionBox box = new SimpleCollisionBox(minVector, maxVector);
         box.sort();
 
-        // https://github.com/MWHunter/Aethel/issues/398
+        // https://github.com/MWHunter/Grim/issues/398
         // Thank mojang for removing the idle packet resulting in this hacky mess
 
         double levitation = player.pointThreeEstimator.positiveLevitation(maxVector.getY());

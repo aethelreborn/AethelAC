@@ -79,7 +79,7 @@ public abstract class AbstractLuckPermsHandler implements StoppableInitable {
 
     private void onNodeMutate(PermissionHolder target, Node node) {
         if (target instanceof User user) {
-            if (shouldRefreshUserForNode(node)) refreshGrimPlayerPermissions(user);
+            if (shouldRefreshUserForNode(node)) refreshAethelPlayerPermissions(user);
             return;
         }
 
@@ -89,7 +89,7 @@ public abstract class AbstractLuckPermsHandler implements StoppableInitable {
     }
 
     private void onUserDataRecalculate(UserDataRecalculateEvent event) {
-        refreshGrimPlayerPermissions(event.getUser());
+        refreshAethelPlayerPermissions(event.getUser());
     }
 
     private void onGroupDataRecalculate(GroupDataRecalculateEvent event) {
@@ -101,18 +101,18 @@ public abstract class AbstractLuckPermsHandler implements StoppableInitable {
     }
 
     private void onContextUpdate(ContextUpdateEvent event) {
-        refreshGrimPlayerPermissions(contextSubjectUuid(event));
+        refreshAethelPlayerPermissions(contextSubjectUuid(event));
     }
 
     private boolean shouldRefreshUserForNode(Node node) {
-        if (node instanceof PermissionNode permissionNode) return isGrimPermission(permissionNode);
-        if (node instanceof InheritanceNode inheritanceNode) return inheritedGroupMayAffectGrimPermissions(inheritanceNode);
+        if (node instanceof PermissionNode permissionNode) return isAethelPermission(permissionNode);
+        if (node instanceof InheritanceNode inheritanceNode) return inheritedGroupMayAffectAethelPermissions(inheritanceNode);
         return false;
     }
 
     private boolean shouldRefreshGroupForNode(Node node) {
-        if (node instanceof PermissionNode permissionNode) return isGrimPermission(permissionNode);
-        if (node instanceof InheritanceNode inheritanceNode) return inheritedGroupMayAffectGrimPermissions(inheritanceNode);
+        if (node instanceof PermissionNode permissionNode) return isAethelPermission(permissionNode);
+        if (node instanceof InheritanceNode inheritanceNode) return inheritedGroupMayAffectAethelPermissions(inheritanceNode);
         return false;
     }
 
@@ -124,26 +124,26 @@ public abstract class AbstractLuckPermsHandler implements StoppableInitable {
         return false;
     }
 
-    private static boolean isGrimPermission(PermissionNode node) {
+    private static boolean isAethelPermission(PermissionNode node) {
         String permission = node.getPermission().toLowerCase(Locale.ROOT);
         return permission.equals("*") || permission.equals("aethel") || permission.startsWith("aethel.");
     }
 
-    private boolean inheritedGroupMayAffectGrimPermissions(InheritanceNode node) {
+    private boolean inheritedGroupMayAffectAethelPermissions(InheritanceNode node) {
         if (luckPerms == null) return true;
         Group group = luckPerms.getGroupManager().getGroup(node.getGroupName());
         // Refresh if the inherited group was deleted, or if that group can grant Aethel permissions.
-        return group == null || holderHasGrimPermission(group, new LinkedHashSet<>());
+        return group == null || holderHasAethelPermission(group, new LinkedHashSet<>());
     }
 
-    private static boolean holderHasGrimPermission(PermissionHolder holder, Set<String> seenGroups) {
+    private static boolean holderHasAethelPermission(PermissionHolder holder, Set<String> seenGroups) {
         for (Node node : holder.getNodes()) {
-            if (node instanceof PermissionNode permissionNode && isGrimPermission(permissionNode)) return true;
+            if (node instanceof PermissionNode permissionNode && isAethelPermission(permissionNode)) return true;
         }
 
         for (Group group : holder.getInheritedGroups(holder.getQueryOptions())) {
             if (!seenGroups.add(normalizeGroupName(group))) continue;
-            if (holderHasGrimPermission(group, seenGroups)) return true;
+            if (holderHasAethelPermission(group, seenGroups)) return true;
         }
 
         return false;
@@ -185,15 +185,15 @@ public abstract class AbstractLuckPermsHandler implements StoppableInitable {
         return group.getName().toLowerCase(Locale.ROOT);
     }
 
-    private static void refreshGrimPlayerPermissions(UUID uuid) {
+    private static void refreshAethelPlayerPermissions(UUID uuid) {
         if (uuid == null) return;
         AethelPlayer player = AethelAPI.INSTANCE.getPlayerDataManager().getPlayer(uuid);
         if (player == null) return;
         player.updatePermissions();
     }
 
-    private static void refreshGrimPlayerPermissions(User user) {
+    private static void refreshAethelPlayerPermissions(User user) {
         if (user == null) return;
-        refreshGrimPlayerPermissions(user.getUniqueId());
+        refreshAethelPlayerPermissions(user.getUniqueId());
     }
 }

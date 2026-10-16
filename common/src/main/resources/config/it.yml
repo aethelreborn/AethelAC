@@ -1,7 +1,7 @@
 # AethelAC main configuration
-# Source code: https://github.com/GrimAnticheat/Grim
+# Source code: https://github.com/aethelreborn/AethelAC
 # Copyright 2025 DefineOutside and contributors, Licensed under GPLv3.
-# Modified binaries, or plugins with copied grim code, must be private,
+# Modified binaries, or plugins with copied AethelAC code, must be private,
 # or with full source code available to buyers at no additional cost.
 
 alerts:
@@ -35,7 +35,7 @@ client-brand:
     disconnect-blacklisted-forge-versions: true
 
 spectators:
-    # Nascondi tutti gli spettatori con il permesso grim.spectator indipendentemente dal fatto che stiano effettivamente spettando attivamente
+    # Nascondi tutti gli spettatori con il permesso aethel.spectate indipendentemente dal fatto che stiano effettivamente spettando attivamente
     hide-regardless: false
     # Renderà gli spettatori nascosti solo in questi mondi, lasciare vuoto per consentire tutti i mondi
     allowed-worlds:
@@ -183,7 +183,7 @@ reset-item-usage-on-slot-change: true
 reset-item-usage-on-item-use: true
 
 # Aethel sometimes cancels illegal packets such as with timer, after X packets in a second cancelled, when should
-# we simply kick the player? This is required as some packet limiters don't count packets cancelled by grim.
+# we simply kick the player? This is required as some packet limiters don't count packets cancelled by Aethel.
 packet-spam-threshold: 60
 # Abilita questa opzione per stampare uno stacktrace quando un giocatore viene espulso a causa del packet-spam-threshold
 debug-packet-cancel: false

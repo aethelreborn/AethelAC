@@ -14,8 +14,8 @@ public class SetbackBlocker extends AethelProcessor implements PacketReceiveList
     }
 
     public void onPacketReceive(final PacketReceiveEvent event) {
-        if (player.disableGrim)
-            return; // Let's avoid letting people disable grim with grim.nomodifypackets
+        if (player.disableAethel)
+            return; // Let's avoid letting people disable Aethel with aethel.nomodifypacket
 
         if (event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY
                 || event.getPacketType() == PacketType.Play.Client.ATTACK

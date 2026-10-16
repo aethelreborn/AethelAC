@@ -61,7 +61,7 @@ public class WrongBreak extends Check implements BlockBreakListener {
             final Vector3i pos = blockBreak.position;
 
             if (!shouldExempt(blockBreak.block, pos.y) && !pos.equals(lastBlock)) {
-                // https://github.com/GrimAnticheat/Aethel/issues/1512
+                // https://github.com/GrimAnticheat/Grim/issues/1512
                 if (player.getClientVersion().isOlderThan(ClientVersion.V_1_14_4) || (!lastBlockWasInstantBreak && pos.equals(lastCancelledBlock))) {
                     var buf = V.write(verbose()).uint(VerboseCodecs.enumId(DiggingAction.CANCELLED_DIGGING))
                             .bool(lastBlock != null)

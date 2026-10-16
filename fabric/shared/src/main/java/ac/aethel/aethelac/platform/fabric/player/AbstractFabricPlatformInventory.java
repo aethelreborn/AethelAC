@@ -26,7 +26,7 @@ public abstract class AbstractFabricPlatformInventory implements PlatformInvento
     /**
      * Converts a native item into a PacketEvents {@link ItemStack}. When Polymer's item codec needs it
      * (see {@link FabricItemContextHook#ACTIVE}), the encode runs with a {@code PacketContext} for the
-     * inventory owner bound so Polymer can encode the item instead of crashing (GrimAnticheat/Aethel#2701).
+     * inventory owner bound so Polymer can encode the item instead of crashing (GrimAnticheat/Grim#2701).
      * Otherwise it is the original direct read: the {@code ACTIVE} check folds away and no capturing
      * lambda is allocated, keeping this hot path (held item / armour reads during predictions) allocation-free.
      */

@@ -9,14 +9,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.util.UUID;
 
 @Mixin(Entity.class)
-@Implements(@Interface(iface = FabricEntityHandle.class, prefix = "grim$"))
+@Implements(@Interface(iface = FabricEntityHandle.class, prefix = "aethelac$"))
 abstract class FabricIntermediaryEntityMixin {
 
-    public UUID grim$fabricEntityUuid() {
+    public UUID aethelac$fabricEntityUuid() {
         return ((Entity) (Object) this).getUUID();
     }
 
-    public boolean grim$fabricEjectPassengers() {
+    public boolean aethelac$fabricEjectPassengers() {
         Entity entity = (Entity) (Object) this;
         if (entity.isVehicle()) {
             entity.ejectPassengers();
@@ -25,27 +25,27 @@ abstract class FabricIntermediaryEntityMixin {
         return false;
     }
 
-    public Object grim$fabricWorld() {
+    public Object aethelac$fabricWorld() {
         return ((Entity) (Object) this).level;
     }
 
-    public double grim$fabricPosX() {
+    public double aethelac$fabricPosX() {
         return ((Entity) (Object) this).getX();
     }
 
-    public double grim$fabricPosY() {
+    public double aethelac$fabricPosY() {
         return ((Entity) (Object) this).getY();
     }
 
-    public double grim$fabricPosZ() {
+    public double aethelac$fabricPosZ() {
         return ((Entity) (Object) this).getZ();
     }
 
-    public float grim$fabricYaw(float partialTick) {
+    public float aethelac$fabricYaw(float partialTick) {
         return ((Entity) (Object) this).getViewYRot(partialTick);
     }
 
-    public float grim$fabricPitch(float partialTick) {
+    public float aethelac$fabricPitch(float partialTick) {
         return ((Entity) (Object) this).getViewXRot(partialTick);
     }
 }

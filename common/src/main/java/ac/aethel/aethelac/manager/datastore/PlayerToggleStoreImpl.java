@@ -34,7 +34,7 @@ import java.util.logging.Logger;
  * <pre>
  *   USER_TOGGLED      30  — staff explicitly issued /aethel toggle. Stomps anything.
  *   PERSISTED         20  — prefetch returned a row. Wins over PERMISSION_DEFAULT.
- *   PERMISSION_DEFAULT 10 — onUserLogin's grim.*.enable-on-join fallback.
+ *   PERMISSION_DEFAULT 10 — onUserLogin's Aethel.*.enable-on-join fallback.
  *   UNKNOWN            0  — initial state.
  * </pre>
  *
@@ -97,7 +97,7 @@ public final class PlayerToggleStoreImpl implements PlayerToggleStore {
 
     private static ScheduledExecutorService defaultScheduler() {
         return Executors.newSingleThreadScheduledExecutor(r -> {
-            Thread t = new Thread(r, "grim-toggle-flush");
+            Thread t = new Thread(r, "aethel-toggle-flush");
             t.setDaemon(true);
             return t;
         });
@@ -116,7 +116,7 @@ public final class PlayerToggleStoreImpl implements PlayerToggleStore {
                         new Queries.GetSetting(SettingScope.PLAYER, uuid.toString(), key))
                 .whenComplete((page, err) -> {
                     if (err != null) {
-                        logger.log(Level.FINE, "[grim-toggle] prefetch " + key + " failed for " + uuid, err);
+                        logger.log(Level.FINE, "[aethel-toggle] prefetch " + key + " failed for " + uuid, err);
                         return;
                     }
                     Boolean value = decodeBool(page);

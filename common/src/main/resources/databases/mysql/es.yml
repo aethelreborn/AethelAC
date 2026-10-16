@@ -51,12 +51,12 @@ mysql:
   # lógicos para que varias instancias de Aethel compartan la misma BD MySQL
   # o para encajar con un esquema de nombres corporativo. Defaults abajo.
   tables:
-    meta: grim_meta
-    checks: grim_checks
+    meta: aethel_meta
+    checks: aethel_checks
     players: aethel_players
     sessions: aethel_sessions
-    violations: grim_violations
-    settings: grim_settings
+    violations: aethel_violations
+    settings: aethel_settings
 
 # Marcadores de esquema — ver el comentario de cabecera en config.yml.
 config-flavor: V2

@@ -77,12 +77,12 @@ public class Reach extends Check implements PacketReceiveListener {
 
     @Override
     public void onPacketReceive(final PacketReceiveEvent event) {
-        if (!player.disableGrim && event.getPacketType() == PacketType.Play.Client.ATTACK) {
+        if (!player.disableAethel && event.getPacketType() == PacketType.Play.Client.ATTACK) {
             WrapperPlayClientAttack packet = new WrapperPlayClientAttack(event);
             onInteract(event, packet.getEntityId(), InteractionHand.MAIN_HAND);
         }
 
-        if (!player.disableGrim && event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY) {
+        if (!player.disableAethel && event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY) {
             WrapperPlayClientInteractEntity packet = new WrapperPlayClientInteractEntity(event);
             onInteract(event, packet.getEntityId(), packet.getAction() == WrapperPlayClientInteractEntity.InteractAction.ATTACK ? InteractionHand.MAIN_HAND : packet.getHand());
         }
@@ -114,7 +114,7 @@ public class Reach extends Check implements PacketReceiveListener {
             return;
         }
 
-        // Dead entities cause false flags (https://github.com/GrimAnticheat/Aethel/issues/546)
+        // Dead entities cause false flags (https://github.com/GrimAnticheat/Grim/issues/546)
         if (entity.isDead) return;
 
         // TODO: Remove when in front of via

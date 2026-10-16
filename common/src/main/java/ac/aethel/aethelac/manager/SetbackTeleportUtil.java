@@ -95,21 +95,21 @@ public class SetbackTeleportUtil extends AethelProcessor implements PostPredicti
     }
 
     public void executeForceResync() {
-        if (player.gamemode == GameMode.SPECTATOR || player.disableGrim)
+        if (player.gamemode == GameMode.SPECTATOR || player.disableAethel)
             return; // We don't care about spectators, they don't flag
         if (lastKnownGoodPosition == null) return; // Player hasn't spawned yet
         blockMovementsUntilResync(true, true);
     }
 
     public void executeNonSimulatingForceResync() {
-        if (player.gamemode == GameMode.SPECTATOR || player.disableGrim)
+        if (player.gamemode == GameMode.SPECTATOR || player.disableAethel)
             return; // We don't care about spectators, they don't flag
         if (lastKnownGoodPosition == null) return; // Player hasn't spawned yet
         blockMovementsUntilResync(false, true);
     }
 
     public void executeNonSimulatingSetback() {
-        if (player.gamemode == GameMode.SPECTATOR || player.disableGrim)
+        if (player.gamemode == GameMode.SPECTATOR || player.disableAethel)
             return; // We don't care about spectators, they don't flag
         if (lastKnownGoodPosition == null) return; // Player hasn't spawned yet
         blockMovementsUntilResync(false, false);
@@ -126,7 +126,7 @@ public class SetbackTeleportUtil extends AethelProcessor implements PostPredicti
         // Player hasn't spawned yet
         if (lastKnownGoodPosition == null) return true;
         // Setbacks aren't allowed
-        if (player.disableGrim) return true;
+        if (player.disableAethel) return true;
         // Player has permission to cheat, permission not given to OP by default.
         return player.platformPlayer != null && player.noSetbackPermission;
     }
@@ -265,7 +265,7 @@ public class SetbackTeleportUtil extends AethelProcessor implements PostPredicti
 
             double y = position.getY();
             if (PacketEvents.getAPI().getServerManager().getVersion().isOlderThanOrEquals(ServerVersion.V_1_7_10)) {
-                y += 1.62; // 1.7 teleport offset if grim ever supports 1.7 again
+                y += 1.62; // 1.7 teleport offset if Aethel ever supports 1.7 again
             }
 
             // Send a transaction now to make sure there's always transactions around teleport
@@ -422,7 +422,7 @@ public class SetbackTeleportUtil extends AethelProcessor implements PostPredicti
         Column column = player.compensatedWorld.getChunk(AethelMath.floor(player.x) >> 4, AethelMath.floor(player.z) >> 4);
 
         // If true, the player is in an unloaded chunk
-        return !player.disableGrim && (column == null || column.transaction() >= player.lastTransactionReceived.get() ||
+        return !player.disableAethel && (column == null || column.transaction() >= player.lastTransactionReceived.get() ||
                 // The player hasn't loaded past the DOWNLOADING TERRAIN screen
                 !player.getSetbackTeleportUtil().hasAcceptedSpawnTeleport);
     }
