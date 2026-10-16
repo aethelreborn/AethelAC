@@ -11,9 +11,9 @@ alerts:
     # Velocity kullanılıyorsa, Velocity yapılandırmanızda 'bungee-plugin-message-channel' etkinleştirilmiş olmalıdır.
     proxy:
         # Proxy'nize bağlı diğer sunuculara uyarılar gönderilmeli mi?
-        send: false
+        send: true
         # Diğer sunuculardan alınan uyarılar bu sunucuya duyurulmalı mı?
-        receive: false
+        receive: true
 
 verbose:
     print-to-console: false

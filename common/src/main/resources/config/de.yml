@@ -11,9 +11,9 @@ alerts:
     # Sie müssen 'bungee-plugin-message-channel' in Ihrer Velocity-Konfiguration aktiviert haben, wenn Velocity verwendet wird.
     proxy:
         # Sollen Warnungen an andere Server gesendet werden, die mit Ihrem Proxy verbunden sind?
-        send: false
+        send: true
         # Sollen die von anderen Servern empfangenen Alarme diesem Server mitgeteilt werden?
-        receive: false
+        receive: true
 
 verbose:
     print-to-console: false

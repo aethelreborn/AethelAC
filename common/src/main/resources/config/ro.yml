@@ -11,9 +11,9 @@ alerts:
     # Trebuie să ai 'bungee-plugin-message-channel' activat în configurația Velocity dacă Velocity este folosit.
     proxy:
         # Ar trebui ca alertele să fie trimise către alte servere conectate la proxy?
-        send: false
+        send: true
         # Ar trebui ca alertele primite de la alte servere să fie anunțate pe acest server?
-        receive: false
+        receive: true
 
 verbose:
     print-to-console: false

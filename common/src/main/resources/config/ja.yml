@@ -13,9 +13,9 @@ alerts:
     # Velocityを使用している場合は、Velocityの設定で 'bungee-plugin-message-channel' を有効にする必要があります。
     proxy:
         # プロキシに接続された他のサーバーにアラートを送信するかどうか。
-        send: false
+        send: true
         # プロキシに接続された他のサーバーからのアラートを受信するかどうか。
-        receive: false
+        receive: true
 
 verbose:
     print-to-console: false

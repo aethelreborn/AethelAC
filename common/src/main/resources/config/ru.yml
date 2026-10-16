@@ -11,9 +11,9 @@ alerts:
     # У вас должен быть включен 'bungee-plugin-message-channel' в конфигурации Velocity, если используется Velocity.
     proxy:
         # Следует ли отправлять оповещения на другие серверы, подключенные к вашему прокси-серверу?
-        send: false
+        send: true
         # Должны ли оповещения, полученные с других серверов, быть объявлены на этом сервере?
-        receive: false
+        receive: true
 
 verbose:
     print-to-console: false

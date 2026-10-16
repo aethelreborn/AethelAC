@@ -11,9 +11,9 @@ alerts:
     # 如果正在使用Velocity，你必须在Velocity的配置中启用` bungee-plugin-message-channel `。
     proxy:
         # 作弊消息是否应该发送到连接到代理的子服?
-        send: false
+        send: true
         # 此服务器是否接收来自其他子服的作弊消息？
-        receive: false
+        receive: true
 
 verbose:
     # 是否在控制台中打印verbose信息
