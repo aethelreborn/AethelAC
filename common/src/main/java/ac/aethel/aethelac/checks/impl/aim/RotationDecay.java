@@ -26,7 +26,6 @@ public class RotationDecay extends Check implements RotationListener {
     private static final int SERIES = 5;
     private static final double MIN_END_DEG = 0.05D;
     private static final double MAX_SPEED_DEG = 60.0D;
-    private static final double MAX_DECAY_FACTOR = 0.5D;
     private static final long MIN_UPDATE_GAP_NANOS = 40_000_000L;
     private static final long FLAG_COOLDOWN_NANOS = 5_000_000_000L;
 
@@ -113,7 +112,7 @@ public class RotationDecay extends Check implements RotationListener {
             last = value;
         }
 
-        if (first < minStart || last > first * MAX_DECAY_FACTOR) {
+        if (first < minStart) {
             return;
         }
         if (ratioMaxSeen - ratioMinSeen > ratioSpread) {
