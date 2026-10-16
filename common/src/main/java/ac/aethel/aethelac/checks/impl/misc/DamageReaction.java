@@ -9,26 +9,33 @@ import ac.grim.grimac.api.config.ConfigManager;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.event.PacketSendEvent;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.player.DiggingAction;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientClickWindow;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging;
 import com.github.retrooper.packetevents.wrapper.play.server.WrapperPlayServerUpdateHealth;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Locale;
 
 /**
- * Detects machine-speed reactions to taking damage: using an item within a
- * fraction of human reflex time of every health decrease.
+ * Detects machine-speed reactions to taking damage: using an item or
+ * manipulating the offhand within a fraction of human reflex time of every
+ * health decrease.
  *
  * <p>ClickPearl and AutoGApple style modules fire the use action the moment
  * their health packet arrives, so the server sees a use item packet
  * milliseconds after its own health update with metronome-like consistency.
- * Human reaction to damage starts well after 150 ms, so a run of
- * sub-120 ms reactions is not physical.</p>
+ * AutoSwap and AutoTotem modules move the offhand at the same machine speed
+ * through offhand clicks or swap actions. Human reaction to damage starts
+ * well after 150 ms, so a run of sub-120 ms reactions is not physical.</p>
  */
 @CheckData(name = "DamageReaction", stableKey = "aethel.misc.damage_reaction", description = "Used an item at machine speed after taking damage", experimental = true)
 public class DamageReaction extends Check implements PacketSendListener, PacketReceiveListener {
 
     private static final int CAPACITY = 32;
     private static final long FLAG_COOLDOWN_NANOS = 5_000_000_000L;
+    private static final int OFFHAND_SLOT = 45;
+    private static final int SWAP_WITH_OFFHAND_BUTTON = 40;
 
     private final double[] reactionMs = new double[CAPACITY];
     private final long[] reactionTimes = new long[CAPACITY];
@@ -71,11 +78,17 @@ public class DamageReaction extends Check implements PacketSendListener, PacketR
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (event.getPacketType() != PacketType.Play.Client.USE_ITEM
-                && event.getPacketType() != PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
-            return;
+        boolean reaction = false;
+        if (event.getPacketType() == PacketType.Play.Client.USE_ITEM
+                || event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
+            reaction = true;
+        } else if (event.getPacketType() == PacketType.Play.Client.PLAYER_DIGGING) {
+            reaction = new WrapperPlayClientPlayerDigging(event).getAction() == DiggingAction.SWAP_ITEM_WITH_OFFHAND;
+        } else if (event.getPacketType() == PacketType.Play.Client.CLICK_WINDOW) {
+            WrapperPlayClientClickWindow click = new WrapperPlayClientClickWindow(event);
+            reaction = click.getSlot() == OFFHAND_SLOT || click.getButton() == SWAP_WITH_OFFHAND_BUTTON;
         }
-        if (pendingDamageNanos == 0L) {
+        if (!reaction || pendingDamageNanos == 0L) {
             return;
         }
         long now = System.nanoTime();
