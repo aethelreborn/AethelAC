@@ -6,8 +6,8 @@ val minecraft_version: String by project
 plugins {
     `maven-publish`
     alias(libs.plugins.fabric.loom.unobfuscated)
-    grim.`base-conventions`
-    grim.`jij-conventions`
+    aethel.`base-conventions`
+    aethel.`jij-conventions`
 }
 
 repositories {

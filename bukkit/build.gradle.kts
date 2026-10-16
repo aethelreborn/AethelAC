@@ -4,8 +4,8 @@ import java.util.zip.ZipFile
 
 plugins {
     `maven-publish`
-    grim.`base-conventions`
-    grim.`shadow-conventions`
+    aethel.`base-conventions`
+    aethel.`shadow-conventions`
     id("de.eldoria.plugin-yml.bukkit") version "0.8.0"
     id("xyz.jpenilla.run-paper") version "3.0.0-beta.1"
 }
@@ -27,15 +27,15 @@ repositories {
         includeGroup("me.clip")
     }
 
-    val grimPublicReleases = maven("https://maven.grim.ac/public/releases") {
+    val upstreamPublicReleases = maven("https://maven.grim.ac/public/releases") {
         mavenContent { releasesOnly() }
     }
-    val grimPublicSnapshots = maven("https://maven.grim.ac/public/snapshots") {
+    val upstreamPublicSnapshots = maven("https://maven.grim.ac/public/snapshots") {
         mavenContent { snapshotsOnly() }
     }
-    val grimLegacySnapshots = maven("https://repo.grim.ac/snapshots")
+    val upstreamLegacySnapshots = maven("https://repo.grim.ac/snapshots")
     exclusiveContent {
-        forRepositories(*listOfNotNull(localOverride, grimPublicReleases, grimPublicSnapshots, grimLegacySnapshots).toTypedArray())
+        forRepositories(*listOfNotNull(localOverride, upstreamPublicReleases, upstreamPublicSnapshots, upstreamLegacySnapshots).toTypedArray())
         filter {
             includeGroup("ac.grim.grimac")
             includeGroup("com.github.retrooper")

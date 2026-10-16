@@ -10,8 +10,8 @@ plugins {
     // No version: loom is already on the classpath from the parent :fabric project,
     // so a version request here would fail compatibility checking.
     id("net.fabricmc.fabric-loom")
-    grim.`base-conventions`
-    grim.`jij-conventions`
+    aethel.`base-conventions`
+    aethel.`jij-conventions`
 }
 
 java {

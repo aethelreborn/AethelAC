@@ -4,7 +4,7 @@
 
 plugins {
     `java-library`
-    grim.`base-conventions`
+    aethel.`base-conventions`
 }
 
 repositories {

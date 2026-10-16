@@ -2,22 +2,22 @@ import versioning.BuildConfig
 
 plugins {
     `maven-publish`
-    grim.`base-conventions`
+    aethel.`base-conventions`
 }
 
 repositories {
     val localOverride = if (BuildConfig.mavenLocalOverride) mavenLocal() else null
 
     // Aethel API & PacketEvents
-    val grimPublicReleases = maven("https://maven.grim.ac/public/releases") {
+    val upstreamPublicReleases = maven("https://maven.grim.ac/public/releases") {
         mavenContent { releasesOnly() }
     }
-    val grimPublicSnapshots = maven("https://maven.grim.ac/public/snapshots") {
+    val upstreamPublicSnapshots = maven("https://maven.grim.ac/public/snapshots") {
         mavenContent { snapshotsOnly() }
     }
-    val grimLegacySnapshots = maven("https://repo.grim.ac/snapshots")
+    val upstreamLegacySnapshots = maven("https://repo.grim.ac/snapshots")
     exclusiveContent {
-        forRepositories(*listOfNotNull(localOverride, grimPublicReleases, grimPublicSnapshots, grimLegacySnapshots).toTypedArray())
+        forRepositories(*listOfNotNull(localOverride, upstreamPublicReleases, upstreamPublicSnapshots, upstreamLegacySnapshots).toTypedArray())
         filter {
             includeGroup("ac.grim.grimac")
             includeGroup("com.github.retrooper")
