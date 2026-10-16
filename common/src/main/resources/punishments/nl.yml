@@ -120,13 +120,21 @@ Punishments:
       - "Interact"
       - "Aim"
     commands:
-      - "20:40 [alert]"
+      - "10:20 [alert]"
       - "1:1 [log]"
+      - "40:20 [webhook]"
+      - "40:20 [proxy]"
+      - "80:0 kick %player% AethelAC: Combat violation"
+      - "140:0 ban %player% 30d AethelAC: Combat violations (%vl%)"
   # Vanaf 2.2.10 zijn er geen AutoClicker-controles en is dit een placeholder. Aethel zal in de toekomst AutoClicker-controles toevoegen.
   Autoclicker:
     remove-violations-after: 300
     checks:
       - "Autoclicker"
     commands:
-      - "20:40 [alert]"
+      - "10:20 [alert]"
       - "1:1 [log]"
+      - "40:20 [webhook]"
+      - "40:20 [proxy]"
+      - "80:0 kick %player% AethelAC: Autoclicker violation"
+      - "140:0 ban %player% 30d AethelAC: Autoclicker (%vl%)"
