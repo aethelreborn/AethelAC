@@ -177,6 +177,12 @@ reaction-analysis:
     damage-reaction-min-pairs: 6
     damage-reaction-window-seconds: 300
 
+fishing-analysis:
+    # Auto-fish detection (AutoFish check): the reel must land inside this
+    # many milliseconds of the bobber splash, this many times.
+    reaction-max-ms: 120
+    reaction-min-pairs: 3
+
 elytra-analysis:
     # Firework cadence detection (FireworkCadence check): how many boost
     # intervals to judge, the interval CV ceiling, and the mean interval band.
@@ -404,4 +410,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 32
+config-version: 33

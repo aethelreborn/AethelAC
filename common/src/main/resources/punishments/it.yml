@@ -113,6 +113,7 @@ Punishments:
       - "Chat"
       - "Exploit"
       - "FireworkCadence"
+      - "AutoFish"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"

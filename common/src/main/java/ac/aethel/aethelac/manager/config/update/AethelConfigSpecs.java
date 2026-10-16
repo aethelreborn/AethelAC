@@ -121,9 +121,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v31 → v32: adds the {@code elytra-analysis} firework cadence knobs
      * for the FireworkCadence check.
+     *
+     * <p>v32 → v33: adds the {@code fishing-analysis} reaction knobs for the
+     * AutoFish check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 32, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 33, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
