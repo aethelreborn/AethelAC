@@ -141,6 +141,10 @@ Inventory and macro automation:
 - `PackSpoof` (`pack-spoof` in `config.yml`) flags resource-pack spoofing:
   two or more packs reported loaded 293-360 ms after acceptance, the fixed
   timer of Server RP spoof modules; real downloads finish at network speed.
+- `FireworkCadence` (`elytra-analysis` in `config.yml`) flags elytra boost
+  automation: eight or more consecutive firework boosts with machine-constant
+  intervals (CV at or below 0.05 in the 700-4000 ms band), the signature of
+  Super Fire Work style pulse modes.
 
 All automation heuristics are experimental; each shares a punishment ladder
 (`Autoclicker`, `AimHeuristics`, or `Misc`) and can be staged with
@@ -153,8 +157,9 @@ All automation heuristics are experimental; each shares a punishment ladder
   the operator removes it from the list.
 - `/aethel profile <player>` renders the automation metrics behind these
   checks (attack CPS, attack cadence CV, rotating-attack fraction, container
-  click rate, idle events, tool-swap cycles, damage reactions) so staff can
-  eyeball a suspect without reading flag history.
+  click rate, idle events, tool-swap cycles, damage reactions, mace smash
+  band, fixed-gap pack reports) so staff can eyeball a suspect without
+  reading flag history.
 
 ### Known limitations
 

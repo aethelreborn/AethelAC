@@ -3,6 +3,21 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.7] - 2026-10-17
+
+- Add `FireworkCadence`: eight or more consecutive elytra firework boosts
+  with machine-constant intervals (CV at or below 0.05 in the 700-4000 ms
+  band), covering Super Fire Work style pulse modules.
+
+## [v3.6] - 2026-10-17
+
+- `/aethel profile` gains the mace smash fall-window fraction and fixed-gap
+  resource pack report metrics (`%mace_band%`, `%pack_fixed%`).
+
+## [v3.5] - 2026-10-17
+
+- Changelog now tracks each release stage.
+
 ## [v3.4] - 2026-10-17
 
 - `PackSpoof` now also covers configuration-phase resource pack status
