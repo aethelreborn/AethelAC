@@ -105,21 +105,20 @@ public class IdleAutomation extends Check implements PositionListener, RotationL
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        PacketType type = event.getPacketType();
         long now = System.nanoTime();
 
-        if (type == PacketType.Play.Client.ANIMATION || type == PacketType.Play.Client.PUNCH) {
+        if (event.getPacketType() == PacketType.Play.Client.ANIMATION || event.getPacketType() == PacketType.Play.Client.PUNCH) {
             if (now - lastRealActivityNanos >= stillnessNanos) {
                 recordIdleEvent(now);
             }
             return;
         }
 
-        if (type == PacketType.Play.Client.ATTACK
-                || type == PacketType.Play.Client.INTERACT_ENTITY
-                || type == PacketType.Play.Client.USE_ITEM
-                || type == PacketType.Play.Client.PLAYER_DIGGING
-                || type == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
+        if (event.getPacketType() == PacketType.Play.Client.ATTACK
+                || event.getPacketType() == PacketType.Play.Client.INTERACT_ENTITY
+                || event.getPacketType() == PacketType.Play.Client.USE_ITEM
+                || event.getPacketType() == PacketType.Play.Client.PLAYER_DIGGING
+                || event.getPacketType() == PacketType.Play.Client.PLAYER_BLOCK_PLACEMENT) {
             lastInteractionNanos = now;
             lastRealActivityNanos = now;
         }
