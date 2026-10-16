@@ -234,7 +234,7 @@ max-ping-firework-boost: 350
 # qui n'appelle pas signalContextUpdate, des lacunes de contexte sur Fabric ou un
 # fournisseur de permissions autre que LuckPerms qui change les permissions en direct.
 # Mettez -1 pour désactiver le sondage. Mettez une valeur positive pour actualiser tous les X ticks.
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

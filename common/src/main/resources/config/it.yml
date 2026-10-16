@@ -215,7 +215,7 @@ max-ping-firework-boost: 350
 # signalContextUpdate, lacune nei contesti Fabric o un provider di permessi diverso
 # da LuckPerms che modifica i permessi in tempo reale.
 # Imposta -1 per disattivare il polling. Imposta un valore positivo per aggiornare ogni X tick.
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

@@ -238,7 +238,7 @@ max-ping-firework-boost: 350
 # llame a signalContextUpdate, huecos de contexto en Fabric o un proveedor de
 # permisos que no sea LuckPerms y cambie permisos en vivo.
 # Usa -1 para desactivar el sondeo. Usa un valor positivo para actualizar cada X ticks.
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

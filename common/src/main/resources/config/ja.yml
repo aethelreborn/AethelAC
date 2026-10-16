@@ -244,7 +244,7 @@ max-ping-firework-boost: 350
 # コンテキスト、Fabric のコンテキストの不足、または LuckPerms 以外の権限
 # プロバイダーが実行中に権限を変更する場合。
 # ポーリングを無効化するには -1 にします。正の値にすると X tick ごとに更新します。
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

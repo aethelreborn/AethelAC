@@ -236,7 +236,7 @@ max-ping-firework-boost: 350
 # LuckPerms-Kontext, der signalContextUpdate nicht aufruft, Lücken bei Fabric-Kontexten
 # oder ein Nicht-LuckPerms-Berechtigungsanbieter, der Berechtigungen live ändert.
 # Setze auf -1, um Polling zu deaktivieren. Setze einen positiven Wert, um alle X Ticks zu aktualisieren.
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

@@ -232,7 +232,7 @@ max-ping-firework-boost: 350
 # LuckPerms, который не вызывает signalContextUpdate, пробелов в контекстах Fabric
 # или провайдера прав не LuckPerms, который меняет права в реальном времени.
 # Установите -1, чтобы отключить опрос. Положительное значение обновляет каждые X тиков.
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

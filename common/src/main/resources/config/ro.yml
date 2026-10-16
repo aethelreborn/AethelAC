@@ -236,7 +236,7 @@ max-ping-firework-boost: 350
 # nu apelează signalContextUpdate, lipsuri de context pe Fabric sau un furnizor de
 # permisiuni diferit de LuckPerms care schimbă permisiuni live.
 # Setează -1 pentru a dezactiva interogarea periodică. Setează o valoare pozitivă pentru a reîmprospăta la fiecare X tick-uri.
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

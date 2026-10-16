@@ -253,7 +253,7 @@ max-ping-firework-boost: 350
 # 例如自定义 LuckPerms context 没有调用 signalContextUpdate、Fabric context
 # 存在缺口，或非 LuckPerms 权限提供器会在运行中改变权限。
 # 设为 -1 可禁用轮询。设为正数则每 X tick 刷新一次。
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11

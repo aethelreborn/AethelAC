@@ -237,7 +237,7 @@ max-ping-firework-boost: 350
 # wywołuje signalContextUpdate, luk w kontekstach Fabric albo dostawcy uprawnień
 # innego niż LuckPerms, który zmienia uprawnienia na żywo.
 # Ustaw -1, aby wyłączyć odpytywanie. Ustaw wartość dodatnią, aby odświeżać co X ticków.
-update-permission-ticks: -1
+update-permission-ticks: 20
 
 config-flavor: V2
 config-version: 11
