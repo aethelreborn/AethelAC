@@ -18,6 +18,10 @@ import java.util.Locale;
  * Triggerbots with a fixed attack delay and timed macros produce intervals
  * with near-zero relative variation across dozens of clicks; hand clicking
  * carries tens of milliseconds of jitter per interval.
+ *
+ * <p>Two tiers are evaluated: {@code metronome} (few samples, near-zero
+ * variation, fixed-delay triggerbots) and {@code steady} (many samples, low
+ * variation, gaussian-jittered delay randomization).</p>
  */
 @CheckData(name = "SlowCadence", stableKey = "combat.attack_metronome", description = "Attacks at a machine-constant slow cadence", experimental = true, decay = 0.01)
 public class SlowCadence extends Check implements PacketReceiveListener {
@@ -37,6 +41,8 @@ public class SlowCadence extends Check implements PacketReceiveListener {
     private int metronomeSamples;
     private double metronomeCv;
     private double metronomeMaxInterval;
+    private int steadySamples;
+    private double steadyCv;
 
     public SlowCadence(AethelPlayer player) {
         super(player);
@@ -47,6 +53,8 @@ public class SlowCadence extends Check implements PacketReceiveListener {
         metronomeSamples = config.getIntElse("attack-patterns.metronome-samples", 48);
         metronomeCv = config.getDoubleElse("attack-patterns.metronome-cv", 0.035D);
         metronomeMaxInterval = config.getDoubleElse("attack-patterns.metronome-max-interval", 400.0D);
+        steadySamples = config.getIntElse("attack-patterns.steady-samples", 100);
+        steadyCv = config.getDoubleElse("attack-patterns.steady-cv", 0.08D);
     }
 
     @Override
@@ -80,22 +88,36 @@ public class SlowCadence extends Check implements PacketReceiveListener {
         }
         lastAttackNanos = now;
 
-        int samples = Math.min(metronomeSamples, intervalCount);
-        if (samples < 8 || now - lastFlagNanos < FLAG_COOLDOWN_NANOS) {
+        if (now - lastFlagNanos < FLAG_COOLDOWN_NANOS) {
             return;
         }
 
+        String verdict = evaluate("metronome", metronomeSamples, metronomeCv);
+        if (verdict == null) {
+            verdict = evaluate("steady", steadySamples, steadyCv);
+        }
+        if (verdict != null) {
+            flag(verdict);
+            lastFlagNanos = now;
+        }
+    }
+
+    private String evaluate(String tier, int sampleLimit, double cvLimit) {
+        int samples = Math.min(sampleLimit, intervalCount);
+        if (samples < 8) {
+            return null;
+        }
         double sum = 0.0D;
         for (int k = 0; k < samples; k++) {
             double interval = intervals[(intervalIndex - 1 - k + CAPACITY * 2) % CAPACITY];
             if (interval < MIN_INTERVAL_MS || interval > metronomeMaxInterval) {
-                return;
+                return null;
             }
             sum += interval;
         }
         double mean = sum / samples;
         if (mean < MIN_MEAN_INTERVAL_MS) {
-            return;
+            return null;
         }
         double variance = 0.0D;
         for (int k = 0; k < samples; k++) {
@@ -104,9 +126,9 @@ public class SlowCadence extends Check implements PacketReceiveListener {
             variance += diff * diff;
         }
         double cv = Math.sqrt(variance / samples) / mean;
-        if (cv <= metronomeCv) {
-            flag(String.format(Locale.ROOT, "metronome cadence: %d intervals, mean %.1fms, cv %.4f", samples, mean, cv));
-            lastFlagNanos = now;
+        if (cv <= cvLimit) {
+            return String.format(Locale.ROOT, "%s cadence: %d intervals, mean %.1fms, cv %.4f", tier, samples, mean, cv);
         }
+        return null;
     }
 }
