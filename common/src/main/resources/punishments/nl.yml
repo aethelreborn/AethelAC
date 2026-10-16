@@ -29,10 +29,12 @@ Punishments:
     # Uitvoeren wanneer de gebruiker flag 100 raakt, en daarna elke 50e flag na 100
     #
     commands:
-      - "100:40 [alert]"
+      - "1:1 [alert]"
       - "1:1 [log]"
-      - "100:100 [webhook]"
-      - "100:100 [proxy]"
+      - "40:0 [webhook]"
+      - "40:0 [proxy]"
+      - "40:0 kick %player% AethelAC: Movement simulation failed"
+      - "70:0 ban %player% 30d AethelAC: Movement simulation (%vl% violations)"
   Knockback:
     remove-violations-after: 300
     checks:

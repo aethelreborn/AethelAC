@@ -27,10 +27,12 @@ Punishments:
     # - "100:50 say %player% Hile yapıyor!"
     # Kullanıcı 100 işaretine ulaştığında çalışır ve bundan sonra, 100'ün üzerindeki her 50. işarette çalışır
     commands:
-      - "100:40 [alert]"
+      - "1:1 [alert]"
       - "1:1 [log]"
-      - "100:100 [webhook]"
-      - "100:100 [proxy]"
+      - "40:0 [webhook]"
+      - "40:0 [proxy]"
+      - "40:0 kick %player% AethelAC: Movement simulation failed"
+      - "70:0 ban %player% 30d AethelAC: Movement simulation (%vl% violations)"
   Knockback:
     remove-violations-after: 300
     checks:
