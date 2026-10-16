@@ -17,9 +17,11 @@ import java.util.Locale;
  * a coefficient of variation below a few percent for fifteen consecutive
  * ticks of active rotation.
  *
- * <p>Only consecutive per-tick rotation deltas above the configured combat
- * speed are considered; slower movement, pauses, teleports and vehicle
- * switches reset the window.</p>
+ * <p>Three independent series are tracked: the combined rotation speed, the
+ * yaw speed alone (catches rotators that vary pitch), and the pitch speed
+ * alone (catches clamp-based pitch correctors). Only consecutive per-tick
+ * deltas above the configured combat speeds are considered; slower movement,
+ * pauses, teleports and vehicle switches reset the windows.</p>
  */
 @CheckData(name = "LinearRotation", stableKey = "aethel.aim.linear_rotation", description = "Rotated at machine-constant angular velocity", experimental = true, decay = 0.01)
 public class AimLinear extends Check implements RotationListener {
@@ -29,14 +31,18 @@ public class AimLinear extends Check implements RotationListener {
     private static final long MIN_UPDATE_GAP_NANOS = 40_000_000L;
     private static final long FLAG_COOLDOWN_NANOS = 5_000_000_000L;
 
-    private final double[] deltas = new double[WINDOW];
-    private int index;
-    private int filled;
+    private final Series norm = new Series();
+    private final Series yaw = new Series();
+    private final Series pitch = new Series();
     private long lastUpdateNanos;
     private long lastFlagNanos;
 
     private double cvThreshold;
     private double minSpeed;
+    private double yawCvThreshold;
+    private double yawMinSpeed;
+    private double pitchCvThreshold;
+    private double pitchMinSpeed;
 
     public AimLinear(AethelPlayer player) {
         super(player);
@@ -46,6 +52,10 @@ public class AimLinear extends Check implements RotationListener {
     public void onReload(@NotNull ConfigManager config) {
         cvThreshold = config.getDoubleElse("aim-analysis.linear-cv-threshold", 0.05D);
         minSpeed = config.getDoubleElse("aim-analysis.linear-min-speed", 3.0D);
+        yawCvThreshold = config.getDoubleElse("aim-analysis.yaw-cv-threshold", 0.05D);
+        yawMinSpeed = config.getDoubleElse("aim-analysis.yaw-min-speed", 2.0D);
+        pitchCvThreshold = config.getDoubleElse("aim-analysis.pitch-cv-threshold", 0.06D);
+        pitchMinSpeed = config.getDoubleElse("aim-analysis.pitch-min-speed", 0.8D);
     }
 
     @Override
@@ -54,7 +64,7 @@ public class AimLinear extends Check implements RotationListener {
         // forced client-side rotation after interacting with a horse
         if (player.packetStateData.lastPacketWasTeleport || player.vehicleData.wasVehicleSwitch
                 || player.packetStateData.horseInteractCausedForcedRotation) {
-            resetWindow();
+            resetAll();
             return;
         }
 
@@ -64,45 +74,75 @@ public class AimLinear extends Check implements RotationListener {
         }
         lastUpdateNanos = now;
 
-        double speed = Math.hypot(rotationUpdate.deltaYaw(), rotationUpdate.deltaPitch());
-        if (speed < minSpeed || speed > MAX_SPEED_DEG) {
-            resetWindow();
+        double deltaYaw = rotationUpdate.deltaYaw();
+        double deltaPitch = rotationUpdate.deltaPitch();
+        double speed = Math.hypot(deltaYaw, deltaPitch);
+        if (speed > MAX_SPEED_DEG) {
+            resetAll();
             return;
         }
 
-        deltas[index] = speed;
-        index = (index + 1) % WINDOW;
-        if (filled < WINDOW) {
-            filled++;
-        }
-        if (filled < WINDOW) {
+        Double normCv = speed >= minSpeed ? norm.offer(speed) : norm.resetAndReturnNull();
+        Double yawCv = Math.abs(deltaYaw) >= yawMinSpeed ? yaw.offer(Math.abs(deltaYaw)) : yaw.resetAndReturnNull();
+        Double pitchCv = Math.abs(deltaPitch) >= pitchMinSpeed ? pitch.offer(Math.abs(deltaPitch)) : pitch.resetAndReturnNull();
+
+        if (now - lastFlagNanos < FLAG_COOLDOWN_NANOS) {
             return;
         }
 
-        double sum = 0.0D;
-        for (double delta : deltas) {
-            sum += delta;
-        }
-        double mean = sum / WINDOW;
-        double sumSquares = 0.0D;
-        for (double delta : deltas) {
-            sumSquares += (delta - mean) * (delta - mean);
-        }
-        double cv = Math.sqrt(sumSquares / WINDOW) / mean;
-
-        if (cv <= cvThreshold) {
-            if (now - lastFlagNanos >= FLAG_COOLDOWN_NANOS) {
-                flag(String.format(Locale.ROOT, "constant-velocity rotation cv=%.4f mean=%.2f deg/tick over %d ticks", cv, mean, WINDOW));
-                lastFlagNanos = now;
-            }
-        } else {
-            reward();
+        if (normCv != null && normCv <= cvThreshold) {
+            flag(String.format(Locale.ROOT, "constant-velocity rotation cv=%.4f over %d ticks", normCv, WINDOW));
+            lastFlagNanos = now;
+        } else if (yawCv != null && yawCv <= yawCvThreshold) {
+            flag(String.format(Locale.ROOT, "constant-velocity yaw cv=%.4f over %d ticks", yawCv, WINDOW));
+            lastFlagNanos = now;
+        } else if (pitchCv != null && pitchCv <= pitchCvThreshold) {
+            flag(String.format(Locale.ROOT, "constant-velocity pitch cv=%.4f over %d ticks", pitchCv, WINDOW));
+            lastFlagNanos = now;
         }
     }
 
-    private void resetWindow() {
-        index = 0;
-        filled = 0;
+    private void resetAll() {
+        norm.reset();
+        yaw.reset();
+        pitch.reset();
         lastUpdateNanos = 0L;
+    }
+
+    private static final class Series {
+        private final double[] values = new double[WINDOW];
+        private int index;
+        private int filled;
+
+        Double offer(double value) {
+            values[index] = value;
+            index = (index + 1) % WINDOW;
+            if (filled < WINDOW) {
+                filled++;
+            }
+            if (filled < WINDOW) {
+                return null;
+            }
+            double sum = 0.0D;
+            for (double v : values) {
+                sum += v;
+            }
+            double mean = sum / WINDOW;
+            double sumSquares = 0.0D;
+            for (double v : values) {
+                sumSquares += (v - mean) * (v - mean);
+            }
+            return Math.sqrt(sumSquares / WINDOW) / mean;
+        }
+
+        Double resetAndReturnNull() {
+            reset();
+            return null;
+        }
+
+        void reset() {
+            index = 0;
+            filled = 0;
+        }
     }
 }

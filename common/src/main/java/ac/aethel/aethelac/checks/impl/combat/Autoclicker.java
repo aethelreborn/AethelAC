@@ -29,6 +29,7 @@ import java.util.Locale;
 public class Autoclicker extends Check implements PacketReceiveListener {
 
     private static final int CAPACITY = 2048;
+    private static final long ATTACK_DEBOUNCE_NANOS = 5_000_000L;
     private static final long FLAG_COOLDOWN_NANOS = 5_000_000_000L;
     private static final long WINDOW_60S = 60_000_000_000L;
     private static final long WINDOW_30S = 30_000_000_000L;
@@ -39,6 +40,7 @@ public class Autoclicker extends Check implements PacketReceiveListener {
     private final long[] attackTimes = new long[CAPACITY];
     private int ringIndex;
     private int ringSize;
+    private long lastAttackNanos;
     private long lastFlagNanos;
 
     private double cps60Threshold;
@@ -62,6 +64,10 @@ public class Autoclicker extends Check implements PacketReceiveListener {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
+        if (event.getPacketType() == PacketType.Play.Client.ATTACK) {
+            recordAttack(System.nanoTime());
+            return;
+        }
         if (event.getPacketType() != PacketType.Play.Client.INTERACT_ENTITY) {
             return;
         }
@@ -88,6 +94,12 @@ public class Autoclicker extends Check implements PacketReceiveListener {
     }
 
     private void recordAttack(long now) {
+        // ViaVersion can mirror one click into both the modern Attack packet and
+        // a translated interact packet; never count two packets as two clicks.
+        if (now - lastAttackNanos < ATTACK_DEBOUNCE_NANOS) {
+            return;
+        }
+        lastAttackNanos = now;
         attackTimes[ringIndex] = now;
         ringIndex = (ringIndex + 1) % CAPACITY;
         if (ringSize < CAPACITY) {

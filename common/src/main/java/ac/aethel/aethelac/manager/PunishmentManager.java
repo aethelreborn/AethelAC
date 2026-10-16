@@ -23,6 +23,7 @@ public class PunishmentManager implements ConfigReloadable {
     private static final CommandExecuteEvent.Channel COMMAND_CHANNEL = AethelAPI.INSTANCE.getEventBus().get(CommandExecuteEvent.class);
     private final AethelPlayer player;
     private final List<PunishGroup> groups = new ArrayList<>();
+    private final Set<String> shadowChecks = new HashSet<>();
     private String experimentalSymbol = "*";
     private String alertString;
     private boolean testMode;
@@ -48,6 +49,13 @@ public class PunishmentManager implements ConfigReloadable {
                 "alerts-format-proxy",
                 "%prefix% &f[&cproxy&f] &f%player% &bfailed <hover:show_text:\"&b%check_name%%experimental%\\n&8Description: &f%description%\">&f%check_name%%experimental%</hover> &f(x&c%vl%&f) &7%verbose%"
         );
+
+        shadowChecks.clear();
+        for (String name : config.getStringListElse("shadow-checks", new ArrayList<>())) {
+            if (name != null && !name.isBlank()) {
+                shadowChecks.add(name.toLowerCase(Locale.ROOT));
+            }
+        }
 
         try {
             groups.clear();
@@ -134,7 +142,13 @@ public class PunishmentManager implements ConfigReloadable {
             if (group.checks.contains(check)) {
                 final int vl = getViolations(group, check);
                 final int violationCount = group.violations.size();
+                final boolean shadow = isShadow(check);
                 for (ParsedCommand command : group.commands) {
+                    // Shadow checks only alert staff and log; webhook, proxy,
+                    // console commands, kicks and bans are suppressed.
+                    if (shadow && !command.command.equals("[alert]") && !command.command.equals("[log]")) {
+                        continue;
+                    }
                     @Nullable Set<@Nullable PlatformPlayer> verboseListeners = null;
                     // Verbose that prints all flags: /aethel verbose subscribers get EVERY flag, not just thresholded
                     // alerts. The verbose string is only rendered (safeGet) when there are listeners, so the flag
@@ -202,6 +216,28 @@ public class PunishmentManager implements ConfigReloadable {
         }
 
         return sentDebug;
+    }
+
+    /**
+     * Checks listed in {@code shadow-checks} are staged: they flag, alert and
+     * log, but never run webhook, proxy, kick or ban commands. Matching uses
+     * the same case-insensitive substring semantics as punishment groups.
+     */
+    private boolean isShadow(Check check) {
+        if (shadowChecks.isEmpty()) {
+            return false;
+        }
+        String name = check.getCheckName();
+        if (name == null) {
+            return false;
+        }
+        String lower = name.toLowerCase(Locale.ROOT);
+        for (String shadow : shadowChecks) {
+            if (lower.contains(shadow)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static String safeGet(Supplier<String> supplier) {
