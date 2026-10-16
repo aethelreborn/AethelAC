@@ -55,6 +55,13 @@ profile:
     - "&bГоризонтальная чувствительность: &f%h_sensitivity%%"
     - "&bВертикальная чувствительность: &f%v_sensitivity%%"
     - "&bFastMath Включено: &f%fast_math%"
+    - "&bАтаки/с (60с): &f%attack_cps%"
+    - "&bCV темпа атак: &f%attack_cadence_cv%"
+    - "&bАтаки в развороте: &f%rotating_fraction%"
+    - "&bКлики в инвентаре (10с): &f%fast_click_count%"
+    - "&bСобытия простоя (3м): &f%idle_events%"
+    - "&bСмены инструмента (1м): &f%tool_chain_cycles%"
+    - "&bРеакции на урон (5м): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&7======================"
 help:
     - "&7======================"
@@ -133,4 +140,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Маркеры схемы — см. шапку config.yml.
 config-flavor: V2
-config-version: 2
+config-version: 3

@@ -55,6 +55,13 @@ profile:
     - "&b水平灵敏度: &f%h_sensitivity%%"
     - "&b垂直灵敏度: &f%v_sensitivity%%"
     - "&bFastMath: &f%fast_math%"
+    - "&b攻击/秒 (60秒): &f%attack_cps%"
+    - "&b攻击节奏CV: &f%attack_cadence_cv%"
+    - "&b旋转攻击占比: &f%rotating_fraction%"
+    - "&b容器点击 (10秒): &f%fast_click_count%"
+    - "&b挂机事件 (3分): &f%idle_events%"
+    - "&b切换工具 (1分): &f%tool_chain_cycles%"
+    - "&b受伤反应 (5分): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&7======================"
 help:
     - "&7======================"
@@ -128,4 +135,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # 模式标记 — 参见 config.yml 顶部的注释。
 config-flavor: V2
-config-version: 2
+config-version: 3

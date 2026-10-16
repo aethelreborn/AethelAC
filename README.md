@@ -122,6 +122,10 @@ The default configuration ships hardened for competitive PvP:
   `config.yml`) flags AutoTool modules that cycle the hotbar to a tool and
   back around every dig (six or more sub-400 ms cycles a minute); it shares
   the `Misc` ladder and can also be staged with `shadow-checks`.
+- `/aethel profile <player>` renders the automation metrics behind these
+  checks (attack CPS, attack cadence CV, rotating-attack fraction, container
+  click rate, idle events, tool-swap cycles, damage reactions) so staff can
+  eyeball a suspect without reading flag history.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

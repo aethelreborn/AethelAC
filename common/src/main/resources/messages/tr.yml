@@ -55,6 +55,13 @@ profile:
     - "&bDikey Hassasiyet: &f%h_sensitivity%%"
     - "&bYatay Hassasiyet: &f%v_sensitivity%%"
     - "&bFastMath Ayarı: &f%fast_math%"
+    - "&bSaldırı/sn (60sn): &f%attack_cps%"
+    - "&bSaldırı ritmi CV: &f%attack_cadence_cv%"
+    - "&bDönen saldırılar: &f%rotating_fraction%"
+    - "&bEnvanter tıklamaları (10sn): &f%fast_click_count%"
+    - "&bBoşta olaylar (3dk): &f%idle_events%"
+    - "&bAlet değişimi (1dk): &f%tool_chain_cycles%"
+    - "&bHasar tepkileri (5dk): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&7======================"
 help:
     - "&7======================"
@@ -132,4 +139,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Şema işaretçileri — bkz. config.yml'deki başlık yorumu.
 config-flavor: V2
-config-version: 2
+config-version: 3

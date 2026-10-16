@@ -55,6 +55,13 @@ profile:
     - "&bHorizontal Sensitivity: &f%h_sensitivity%%"
     - "&bVertical Sensitivity: &f%v_sensitivity%%"
     - "&bFastMath Enabled: &f%fast_math%"
+    - "&bAttack CPS (60s): &f%attack_cps%"
+    - "&bAttack Cadence CV: &f%attack_cadence_cv%"
+    - "&bRotating Attacks: &f%rotating_fraction%"
+    - "&bContainer Clicks (10s): &f%fast_click_count%"
+    - "&bIdle Events (3m): &f%idle_events%"
+    - "&bTool Swaps (1m): &f%tool_chain_cycles%"
+    - "&bDamage Reactions (5m): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&7======================"
 help:
     - "&7======================"
@@ -131,4 +138,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Schema markers — see header comment in config.yml.
 config-flavor: V2
-config-version: 2
+config-version: 3

@@ -52,6 +52,13 @@ profile:
     - "&b水平感度: &f%h_sensitivity%%"
     - "&b垂直感度: &f%v_sensitivity%%"
     - "&bFastMath 有効: &f%fast_math%"
+    - "&b攻撃/秒 (60秒): &f%attack_cps%"
+    - "&b攻撃間隔CV: &f%attack_cadence_cv%"
+    - "&b回転中の攻撃: &f%rotating_fraction%"
+    - "&bコンテナクリック (10秒): &f%fast_click_count%"
+    - "&b放置イベント (3分): &f%idle_events%"
+    - "&bツール切替 (1分): &f%tool_chain_cycles%"
+    - "&b被ダメージ反応 (5分): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&7======================"
 help:
     - "&7======================"
@@ -129,4 +136,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # スキーマ用マーカー — config.yml のヘッダーコメントを参照。
 config-flavor: V2
-config-version: 2
+config-version: 3

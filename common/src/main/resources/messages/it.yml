@@ -47,6 +47,13 @@ profile:
     - "&bSensibilità Orizzontale: &f%h_sensitivity%%"
     - "&bSensibilità Verticale: &f%v_sensitivity%%"
     - "&bFastMath Abilitato: &f%fast_math%"
+    - "&bAttacchi/s (60s): &f%attack_cps%"
+    - "&bCV di cadenza: &f%attack_cadence_cv%"
+    - "&bAttacchi in rotazione: &f%rotating_fraction%"
+    - "&bClic contenitore (10s): &f%fast_click_count%"
+    - "&bEventi inattivi (3m): &f%idle_events%"
+    - "&bCambi strumento (1m): &f%tool_chain_cycles%"
+    - "&bReazioni ai danni (5m): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&7======================"
 help:
     - "&7======================"
@@ -125,4 +132,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Marcatori di schema — vedi il commento di intestazione in config.yml.
 config-flavor: V2
-config-version: 2
+config-version: 3
