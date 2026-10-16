@@ -105,6 +105,10 @@ The default configuration ships hardened for competitive PvP:
   that never had a matching start, the payload anti-cheat-aware velocity
   modules spam to confuse knockback handling; it shares the `BadPackets`
   ladder and can also be staged with `shadow-checks`.
+- The experimental `IdleAutomation` check (`idle-automation` in `config.yml`)
+  flags anti-AFK modules that jump or swing sparsely for minutes while the
+  player sends no rotation, movement or interaction; it shares the `Misc`
+  ladder and can also be staged with `shadow-checks`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

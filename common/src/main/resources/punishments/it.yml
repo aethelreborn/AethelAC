@@ -101,6 +101,7 @@ Punishments:
       - "MultiActions"
       - "Place"
       - "Baritone"
+      - "IdleAutomation"
       - "Break"
       - "TransactionOrder"
       - "Elytra"

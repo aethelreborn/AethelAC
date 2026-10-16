@@ -81,9 +81,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v18 → v19: adds the {@code attack-patterns} steady-cadence band.
      * Same drift-free default rewrite.
+     *
+     * <p>v19 → v20: adds the {@code idle-automation} section. Same drift-free
+     * default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 19, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 20, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

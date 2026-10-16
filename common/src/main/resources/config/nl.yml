@@ -123,6 +123,17 @@ aim-analysis:
     decay-ratio-spread: 0.06
     decay-min-start: 6.0
 
+idle-automation:
+    # Anti-AFK automation detection (IdleAutomation check): a player who only
+    # performs sparse idle actions (jump/swing) for this many seconds without
+    # any rotation, movement or interaction. Minimum event count, average
+    # interval band in seconds and the stillness window in milliseconds.
+    window-seconds: 180
+    min-events: 8
+    min-interval-seconds: 3.0
+    max-interval-seconds: 15.0
+    stillness-milliseconds: 2000
+
 shadow-checks:
     # Checks listed here only send staff alerts and database logs. Webhook and
     # proxy broadcasts, console commands, kicks and bans are suppressed, so new
@@ -336,4 +347,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 19
+config-version: 20
