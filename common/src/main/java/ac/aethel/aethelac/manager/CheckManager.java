@@ -22,6 +22,7 @@ import ac.aethel.aethelac.checks.impl.elytra.*;
 import ac.aethel.aethelac.checks.impl.exploit.ExploitA;
 import ac.aethel.aethelac.checks.impl.exploit.ExploitB;
 import ac.aethel.aethelac.checks.impl.groundspoof.NoFall;
+import ac.aethel.aethelac.checks.impl.misc.AutoFish;
 import ac.aethel.aethelac.checks.impl.misc.AutoToolChain;
 import ac.aethel.aethelac.checks.impl.misc.ClientBrand;
 import ac.aethel.aethelac.checks.impl.misc.ClientFingerprint;
@@ -146,6 +147,7 @@ public class CheckManager implements BasicReloadable {
                 .put(AutoToolChain.class, new AutoToolChain(player))
                 .put(DropBurst.class, new DropBurst(player))
                 .put(PackSpoof.class, new PackSpoof(player))
+                .put(AutoFish.class, new AutoFish(player))
                 .put(NoFall.class, new NoFall(player))
                 .put(ExploitA.class, new ExploitA(player))
                 .put(ExploitB.class, new ExploitB(player))
