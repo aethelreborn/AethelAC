@@ -139,10 +139,10 @@ Explosion:
     setbackvl: 3
 
 TimerA:
-    setbackvl: 10
+    setbackvl: 5
     # Liczba milisekund, które gracz może zgromadzić do późniejszego wykorzystania, gdy się opóźni.
     # Może potencjalnie umożliwić obejścia fast use/fast heal/fast bow z wersji 1.8, jeśli ustawione zbyt wysoko. 120 ms wydaje się dobrym kompromisem.
-    drift: 120
+    drift: 60
 
 # Ta kontrola ogranicza nadużywanie balansu z checku TimerA, zapobiegając zbytniemu opóźnieniu ruchu gracza względem czasu rzeczywistego.
 TimerLimit:

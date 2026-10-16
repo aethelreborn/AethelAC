@@ -139,10 +139,10 @@ Explosion:
     setbackvl: 3
 
 TimerA:
-    setbackvl: 10
+    setbackvl: 5
     # Milliseconden die de speler kan verzamelen om later te gebruiken als hij achterop raakt
     # Kan mogelijk 1.8 snel gebruik/snelle genezing/snelle bron omleidingen toestaan als het te hoog is ingesteld, 120 ms lijkt een goede balans
-    drift: 120
+    drift: 60
 
 # This check limits abuse of the TimerA balance by preventing the player's movement falling too far behind realtime
 TimerLimit:

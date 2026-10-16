@@ -141,12 +141,12 @@ Explosion:
     setbackvl: 3
 
 TimerA:
-    setbackvl: 10
+    setbackvl: 5
     # プレイヤーがネットワーク遅延やラグの影響で操作がサーバーの予測より遅れている場合、
     # その遅れ分を後で使用できるように蓄積するためのミリ秒数を設定します。
     # この値を高く設定しすぎると、1.8版の高速使用、高速回復、高速弓などの不正な動作をバイパスできる可能性があるため、
     # 120ミリ秒がバランスの良い設定とされています。
-    drift: 120
+    drift: 60
 
 # This check limits abuse of the TimerA balance by preventing the player's movement falling too far behind realtime
 TimerLimit:

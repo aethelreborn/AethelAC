@@ -132,9 +132,9 @@ Explosion:
 
 TimerA:
     # Livello di violazione per il timer
-    setbackvl: 10
+    setbackvl: 5
     # Millisecondi accumulabili per il timer
-    drift: 120
+    drift: 60
 
 # This check limits abuse of the TimerA balance by preventing the player's movement falling too far behind realtime
 TimerLimit:

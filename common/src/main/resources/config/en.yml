@@ -139,10 +139,10 @@ Explosion:
     setbackvl: 3
 
 TimerA:
-    setbackvl: 10
+    setbackvl: 5
     # Milliseconds that the player can accumulate for later use when they fall behind
     # Could potentially allow 1.8 fast use/fast heal/fast bow bypasses if set too high, 120 ms seems like a good balance
-    drift: 120
+    drift: 60
 
 # This check limits abuse of the TimerA balance by preventing the player's movement falling too far behind realtime
 TimerLimit:

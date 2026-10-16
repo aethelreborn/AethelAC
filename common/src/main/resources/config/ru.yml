@@ -140,10 +140,10 @@ Explosion:
     setbackvl: 3
 
 TimerA:
-    setbackvl: 10
+    setbackvl: 5
     # Миллисекунды, которые игрок может накапливать для последующего использования, когда он отстает.
     # Потенциально может позволить 1.8 обходов: быстрое использование/быстрое исцеление/быстрый лук, если установлено слишком высокое значение, 120 мс кажется хорошим балансом
-    drift: 120
+    drift: 60
 
 # This check limits abuse of the TimerA balance by preventing the player's movement falling too far behind realtime
 TimerLimit:

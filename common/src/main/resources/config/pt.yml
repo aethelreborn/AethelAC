@@ -141,11 +141,11 @@ Explosion:
     setbackvl: 3
 
 TimerA:
-    setbackvl: 10
+    setbackvl: 5
     # Milissegundos que o jogador pode acumular para depois usar quando eles têm um atraso no ping.
     # Pode ignorar o uso de fast use / fast heal / fast bow na 1.8 caso o valor seja definido muito alto.
     # 120ms parece um bom balanceamento.
-    drift: 120
+    drift: 60
 
 # This check limits abuse of the TimerA balance by preventing the player's movement falling too far behind realtime
 TimerLimit:
