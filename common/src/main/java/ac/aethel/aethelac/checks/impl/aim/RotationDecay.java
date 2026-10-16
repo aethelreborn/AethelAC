@@ -23,8 +23,8 @@ import java.util.Locale;
 @CheckData(name = "RotationDecay", stableKey = "aethel.aim.rotation_decay", description = "Rotated with machine-geometric deceleration", experimental = true, decay = 0.01)
 public class RotationDecay extends Check implements RotationListener {
 
-    private static final int SERIES = 6;
-    private static final double MIN_END_DEG = 0.15D;
+    private static final int SERIES = 5;
+    private static final double MIN_END_DEG = 0.05D;
     private static final double MAX_SPEED_DEG = 60.0D;
     private static final double MAX_DECAY_FACTOR = 0.5D;
     private static final long MIN_UPDATE_GAP_NANOS = 40_000_000L;
@@ -47,7 +47,7 @@ public class RotationDecay extends Check implements RotationListener {
 
     @Override
     public void onReload(@NotNull ConfigManager config) {
-        ratioMin = config.getDoubleElse("aim-analysis.decay-ratio-min", 0.80D);
+        ratioMin = config.getDoubleElse("aim-analysis.decay-ratio-min", 0.30D);
         ratioMax = config.getDoubleElse("aim-analysis.decay-ratio-max", 0.995D);
         ratioSpread = config.getDoubleElse("aim-analysis.decay-ratio-spread", 0.06D);
         minStart = config.getDoubleElse("aim-analysis.decay-min-start", 6.0D);
