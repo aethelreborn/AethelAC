@@ -217,6 +217,7 @@ public class CheckManager implements BasicReloadable {
                 .put(MultiInteractA.class, new MultiInteractA(player))
                 .put(MultiInteractB.class, new MultiInteractB(player))
                 .put(ElytraA.class, new ElytraA(player))
+                .put(FireworkCadence.class, new FireworkCadence(player))
                 .put(ElytraB.class, new ElytraB(player))
                 .put(ElytraC.class, new ElytraC(player))
                 .put(ElytraD.class, new ElytraD(player))
