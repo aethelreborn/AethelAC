@@ -21,6 +21,7 @@ import ac.aethel.aethelac.checks.impl.exploit.ExploitA;
 import ac.aethel.aethelac.checks.impl.exploit.ExploitB;
 import ac.aethel.aethelac.checks.impl.groundspoof.NoFall;
 import ac.aethel.aethelac.checks.impl.misc.ClientBrand;
+import ac.aethel.aethelac.checks.impl.misc.ClientFingerprint;
 import ac.aethel.aethelac.checks.impl.misc.GhostBlockMitigation;
 import ac.aethel.aethelac.checks.impl.misc.Post;
 import ac.aethel.aethelac.checks.impl.misc.TransactionOrder;
@@ -124,6 +125,7 @@ public class CheckManager implements BasicReloadable {
                 .put(AttackCooldownHandler.class, player.attackCooldown)
                 .put(TeamHandler.class, new TeamHandler(player))
                 .put(ClientBrand.class, new ClientBrand(player))
+                .put(ClientFingerprint.class, new ClientFingerprint(player))
                 .put(NoFall.class, new NoFall(player))
                 .put(ExploitA.class, new ExploitA(player))
                 .put(ExploitB.class, new ExploitB(player))
