@@ -112,6 +112,13 @@ attack-patterns:
     # unswung attacks in a row trigger a flag.
     swing-max-age-ms: 200
     swing-miss-attacks: 4
+    # Mace smash-timing detection (MaceSmash check): minimal smash fall
+    # window, how many recent smash attacks to judge, and the fraction that
+    # must sit inside the window to flag.
+    mace-band-min: 1.5
+    mace-band-max: 1.7
+    mace-min-attacks: 10
+    mace-band-fraction: 0.9
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -357,4 +364,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 27
+config-version: 28

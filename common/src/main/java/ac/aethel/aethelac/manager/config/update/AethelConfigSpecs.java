@@ -106,9 +106,11 @@ public final class AethelConfigSpecs {
      * <p>v26 → v27: locale parity pass (drops the legacy German
      * {@code VehicleC} block, adds the missing Romanian
      * {@code reset-item-usage-on-item-use} knob).
+     *
+     * <p>v27 → v28: adds the {@code attack-patterns} mace smash knobs.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 27, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 28, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

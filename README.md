@@ -94,6 +94,9 @@ Attack patterns (`attack-patterns` in `config.yml`):
   0.05, or 100 intervals at or below 0.08 for randomized-delay bots.
 - `NoSwingAttack` flags silent-aura modes that strip the arm animation: four
   or more attacks in a row with no swing within 200 ms.
+- `MaceSmash` flags mace smash-timing automation: ten or more recent smash
+  attacks with 90% or more pinned to the minimal 1.5-1.7 block fall window,
+  where natural leaps and knockback never cluster.
 
 Aim analysis (`aim-analysis` in `config.yml`), all sharing the `AimHeuristics`
 ladder:
