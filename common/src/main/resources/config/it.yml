@@ -93,6 +93,16 @@ attack-patterns:
     rotating-min-attacks: 12
     rotating-fraction: 0.8
     rotating-min-delta: 20.0
+    # Attack-anchored return detection (ReturnFlick check): minimum rotation
+    # burst in degrees before an attack, minimum return magnitude ratio,
+    # endpoint tolerance relative to the burst, attacks required in the
+    # lookback window and the required returned fraction.
+    return-approach-min: 6.0
+    return-ratio-min: 0.6
+    return-endpoint-tolerance: 0.35
+    return-window-attacks: 12
+    return-window-seconds: 20
+    return-fraction: 0.6
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -105,7 +115,7 @@ aim-analysis:
     pitch-min-speed: 0.8
     # Rotation decay detection (RotationDecay check): ratio band and maximum
     # spread of consecutive delta ratios, minimum starting speed in deg/tick.
-    decay-ratio-min: 0.80
+    decay-ratio-min: 0.30
     decay-ratio-max: 0.995
     decay-ratio-spread: 0.06
     decay-min-start: 6.0
@@ -301,4 +311,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 17
+config-version: 18

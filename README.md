@@ -96,6 +96,10 @@ The default configuration ships hardened for competitive PvP:
   `AttackRotation` check flags attacks landing mid-rotation on 80% or more of
   at least twelve attacks in a minute and shares the `AimHeuristics` ladder.
   Both can be staged first with `shadow-checks`.
+- The experimental `ReturnFlick` check flags attack-anchored rotation bursts
+  that reverse and land back on their starting heading within a few ticks,
+  the restore pass of silent aim; it shares the `AimHeuristics` ladder and
+  can also be staged with `shadow-checks`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

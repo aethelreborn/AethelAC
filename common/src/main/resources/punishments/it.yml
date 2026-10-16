@@ -118,6 +118,7 @@ Punishments:
       - "LinearRotation"
       - "RotationDecay"
       - "AttackRotation"
+      - "ReturnFlick"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"
