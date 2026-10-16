@@ -30,6 +30,7 @@ public class FireworkCadence extends Check implements PacketReceiveListener {
     private final double[] intervals = new double[CAPACITY];
     private int index;
     private int size;
+    private int boostCount;
     private long lastBoostNanos;
     private long lastFlagNanos;
 
@@ -61,6 +62,7 @@ public class FireworkCadence extends Check implements PacketReceiveListener {
         }
 
         long now = System.nanoTime();
+        boostCount++;
         if (lastBoostNanos != 0L) {
             long gap = now - lastBoostNanos;
             if (gap >= MIN_INTERVAL_NANOS) {
@@ -95,5 +97,9 @@ public class FireworkCadence extends Check implements PacketReceiveListener {
             flag(String.format(Locale.ROOT, "%d firework boosts, mean %.0fms, cv %.3f", size, mean, cv));
             lastFlagNanos = now;
         }
+    }
+
+    public int getBoostCount() {
+        return boostCount;
     }
 }

@@ -15,6 +15,8 @@ import ac.aethel.aethelac.checks.impl.combat.AttackRotation;
 import ac.aethel.aethelac.checks.impl.combat.Autoclicker;
 import ac.aethel.aethelac.checks.impl.combat.MaceSmash;
 import ac.aethel.aethelac.checks.impl.combat.SlowCadence;
+import ac.aethel.aethelac.checks.impl.elytra.FireworkCadence;
+import ac.aethel.aethelac.checks.impl.misc.AutoFish;
 import ac.aethel.aethelac.checks.impl.misc.AutoToolChain;
 import ac.aethel.aethelac.checks.impl.misc.DamageReaction;
 import ac.aethel.aethelac.checks.impl.misc.FastClick;
@@ -304,6 +306,14 @@ public class AethelExternalAPI implements GrimAbstractAPI, ConfigReloadObserver,
         variableReplacements.putIfAbsent("%pack_fixed%", user -> {
             PackSpoof check = lookup(user, PackSpoof.class);
             return check == null ? "0" : Integer.toString(check.getFixedPairs());
+        });
+        variableReplacements.putIfAbsent("%fish_quick%", user -> {
+            AutoFish check = lookup(user, AutoFish.class);
+            return check == null ? "0" : Integer.toString(check.getFastReels());
+        });
+        variableReplacements.putIfAbsent("%firework_boosts%", user -> {
+            FireworkCadence check = lookup(user, FireworkCadence.class);
+            return check == null ? "0" : Integer.toString(check.getBoostCount());
         });
         // static variables
         staticReplacements.put("%prefix%", MessageUtil.translateAlternateColorCodes('&', AethelAPI.INSTANCE.getConfigManager().getPrefix()));

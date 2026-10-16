@@ -91,4 +91,8 @@ public class AutoFish extends Check implements PacketReceiveListener, PacketSend
             lastFlagNanos = now;
         }
     }
+
+    public int getFastReels() {
+        return fastReels;
+    }
 }
