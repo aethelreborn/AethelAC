@@ -341,6 +341,7 @@ experimental-checks: true
 reset-item-usage-on-item-update: true
 reset-item-usage-on-attack: true
 reset-item-usage-on-slot-change: true
+reset-item-usage-on-item-use: true
 
 # Aethel uneori anulează pachete ilegale precum timer, după X pachete anulate într-o secundă, când să
 # deconectăm jucătorul? Este necesar deoarece unele limitatoare de pachete nu numără pachetele anulate de Aethel.
@@ -378,4 +379,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 26
+config-version: 27

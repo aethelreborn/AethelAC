@@ -9,6 +9,9 @@ brands-enabled: "%prefix% &fBrands enabled"
 brands-disabled: "%prefix% &fBrands disabled"
 client-brand-format: "%prefix% &f%player% が %brand% を使用して参加しました"
 console-specify-target: "%prefix% &cコンソールでターゲットを指定する必要があります！"
+reloading: "%prefix% &7設定をリロード中..."
+reloaded: "%prefix% &f設定がリロードされました。"
+reload-failed: "%prefix% &c設定のリロードに失敗しました。"
 player-not-found: "%prefix% &cプレイヤーはチェックから免除されているか、オフラインです！"
 player-not-this-server: "%prefix% &cプレイヤーはこのサーバーにいません！"
 sender-not-found: "%prefix% &c免除状態の場合、このコマンドは使用できません！"
@@ -136,4 +139,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # スキーマ用マーカー — config.yml のヘッダーコメントを参照。
 config-flavor: V2
-config-version: 3
+config-version: 4

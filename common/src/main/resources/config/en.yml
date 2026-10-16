@@ -375,4 +375,4 @@ update-permission-ticks: 20
 #   config-version: bumped on every breaking shape change. Old configs
 #                   auto-migrate up via the bundled updater on next start.
 config-flavor: V2
-config-version: 26
+config-version: 27

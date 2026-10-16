@@ -102,9 +102,13 @@ public final class AethelConfigSpecs {
      *
      * <p>v25 → v26: adds the {@code attack-patterns} swing knobs for the
      * no-swing aura check.
+     *
+     * <p>v26 → v27: locale parity pass (drops the legacy German
+     * {@code VehicleC} block, adds the missing Romanian
+     * {@code reset-item-usage-on-item-use} knob).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 26, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 27, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
@@ -171,9 +175,11 @@ public final class AethelConfigSpecs {
      * <p>v2 → v3: adds the automation metrics (attack cadence, container
      * clicks, idle events, tool swaps, damage reactions) to the
      * {@code profile} template.
+     *
+     * <p>v3 → v4: adds the missing Japanese reload messages.
      */
     public static @NotNull ConfigUpdater.Spec messages() {
-        return ConfigUpdater.Spec.builder("/messages/", 3, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/messages/", 4, ConfigUpdater.ConfigFlavor.V2)
                 .build();
     }
 
