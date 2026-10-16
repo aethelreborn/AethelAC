@@ -74,14 +74,14 @@ Simulation:
     threshold: 0.001
     # Cât de mare trebuie să fie încălcarea într-un tick pentru a da setback imediat?
     # -1 pentru a dezactiva
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Cât de mare este avantajul acumulat înainte de a aplica setback-ul?
     # -1 pentru a dezactiva
-    max-advantage: 1
+    max-advantage: 0.5
     # După 50 de secunde cu setările implicite, jucătorul va trece de la 4 blocuri -> 1 bloc avantaj
     # Aceasta previne acumularea prea multor încălcări fără șansă de reset
     # Grafic implicit avantaj (axa X = secunde, axa Y = 1/1000 bloc): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Pragul de încălcare pentru setback
     # 1 pentru comportamentul vechi
     setback-violation-threshold: 1

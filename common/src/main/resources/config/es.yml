@@ -75,14 +75,14 @@ Simulation:
     threshold: 0.001
     # ¿Qué tan grande debería ser una violación en un tick antes de que el jugador se retroceda inmediatamente?
     # -1 para deshabilitar
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # ¿Qué tan grande debería ser una ventaja sobre todos los ticks para que empecemos a retroceder?
     # -1 para deshabilitar
-    max-advantage: 1
+    max-advantage: 0.5
     # Después de 50 segundos con la configuración predeterminada, el jugador ira de 4 bloques -> 1 bloque de ventaja
     # Esto es para prevenir que el jugador obtenga muchas violaciones y no pueda ser capaz de borrarlas
     # Tope de ventaja por defecto (eje x = segundos, eje y = bloque 1/1000): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Umbral del nivel de violación para el retroceso
     # 1 para el comportamiento antiguo
     setback-violation-threshold: 1

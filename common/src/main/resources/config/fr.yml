@@ -74,14 +74,14 @@ Simulation:
     threshold: 0.001
     # Quelle est la distance maximale d'une violation par tick avant que le joueur ne soit immédiatement renvoyé en arrière ?
     # -1 pour désactiver
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Quelle est la distance maximale d'une violation sur tout les ticks avant que l'anti-cheat commence à renvoyer en arrière ?
     # -1 pour désactiver
-    max-advantage: 1
+    max-advantage: 0.5
     # Après 50 secondes avec la configuration par défaut, le joueur passera de 4 blocs -> 1 bloc d'avantage
     # Cela vise à empêcher le joueur d'accumuler trop de violations et de ne jamais pouvoir toutes les réinitialiser.
     # Plafond d'avantage par défaut (l"axe x = secondes, l'axe y = 1/1000 de bloc)) : https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Seuil du niveau de violation pour le setback
     # 1 pour le comportement ancien
     setback-violation-threshold: 1

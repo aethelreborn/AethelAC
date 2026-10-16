@@ -76,14 +76,14 @@ Simulation:
     threshold: 0.001
     # プレイヤーを即座にセットバックする前に、シミュレーションされた動きとプレイヤーの実際の動きの間にどれだけの違反が必要かを指定します。
     # -1で無効化できます。
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # 全ティックでのシミュレーションとの累積ズレがこの値を超えたらリセットを開始します。
     # -1で無効化できます。
-    max-advantage: 1
+    max-advantage: 0.5
     # デフォルト設定では、50秒経過すると、プレイヤーのアドバンテージが4ブロックから1ブロックに減少します。
     # これは、プレイヤーが違反を蓄積しすぎて、違反を解消できなくなるのを防ぐためです。
     # デフォルトのアドバンテージの上限 (x軸 = 秒, y軸 = 1/1000ブロック): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # セットバックの違反レベル閾値
     # 旧仕様の挙動は 1 です
     setback-violation-threshold: 1

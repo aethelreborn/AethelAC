@@ -74,14 +74,14 @@ Simulation:
     threshold: 0.001
     # How large of a violation in a tick before the player gets immediately setback?
     # -1 to disable
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # How large of an advantage over all ticks before we start to setback?
     # -1 to disable
-    max-advantage: 1
+    max-advantage: 0.5
     # After 50 seconds with default config, the player will go from 4 blocks -> 1 block of advantage
     # This is to stop the player from gathering too many violations and never being able to clear them all
     # Default advantage ceiling (x axis = seconds, y axis = 1/1000 block): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Violation level threshold for setback
     # 1 for old behavior
     setback-violation-threshold: 1

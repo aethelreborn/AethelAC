@@ -75,14 +75,14 @@ Simulation:
     threshold: 0.001
     # O quão longe o jogador deve estar da área simulada para imediatamente recuá-lo?
     # -1 desabilitará
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Qual é a soma do desalinhamento da simulação em todos os ticks até começarmos a recuar?
     # -1 desabilitará
-    max-advantage: 1
+    max-advantage: 0.5
     # Depois de 50 segundos, com a configuração padrão, o jogador irá de 4 blocos a 1 bloco de vantagem.
     # Isso serve para previnir o jogador de alcançar violações demais e nunca conseguir se livrar delas.
     # Cela de vantagens padrão (eixo X = segundos, eixo Y = 1/1000 blocos): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Quantas violações para começar a recuar o jogador?
     # 1 para comportamento antigo
     setback-violation-threshold: 1

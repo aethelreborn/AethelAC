@@ -74,14 +74,14 @@ Simulation:
     threshold: 0.001
     # Hoe groot is de overtreding in een tick voordat de speler onmiddellijk een terugslag krijgt?
     # -1 om uit te schakelen
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Hoe groot is het voordeel ten opzichte van alle teken voordat we een terugslag krijgen?
     # -1 om uit te schakelen
-    max-advantage: 1
+    max-advantage: 0.5
     # Na 50 seconden met de standaardinstellingen zal de speler van 4 blokken -> 1 blok voordeel gaan
     # Dit is om te voorkomen dat de speler te veel schendingen verzamelt en ze nooit allemaal kan opruimen
     # Standaard voordelenplatform (x-as = seconden, y-as = 1/1000 blok): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Drempelwaarde voor het schendingenniveau voor de terugslag
     # 1 voor het oude gedrag
     setback-violation-threshold: 1

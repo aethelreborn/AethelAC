@@ -74,14 +74,14 @@ Simulation:
     threshold: 0.001
     # Jak duże naruszenie w jednym ticku spowoduje natychmiastowe cofnięcie gracza?
     # -1 aby wyłączyć
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Jak dużą całkowitą przewagę (we wszystkich tickach) trzeba osiągnąć, zanim zaczniemy cofać gracza?
     # -1 aby wyłączyć
-    max-advantage: 1
+    max-advantage: 0.5
     # Po 50 sekundach z domyślną konfiguracją, przewaga gracza spadnie z 4 bloków do 1 bloku.
     # Ma to na celu zapobieżenie gromadzeniu zbyt wielu naruszeń, których gracz nie mógłby później wyzerować.
     # Domyślny sufit przewagi (oś x = sekundy, oś y = 1/1000 bloku): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Próg poziomu naruszeń wymagany do cofnięcia.
     # 1 dla starego zachowania.
     setback-violation-threshold: 1

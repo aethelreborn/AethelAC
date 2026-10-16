@@ -74,14 +74,14 @@ Simulation:
     threshold: 0.001
     # Wie groß ist der Verstoß in einem Tick, bevor der Spieler sofort zurückgesetzt wird?
     # -1 zum Deaktivieren
-    immediate-setback-threshold: 0.1
+    immediate-setback-threshold: 0.02
     # Wie groß ist der Vorsprung gegenüber allen Ticks, bevor wir einen Rückschlag erleiden?
     # -1 zum Deaktivieren
-    max-advantage: 1
+    max-advantage: 0.5
     # Nach 50 Sekunden mit der Standardkonfiguration geht der Spieler von 4 Blöcken -> 1 Block Vorteil
     # Dies soll verhindern, dass der Spieler zu viele Verstöße sammelt und nie in der Lage ist, sie alle zu beseitigen.
     # Standard-Vorteilsgrenze (x-Achse = Sekunden, y-Achse = 1/1000 Block): https://www.desmos.com/calculator/4lovswdarj
-    max-ceiling: 4
+    max-ceiling: 2
     # Schwellenwert für die Verletzungsstufe für den Rückschlag
     # 1 für das alte Verhalten
     setback-violation-threshold: 1
