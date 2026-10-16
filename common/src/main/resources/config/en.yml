@@ -89,7 +89,7 @@ Simulation:
 # Checks to see if a player entered a block during a movement
 Phase:
     setbackvl: 1 # Glitching into blocks can allow wall climbing, plus this check is relatively stable
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -136,7 +136,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

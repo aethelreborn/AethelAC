@@ -89,7 +89,7 @@ Simulation:
 # Sprawdza, czy gracz wszedł w blok podczas ruchu.
 Phase:
     setbackvl: 1 # Wchodzenie w bloki może umożliwiać wspinanie się po ścianach, dodatkowo ta kontrola jest względnie stabilna.
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -136,7 +136,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

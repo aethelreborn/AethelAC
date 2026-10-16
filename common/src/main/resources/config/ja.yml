@@ -91,7 +91,7 @@ Simulation:
 # プレイヤーが移動中にブロックに入ったかどうかをチェックします。
 Phase:
     setbackvl: 1 # 1ブロック以上のズレがある場合に違反と判断します。
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -138,7 +138,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

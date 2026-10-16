@@ -82,7 +82,7 @@ Phase:
     # Livello di violazione per il glitch nel blocco
     setbackvl: 1
     # Decadimento per il glitch nel blocco
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     # Livello di violazione per il piazzamento in aria o liquido
@@ -128,7 +128,7 @@ Explosion:
     # Limite per rilevare l'esplosione
     threshold: 0.001
     # Livello di violazione per l'esplosione
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     # Livello di violazione per il timer

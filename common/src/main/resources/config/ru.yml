@@ -89,7 +89,7 @@ Simulation:
 # Проверяет, вошел ли игрок в блок во время движения.
 Phase:
     setbackvl: 1 # Глитч с блоками может позволить забраться на стену, к тому же эта проверка относительно стабильна
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -137,7 +137,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

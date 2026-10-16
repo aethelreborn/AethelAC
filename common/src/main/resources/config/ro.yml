@@ -89,7 +89,7 @@ Simulation:
 # Verifică dacă un jucător a intrat într-un bloc în timpul mișcării
 Phase:
     setbackvl: 1 # Glitch-ul în blocuri poate permite escaladarea pereților, iar acest check e relativ stabil
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -136,7 +136,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

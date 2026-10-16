@@ -100,7 +100,7 @@ Simulation:
 # 检查玩家是否穿墙
 Phase:
     setbackvl: 1 # 错误的方块可以允许爬墙，加上这个检查是相对稳定的
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -156,7 +156,7 @@ Explosion:
     # 假设作弊者1个游戏刻的移动优势为0.11，并且违规了10次（10个游戏刻），即0.11*10，为1.1
     # 若设置的值为1，1.1 >= 1，那么玩家会立即被回弹到本应到达的位置
     # -1 关闭此项
-    setbackvl: 3
+    setbackvl: 1
     # 到达多少VL时回弹
 
 TimerA:

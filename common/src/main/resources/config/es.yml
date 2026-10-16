@@ -90,7 +90,7 @@ Simulation:
 # Comprobaciones para ver si un jugador entro a un bloque durante un movimiento
 Phase:
     setbackvl: 1 # Entrar a un bloque mediante bugs puede permitir subir paredes, además esta comprobación es relativamente estable.
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -140,7 +140,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

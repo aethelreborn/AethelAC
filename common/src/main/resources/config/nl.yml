@@ -89,7 +89,7 @@ Simulation:
 # Controleert of een speler een blok is binnengegaan tijdens een beweging
 Phase:
     setbackvl: 1 # Glitching in blokken kan muurklimmen mogelijk maken, plus deze controle is relatief stabiel
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -136,7 +136,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

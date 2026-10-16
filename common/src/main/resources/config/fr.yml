@@ -89,7 +89,7 @@ Simulation:
 # Vérifications pour voir si un joueur est entré dans un bloc pendant un mouvement.
 Phase:
     setbackvl: 1 # Rentrer dans des blocs peut permettre de grimper sur les murs, et cette vérification est relativement stable.
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -137,7 +137,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

@@ -89,7 +89,7 @@ Simulation:
 # Bir oyuncunun bir hareket sırasında bir bloğa girip girmediğini kontrol eder
 Phase:
     setbackvl: 1 # Blokların içinde glitch yapmak duvara tırmanmaya izin verebilir, ayrıca bu kontrol nispeten stabildir
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -136,7 +136,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5

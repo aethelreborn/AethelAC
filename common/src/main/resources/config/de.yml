@@ -89,7 +89,7 @@ Simulation:
 # Überprüft, ob ein Spieler während einer Bewegung einen Block betreten hat.
 Phase:
     setbackvl: 1 # Glitching in Blöcken kann das Klettern an der Wand ermöglichen, außerdem ist dieser Check relativ stabil.
-    decay: 0.005
+    decay: 0.001
 
 AirLiquidPlace:
     cancelvl: 0
@@ -136,7 +136,7 @@ Knockback:
 
 Explosion:
     threshold: 0.001
-    setbackvl: 3
+    setbackvl: 1
 
 TimerA:
     setbackvl: 5
