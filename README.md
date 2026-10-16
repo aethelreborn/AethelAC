@@ -145,6 +145,10 @@ Inventory and macro automation:
   automation: eight or more consecutive firework boosts with machine-constant
   intervals (CV at or below 0.05 in the 700-4000 ms band), the signature of
   Super Fire Work style pulse modes.
+- `AutoFish` (`fishing-analysis` in `config.yml`) flags auto-fishing: three
+  or more reels landing within 120 ms of the bobber splash sound, far inside
+  human audio-visual reaction time; anything slower consumes the bite and
+  cannot double count the mandatory recast.
 
 All automation heuristics are experimental; each shares a punishment ladder
 (`Autoclicker`, `AimHeuristics`, or `Misc`) and can be staged with

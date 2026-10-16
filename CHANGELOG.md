@@ -3,6 +3,11 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.8] - 2026-10-17
+
+- Add `AutoFish`: three or more reels landing within 120 ms of the bobber
+  splash sound (near the player), catching same-tick auto-fishing modules.
+
 ## [v3.7] - 2026-10-17
 
 - Add `FireworkCadence`: eight or more consecutive elytra firework boosts
