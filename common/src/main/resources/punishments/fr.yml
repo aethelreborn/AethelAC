@@ -9,7 +9,7 @@
 Punishments:
   Simulation:
     # Au bout de combien de secondes une violation doit-elle être supprimée ?
-    remove-violations-after: 300
+    remove-violations-after: 600
     # Cette section correspondra à toutes les vérifications portant le nom indiqué,
     # Pour exclure une vérification qui serait sinon correspondante, placez un point d'exclamation devant le nom.
     # Par exemple, !BadPacketsN
@@ -36,7 +36,7 @@ Punishments:
       - "40:0 kick %player% AethelAC: Movement simulation failed"
       - "70:0 ban %player% 30d AethelAC: Movement simulation (%vl% violations)"
   Knockback:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "Knockback"
       - "Explosion"
@@ -48,7 +48,7 @@ Punishments:
       - "30:0 kick %player% AethelAC: Knockback violation"
       - "60:0 ban %player% 30d AethelAC: Knockback (%vl% violations)"
   Post:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "Post"
     commands:
@@ -59,7 +59,7 @@ Punishments:
       - "40:0 kick %player% AethelAC: Post violation"
       - "70:0 ban %player% 30d AethelAC: Post (%vl% violations)"
   BadPackets:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "BadPackets"
       - "PacketOrder"
@@ -72,7 +72,7 @@ Punishments:
       - "20:0 kick %player% AethelAC: Invalid packet"
       - "40:0 ban %player% 30d AethelAC: Bad packets (%vl% violations)"
   Reach:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "Reach"
     commands:
@@ -83,7 +83,7 @@ Punishments:
       - "25:0 kick %player% AethelAC: Reach violation"
       - "50:0 ban %player% 30d AethelAC: Reach (%vl% violations)"
   Hitboxes:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "Hitboxes"
     commands:
@@ -94,7 +94,7 @@ Punishments:
       - "25:0 kick %player% AethelAC: Hitbox violation"
       - "50:0 ban %player% 30d AethelAC: Hitboxes (%vl% violations)"
   Misc:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "Vehicle"
       - "NoSlow"
@@ -115,7 +115,7 @@ Punishments:
       - "60:0 kick %player% AethelAC: Misc violation"
       - "100:0 ban %player% 30d AethelAC: Misc violations (%vl%)"
   Combat:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "Interact"
       - "Aim"
@@ -128,7 +128,7 @@ Punishments:
       - "140:0 ban %player% 30d AethelAC: Combat violations (%vl%)"
   # A partir de la version 2.2.10, il n'y a plus de vérifications pour AutoClicker et c'est un placeholder. Aethel inclura des vérifications AutoClicker dans le futur.
   Autoclicker:
-    remove-violations-after: 300
+    remove-violations-after: 600
     checks:
       - "Autoclicker"
     commands:
