@@ -3,6 +3,27 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.4] - 2026-10-17
+
+- `PackSpoof` now also covers configuration-phase resource pack status
+  packets (1.20.3+ pushes).
+
+## [v3.3] - 2026-10-17
+
+- Extend `FastClick` with a menu-bot tier: twenty consecutive clicks with
+  near-constant intervals (CV at or below 0.045) in the 250-900 ms band.
+
+## [v3.2] - 2026-10-17
+
+- Add `PackSpoof`: two or more resource packs reported loaded 293-360 ms
+  after acceptance (Server RP spoof modules use a fixed 300 ms timer).
+
+## [v3.1] - 2026-10-17
+
+- Widen `RotationDecay` to decay ratios 0.18-0.995; the redundant half-decay
+  gate is removed, covering fast geometric rotators (BackAngle speeds up to
+  0.82).
+
 ## [v3] - 2026-10-17
 
 - Baseline carrying the complete strict detection suite as released through
