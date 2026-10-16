@@ -144,6 +144,23 @@ All automation heuristics are experimental; each shares a punishment ladder
   click rate, idle events, tool-swap cycles, damage reactions) so staff can
   eyeball a suspect without reading flag history.
 
+### Known limitations
+
+- Aim-assist modules that nudge the camera by only a few degrees per tick in
+  line with the server-visible motion cannot be separated from a mouse
+  without entity-relative position history; they are intentionally not
+  guessed at.
+- Factor-based rotation smoothing with a constant ratio has no variance to
+  measure and is only caught when paired with other heuristics.
+- Aura configurations running rotation speeds under roughly 10°/tick per
+  axis stay under the rotating-attack threshold by design; lowering it risks
+  flagging strafe-flick combat.
+- Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
+  for a server-side anticheat.
+- The offhand and tool-automation checks anchor on damage and dig cycles;
+  macros that fire on keyboard-only triggers with no server-visible anchor
+  degrade to the generic rate checks.
+
 ## Building
 
 Requires JDK 21.
