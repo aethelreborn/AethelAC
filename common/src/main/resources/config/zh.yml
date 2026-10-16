@@ -135,6 +135,14 @@ idle-automation:
     max-interval-seconds: 15.0
     stillness-milliseconds: 2000
 
+inventory-automation:
+    # Container click-rate detection (FastClick check): window in seconds,
+    # minimum pickup/shift-move clicks in the window and the mean interval in
+    # milliseconds below which the cadence is superhuman.
+    click-window-seconds: 10
+    click-min-count: 60
+    click-mean-interval-ms: 110.0
+
 shadow-checks:
     # Checks listed here only send staff alerts and database logs. Webhook and
     # proxy broadcasts, console commands, kicks and bans are suppressed, so new
@@ -364,4 +372,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 20
+config-version: 21

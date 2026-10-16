@@ -115,6 +115,7 @@ Punishments:
       - "Place"
       - "Baritone"
       - "IdleAutomation"
+      - "FastClick"
       - "Break"
       - "TransactionOrder"
       - "Elytra"
