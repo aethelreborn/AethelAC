@@ -112,6 +112,17 @@ Punishments:
       - "30:10 [proxy]"
       - "60:0 kick %player% AethelAC: Misc violation"
       - "100:0 ban %player% 30d AethelAC: Misc violations (%vl%)"
+  AimHeuristics:
+    remove-violations-after: 600
+    checks:
+      - "LinearRotation"
+    commands:
+      - "5:5 [alert]"
+      - "1:1 [log]"
+      - "20:10 [webhook]"
+      - "20:10 [proxy]"
+      - "60:0 kick %player% AethelAC: Machine-constant rotation"
+      - "120:0 ban %player% 30d AethelAC: Machine-constant rotation (%vl% violations)"
   Combat:
     remove-violations-after: 600
     checks:

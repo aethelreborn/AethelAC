@@ -75,8 +75,13 @@ The default configuration ships hardened for competitive PvP:
   matches, and a 30-day ban at 30.
 - Attack cadence analysis (`attack-patterns` in `config.yml`) flags the
   `Autoclicker` check on sustained 18+ CPS over a full minute, 20+ CPS over
-  twenty seconds, or machine-regular click intervals: alerts from 10
-  violations, console kick at 80, 30-day ban at 140.
+  twenty seconds, machine-regular click intervals, or high-rate clicking that
+  never produces human burst pairs: alerts from 10 violations, console kick
+  at 80, 30-day ban at 140.
+- Machine-constant rotation analysis (`aim-analysis` in `config.yml`) flags
+  the experimental `LinearRotation` check when fifteen consecutive combat
+  rotation ticks hold a machine-like coefficient of variation: alerts from 5
+  violations, console kick at 60, 30-day ban at 120.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

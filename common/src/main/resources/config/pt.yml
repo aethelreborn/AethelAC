@@ -77,6 +77,16 @@ attack-patterns:
     # Coefficient of variation below which 100+ consecutive attack intervals
     # at an elevated click rate count as machine cadence.
     cadence-cv-threshold: 0.06
+    # Sustained clicking above this rate that never produces a sub-burst-gap
+    # interval counts as machine cadence (humans burst at high CPS).
+    no-burst-min-cps: 14.0
+    burst-gap-ms: 35.0
+
+aim-analysis:
+    # Machine-constant rotation detection (LinearRotation check): coefficient
+    # of variation ceiling across 15 consecutive combat-speed rotation ticks.
+    linear-cv-threshold: 0.05
+    linear-min-speed: 3.0
 
 spectators:
     # Esconde todos espectadores com a permissão 'aethel.spectate' mesmo se não estiverem ativamente espectando.
@@ -289,4 +299,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 13
+config-version: 14

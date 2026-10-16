@@ -61,9 +61,13 @@ public final class AethelConfigSpecs {
      * <p>v12 → v13: adds the {@code attack-patterns} section (autoclicker
      * cadence thresholds) used by the Autoclicker check. Same drift-free
      * default rewrite as v11/v12.
+     *
+     * <p>v13 → v14: adds {@code attack-patterns.no-burst-min-cps} /
+     * {@code burst-gap-ms} and the {@code aim-analysis} section
+     * (LinearRotation thresholds). Same drift-free default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 13, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 14, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
