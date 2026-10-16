@@ -10,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -30,6 +31,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: aethelac-dev
+          retention-days: 14
           path: |
             bukkit/build/libs/aethelac-bukkit-*.jar
             fabric/build/libs/aethelac-fabric-*.jar
