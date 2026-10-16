@@ -112,10 +112,12 @@ Punishments:
       - "Chat"
       - "Exploit"
     commands:
-      - "10:5 [alert]"
+      - "5:5 [alert]"
       - "1:1 [log]"
-      - "20:10 [webhook]"
-      - "20:10 [proxy]"
+      - "30:10 [webhook]"
+      - "30:10 [proxy]"
+      - "60:0 kick %player% AethelAC: Misc violation"
+      - "100:0 ban %player% 30d AethelAC: Misc violations (%vl%)"
   Combat:
     remove-violations-after: 300
     checks:
