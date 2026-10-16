@@ -112,9 +112,12 @@ public final class AethelConfigSpecs {
      * <p>v28 → v29: lowers the rotation decay ratio floor to 0.18 so fast
      * geometric rotators are caught; the redundant half-decay gate was
      * removed.
+     *
+     * <p>v29 → v30: adds the {@code pack-spoof} section for the
+     * resource-pack spoof check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 29, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 30, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

@@ -173,6 +173,14 @@ reaction-analysis:
     damage-reaction-min-pairs: 6
     damage-reaction-window-seconds: 300
 
+pack-spoof:
+    # Resource-pack spoof detection (PackSpoof check): acceptance-to-success
+    # gap window in ms that machine spoofers land in, and how many fixed-gap
+    # reports trigger a flag.
+    spoof-min-ms: 293
+    spoof-max-ms: 360
+    spoof-min-pairs: 2
+
 shadow-checks:
     # Checks listed here only send staff alerts and database logs. Webhook and
     # proxy broadcasts, console commands, kicks and bans are suppressed, so new
@@ -402,4 +410,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 29
+config-version: 30

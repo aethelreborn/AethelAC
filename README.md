@@ -136,6 +136,9 @@ Inventory and macro automation:
 - `IdleAutomation` (`idle-automation` in `config.yml`) flags anti-AFK modules
   that jump or swing sparsely for minutes while the player sends no rotation,
   movement or interaction.
+- `PackSpoof` (`pack-spoof` in `config.yml`) flags resource-pack spoofing:
+  two or more packs reported loaded 293-360 ms after acceptance, the fixed
+  timer of Server RP spoof modules; real downloads finish at network speed.
 
 All automation heuristics are experimental; each shares a punishment ladder
 (`Autoclicker`, `AimHeuristics`, or `Misc`) and can be staged with

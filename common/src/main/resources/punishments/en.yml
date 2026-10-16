@@ -123,6 +123,7 @@ Punishments:
       - "DamageReaction"
       - "AutoToolChain"
       - "DropBurst"
+      - "PackSpoof"
       - "Break"
       - "TransactionOrder"
       - "Elytra"
