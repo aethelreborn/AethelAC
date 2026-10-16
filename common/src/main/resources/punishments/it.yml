@@ -65,17 +65,21 @@ Punishments:
     commands:
       - "1:1 [alert]"
       - "1:1 [log]"
-      - "1:1 [webhook]"
-      - "1:1 [proxy]"
+      - "10:5 [webhook]"
+      - "10:5 [proxy]"
+      - "25:0 kick %player% AethelAC: Reach violation"
+      - "50:0 ban %player% 30d AethelAC: Reach (%vl% violations)"
   Hitboxes:
     remove-violations-after: 300
     checks:
       - "Hitboxes"
     commands:
-      - "5:3 [alert]"
+      - "3:3 [alert]"
       - "1:1 [log]"
-      - "5:3 [webhook]"
-      - "5:3 [proxy]"
+      - "10:5 [webhook]"
+      - "10:5 [proxy]"
+      - "25:0 kick %player% AethelAC: Hitbox violation"
+      - "50:0 ban %player% 30d AethelAC: Hitboxes (%vl% violations)"
   Misc:
     remove-violations-after: 300
     checks:
