@@ -95,16 +95,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # Verificare NoSlow bazată pe predicție
 # Aethel ține cont de netcode-ul buguit aici... greu de generat fals pozitive, chiar și când apeși repetat click dreapta și butonul pentru mâna secundară

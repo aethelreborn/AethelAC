@@ -90,19 +90,19 @@ AirLiquidPlace:
 
 FabricatedPlace:
     # Livello di violazione per il piazzamento di un blocco fabbricato
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
     # Livello di violazione per il piazzamento in un punto lontano
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
     # Livello di violazione per il piazzamento in una posizione specifica
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
     # Livello di violazione per il piazzamento con rotazione specifica
-    cancelvl: 5
+    cancelvl: 1
 
 NoSlow:
     # Limite per rilevare l'uso scorretto dell'oggetto

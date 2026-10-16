@@ -96,16 +96,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # Comprobación de NoSlow basado en predicciones
 # Aethel compensa por código de red con errores aquí... difícil de sacar un falso positivo incluso haciendo spam del

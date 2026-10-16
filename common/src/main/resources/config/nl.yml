@@ -95,16 +95,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # Op voorspelling gebaseerde NoSlow-controle
 # Aethel is verantwoordelijk voor buggy netcode hier... moeilijk om vals te spelen, zelfs als je met rechts klikt en de offhand-knop spamt

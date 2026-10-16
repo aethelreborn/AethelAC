@@ -95,16 +95,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # Oparta na predykcji kontrola NoSlow.
 # Aethel uwzględnia tutaj problematyczny kod sieciowy... trudno o fałszywe alarmy nawet przy spamowaniu prawym przyciskiem i przyciskiem offhand.

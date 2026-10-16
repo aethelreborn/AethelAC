@@ -95,16 +95,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # Prediction-based no slow check
 # Aethel accounts for buggy netcode here... hard to false even when spamming right click and offhand button

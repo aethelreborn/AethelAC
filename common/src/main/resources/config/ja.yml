@@ -97,16 +97,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # 予測に基づく「NoSlow」チェック
 # Aethelは、バグのあるネットコードを考慮しており、右クリックやオフハンドボタンを連打しても誤検知が起こりにくくなっています。

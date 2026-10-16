@@ -95,16 +95,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # Vérification de no-slow basée sur la prédiction.
 # Aethel tient compte des problèmes de netcode ici... difficile à tromper même en spamant le clic droit et le bouton de la main secondaire.

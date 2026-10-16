@@ -106,16 +106,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # 使用模拟移动进行的NoSlow(使用物品时不会减速)检查
 # 在这里解释错误的服务器代码......即使在发送垃圾数据包时右键单击和副手按钮也很分辨

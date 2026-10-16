@@ -95,16 +95,16 @@ AirLiquidPlace:
     cancelvl: 0
 
 FabricatedPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 FarPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 PositionPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 RotationPlace:
-    cancelvl: 5
+    cancelvl: 1
 
 # Prediction-based no slow check
 # Aethel ist verantwortlich für den fehlerhaften Netcode hier... schwer zu falsen, selbst wenn man Rechtsklick und Offhand-Taste spammt.
