@@ -114,9 +114,10 @@ The default configuration ships hardened for competitive PvP:
   shift-move clicks in ten seconds at a mean interval of 110 ms or less; it
   shares the `Misc` ladder and can also be staged with `shadow-checks`.
 - The experimental `DamageReaction` check (`reaction-analysis` in
-  `config.yml`) flags ClickPearl/AutoGApple style automation: six or more item
-  uses within 120 ms (mean) of a health decrease over five minutes; it shares
-  the `Misc` ladder and can also be staged with `shadow-checks`.
+  `config.yml`) flags ClickPearl/AutoGApple/AutoSwap style automation: six or
+  more item uses or offhand manipulations (offhand clicks or swap actions)
+  within 120 ms (mean) of a health decrease over five minutes; it shares the
+  `Misc` ladder and can also be staged with `shadow-checks`.
 - The experimental `AutoToolChain` check (`inventory-automation` in
   `config.yml`) flags AutoTool modules that cycle the hotbar to a tool and
   back around every dig (six or more sub-400 ms cycles a minute); it shares
