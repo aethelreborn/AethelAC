@@ -69,7 +69,7 @@ object VersionUtil {
             .trim(' ', '.', '_', '-')
             .removePrefix("heads_")
 
-        val mainBranch = System.getenv("AETHEL_MAIN_BRANCH") ?: "2.0"
+        val mainBranch = System.getenv("AETHEL_MAIN_BRANCH") ?: "main"
 
         return when (branch) {
             "main", mainBranch -> null
