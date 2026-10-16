@@ -154,6 +154,11 @@ inventory-automation:
     click-window-seconds: 10
     click-min-count: 60
     click-mean-interval-ms: 110.0
+    # Menu-bot cadence detection (FastClick second tier): click interval CV
+    # ceiling and the mean interval band for GUI navigation bots.
+    menu-cadence-cv: 0.045
+    menu-min-interval-ms: 250
+    menu-max-interval-ms: 900
     # Hotbar tool automation detection (AutoToolChain check): lookback window
     # in seconds, minimum swap cycles and the mean turnaround ceiling in ms.
     tool-swap-window-seconds: 60
@@ -410,4 +415,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 30
+config-version: 31

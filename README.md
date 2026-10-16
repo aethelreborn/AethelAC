@@ -122,8 +122,10 @@ Inventory and macro automation:
 
 - `FastClick` (`inventory-automation` in `config.yml`) flags chest-stealer
   style container clicking — sixty or more pickup or shift-move clicks in ten
-  seconds at a mean interval of 110 ms or less — and armory automation (four
-  or more direct armor-slot clicks inside 400 ms).
+  seconds at a mean interval of 110 ms or less — armory automation (four
+  or more direct armor-slot clicks inside 400 ms), and menu bots (twenty
+  consecutive clicks with near-constant intervals, CV at or below 0.045, in
+  the 250-900 ms band).
 - `AutoToolChain` (same section) flags AutoTool modules that cycle the hotbar
   to a tool and back around every dig (six or more sub-400 ms cycles a
   minute).
