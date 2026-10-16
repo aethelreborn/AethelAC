@@ -45,10 +45,12 @@ Punishments:
       - "Knockback"
       - "Explosion"
     commands:
-      - "5:5 [alert]"
+      - "1:1 [alert]"
       - "1:1 [log]"
-      - "20:20 [webhook]"
-      - "20:20 [proxy]"
+      - "30:0 [webhook]"
+      - "30:0 [proxy]"
+      - "30:0 kick %player% AethelAC: Knockback violation"
+      - "60:0 ban %player% 30d AethelAC: Knockback (%vl% violations)"
   Post:
     remove-violations-after: 300
     checks:
