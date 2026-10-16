@@ -43,14 +43,15 @@ jobs:
             rest="${latest#v}"
             major="${rest%%.*}"
             if [ "${rest}" = "${major}" ]; then
-              minor=-1
+              minor=0
+              next="v${major}.1"
             else
               minor="${rest#*.}"
-            fi
-            if [ "${minor}" -lt 24 ]; then
-              next="v${major}.$((minor + 1))"
-            else
-              next="v$((major + 1))"
+              if [ "${minor}" -lt 24 ]; then
+                next="v${major}.$((minor + 1))"
+              else
+                next="v$((major + 1))"
+              fi
             fi
           fi
           echo "tag=${next}" >> "$GITHUB_OUTPUT"
