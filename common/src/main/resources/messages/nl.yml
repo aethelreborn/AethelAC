@@ -62,6 +62,8 @@ profile:
     - "&bInactieve events (3m): &f%idle_events%"
     - "&bToolwissels (1m): &f%tool_chain_cycles%"
     - "&bSchadereacties (5m): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
+    - "&bMace-smashvenster: &f%mace_band%"
+    - "&bVaste packmeldingen: &f%pack_fixed%"
     - "&7======================"
 help:
     - "&7======================"
@@ -140,4 +142,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Schemamarkers — zie de header-comment in config.yml.
 config-flavor: V2
-config-version: 4
+config-version: 5

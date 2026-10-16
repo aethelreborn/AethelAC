@@ -60,6 +60,8 @@ profile:
     - "&bEventos inativos (3m): &f%idle_events%"
     - "&bTrocas de ferramenta (1m): &f%tool_chain_cycles%"
     - "&bReações a dano (5m): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
+    - "&bJanela de mace: &f%mace_band%"
+    - "&bRelatórios fixos de pacote: &f%pack_fixed%"
     - "&7======================"
 help:
     - "&7======================"
@@ -138,4 +140,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Marcadores de esquema — ver o comentário do cabeçalho em config.yml.
 config-flavor: V2
-config-version: 4
+config-version: 5

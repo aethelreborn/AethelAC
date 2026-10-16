@@ -189,9 +189,12 @@ public final class AethelConfigSpecs {
      * {@code profile} template.
      *
      * <p>v3 → v4: adds the missing Japanese reload messages.
+     *
+     * <p>v4 → v5: adds the mace smash window and fixed-gap pack report
+     * metrics to the {@code profile} template.
      */
     public static @NotNull ConfigUpdater.Spec messages() {
-        return ConfigUpdater.Spec.builder("/messages/", 4, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/messages/", 5, ConfigUpdater.ConfigFlavor.V2)
                 .build();
     }
 

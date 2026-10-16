@@ -62,6 +62,8 @@ profile:
     - "&b放置イベント (3分): &f%idle_events%"
     - "&bツール切替 (1分): &f%tool_chain_cycles%"
     - "&b被ダメージ反応 (5分): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
+    - "&bメイス粉砕ウィンドウ: &f%mace_band%"
+    - "&b固定間隔パック報告: &f%pack_fixed%"
     - "&7======================"
 help:
     - "&7======================"
@@ -139,4 +141,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # スキーマ用マーカー — config.yml のヘッダーコメントを参照。
 config-flavor: V2
-config-version: 4
+config-version: 5

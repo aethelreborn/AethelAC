@@ -62,6 +62,8 @@ profile:
     - "&bСобытия простоя (3м): &f%idle_events%"
     - "&bСмены инструмента (1м): &f%tool_chain_cycles%"
     - "&bРеакции на урон (5м): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
+    - "&bОкно удара булавы: &f%mace_band%"
+    - "&bФикс. отчёты о наборе: &f%pack_fixed%"
     - "&7======================"
 help:
     - "&7======================"
@@ -140,4 +142,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Маркеры схемы — см. шапку config.yml.
 config-flavor: V2
-config-version: 4
+config-version: 5
