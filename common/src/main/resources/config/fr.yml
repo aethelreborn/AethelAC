@@ -90,6 +90,12 @@ aim-analysis:
     yaw-min-speed: 2.0
     pitch-cv-threshold: 0.06
     pitch-min-speed: 0.8
+    # Rotation decay detection (RotationDecay check): ratio band and maximum
+    # spread of consecutive delta ratios, minimum starting speed in deg/tick.
+    decay-ratio-min: 0.80
+    decay-ratio-max: 0.995
+    decay-ratio-spread: 0.06
+    decay-min-start: 6.0
 
 shadow-checks:
     # Checks listed here only send staff alerts and database logs. Webhook and
@@ -302,4 +308,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 15
+config-version: 16

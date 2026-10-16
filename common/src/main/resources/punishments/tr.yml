@@ -127,6 +127,7 @@ Punishments:
     remove-violations-after: 600
     checks:
       - "LinearRotation"
+      - "RotationDecay"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"

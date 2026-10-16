@@ -86,6 +86,10 @@ The default configuration ships hardened for competitive PvP:
 - `shadow-checks` in `config.yml` stages any check in alert-and-log-only mode,
   suppressing webhooks, proxy broadcasts, kicks and bans for that check until
   the operator removes it from the list.
+- Rotation decay analysis flags the experimental `RotationDecay` check when
+  six consecutive rotation deltas form a constant-ratio geometric series, the
+  hallmark of factor-based smoothing in silent-aim return and ease-out
+  rotators; it shares the `AimHeuristics` ladder with `LinearRotation`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

@@ -69,9 +69,12 @@ public final class AethelConfigSpecs {
      * <p>v14 → v15: adds the {@code shadow-checks} staging list and the yaw /
      * pitch series thresholds under {@code aim-analysis}. Same drift-free
      * default rewrite.
+     *
+     * <p>v15 → v16: adds the {@code aim-analysis} decay band used by the
+     * RotationDecay check. Same drift-free default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 15, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 16, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
