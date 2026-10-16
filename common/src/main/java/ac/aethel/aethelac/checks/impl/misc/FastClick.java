@@ -27,11 +27,17 @@ public class FastClick extends Check implements PacketReceiveListener {
 
     private static final int CAPACITY = 512;
     private static final long FLAG_COOLDOWN_NANOS = 5_000_000_000L;
+    private static final long ARMOR_WINDOW_NANOS = 400_000_000L;
+    private static final int ARMOR_MIN_CLICKS = 4;
 
     private final long[] clicks = new long[CAPACITY];
     private int index;
     private int size;
     private long lastFlagNanos;
+
+    private final long[] armorClicks = new long[16];
+    private int armorIndex;
+    private int armorSize;
 
     private int windowSeconds;
     private int minCount;
@@ -53,11 +59,16 @@ public class FastClick extends Check implements PacketReceiveListener {
         if (event.getPacketType() != PacketType.Play.Client.CLICK_WINDOW) {
             return;
         }
-        WindowClickType mode = new WrapperPlayClientClickWindow(event).getWindowClickType();
+        WrapperPlayClientClickWindow click = new WrapperPlayClientClickWindow(event);
+        WindowClickType mode = click.getWindowClickType();
         if (mode != WindowClickType.PICKUP && mode != WindowClickType.QUICK_MOVE) {
             return;
         }
-        recordClick(System.nanoTime());
+        long now = System.nanoTime();
+        if (recordArmorClick(click.getSlot(), now)) {
+            return;
+        }
+        recordClick(now);
     }
 
     private void recordClick(long now) {
@@ -89,6 +100,33 @@ public class FastClick extends Check implements PacketReceiveListener {
             flag(String.format(Locale.ROOT, "%d container clicks in %ds (avg every %.0fms)", count, windowSeconds, mean));
             lastFlagNanos = now;
         }
+    }
+
+    private boolean recordArmorClick(int slot, long now) {
+        if (slot < 5 || slot > 8) {
+            return false;
+        }
+        armorClicks[armorIndex] = now;
+        armorIndex = (armorIndex + 1) % armorClicks.length;
+        if (armorSize < armorClicks.length) {
+            armorSize++;
+        }
+        if (now - lastFlagNanos < FLAG_COOLDOWN_NANOS) {
+            return true;
+        }
+        long cutoff = now - ARMOR_WINDOW_NANOS;
+        int count = 0;
+        for (int k = 0; k < armorSize; k++) {
+            if (armorClicks[(armorIndex - 1 - k + armorClicks.length * 2) % armorClicks.length] <= cutoff) {
+                break;
+            }
+            count++;
+        }
+        if (count >= ARMOR_MIN_CLICKS) {
+            flag(String.format(Locale.ROOT, "%d armor slot clicks in %dms", count, ARMOR_WINDOW_NANOS / 1_000_000L));
+            lastFlagNanos = now;
+        }
+        return true;
     }
 
     public int getWindowClickCount() {

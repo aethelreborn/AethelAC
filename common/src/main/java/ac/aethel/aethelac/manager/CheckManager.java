@@ -25,6 +25,7 @@ import ac.aethel.aethelac.checks.impl.groundspoof.NoFall;
 import ac.aethel.aethelac.checks.impl.misc.AutoToolChain;
 import ac.aethel.aethelac.checks.impl.misc.ClientBrand;
 import ac.aethel.aethelac.checks.impl.misc.ClientFingerprint;
+import ac.aethel.aethelac.checks.impl.misc.DropBurst;
 import ac.aethel.aethelac.checks.impl.misc.DamageReaction;
 import ac.aethel.aethelac.checks.impl.misc.FastClick;
 import ac.aethel.aethelac.checks.impl.misc.GhostBlockMitigation;
@@ -140,6 +141,7 @@ public class CheckManager implements BasicReloadable {
                 .put(FastClick.class, new FastClick(player))
                 .put(DamageReaction.class, new DamageReaction(player))
                 .put(AutoToolChain.class, new AutoToolChain(player))
+                .put(DropBurst.class, new DropBurst(player))
                 .put(NoFall.class, new NoFall(player))
                 .put(ExploitA.class, new ExploitA(player))
                 .put(ExploitB.class, new ExploitB(player))
