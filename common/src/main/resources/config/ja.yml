@@ -18,7 +18,7 @@ alerts:
         receive: true
 
 verbose:
-    print-to-console: false
+    print-to-console: true
 
 check-for-updates: false
 

@@ -17,7 +17,7 @@ alerts:
 
 verbose:
     # 是否在控制台中打印verbose信息
-    print-to-console: false
+    print-to-console: true
 # 是否检查更新
 check-for-updates: false
 

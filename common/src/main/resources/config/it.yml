@@ -17,7 +17,7 @@ alerts:
 
 verbose:
     # Mostra dettagli su console?
-    print-to-console: false
+    print-to-console: true
 
 check-for-updates: false
 
