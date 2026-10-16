@@ -100,4 +100,17 @@ public class MaceSmash extends Check implements PacketReceiveListener {
             lastFlagNanos = now;
         }
     }
+
+    public double getBandFraction() {
+        if (size == 0) {
+            return 0.0D;
+        }
+        int inBandCount = 0;
+        for (boolean value : narrow) {
+            if (value) {
+                inBandCount++;
+            }
+        }
+        return inBandCount / (double) size;
+    }
 }

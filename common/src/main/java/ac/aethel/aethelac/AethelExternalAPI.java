@@ -13,11 +13,13 @@ import ac.aethel.aethelac.manager.config.ConfigManagerFileImpl;
 import ac.aethel.aethelac.manager.init.start.StartableInitable;
 import ac.aethel.aethelac.checks.impl.combat.AttackRotation;
 import ac.aethel.aethelac.checks.impl.combat.Autoclicker;
+import ac.aethel.aethelac.checks.impl.combat.MaceSmash;
 import ac.aethel.aethelac.checks.impl.combat.SlowCadence;
 import ac.aethel.aethelac.checks.impl.misc.AutoToolChain;
 import ac.aethel.aethelac.checks.impl.misc.DamageReaction;
 import ac.aethel.aethelac.checks.impl.misc.FastClick;
 import ac.aethel.aethelac.checks.impl.misc.IdleAutomation;
+import ac.aethel.aethelac.checks.impl.misc.PackSpoof;
 import ac.aethel.aethelac.player.AethelPlayer;
 import ac.aethel.aethelac.utils.anticheat.LogUtil;
 import ac.aethel.aethelac.utils.anticheat.MessageUtil;
@@ -294,6 +296,14 @@ public class AethelExternalAPI implements GrimAbstractAPI, ConfigReloadObserver,
         variableReplacements.putIfAbsent("%reaction_mean_ms%", user -> {
             DamageReaction check = lookup(user, DamageReaction.class);
             return check == null ? "0" : String.format(Locale.ROOT, "%.0f", check.getWindowMeanReactionMs());
+        });
+        variableReplacements.putIfAbsent("%mace_band%", user -> {
+            MaceSmash check = lookup(user, MaceSmash.class);
+            return check == null ? "0" : String.format(Locale.ROOT, "%.0f%%", check.getBandFraction() * 100.0D);
+        });
+        variableReplacements.putIfAbsent("%pack_fixed%", user -> {
+            PackSpoof check = lookup(user, PackSpoof.class);
+            return check == null ? "0" : Integer.toString(check.getFixedPairs());
         });
         // static variables
         staticReplacements.put("%prefix%", MessageUtil.translateAlternateColorCodes('&', AethelAPI.INSTANCE.getConfigManager().getPrefix()));

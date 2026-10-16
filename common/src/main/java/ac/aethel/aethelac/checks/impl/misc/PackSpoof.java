@@ -84,4 +84,8 @@ public class PackSpoof extends Check implements PacketReceiveListener {
             lastFlagNanos = now;
         }
     }
+
+    public int getFixedPairs() {
+        return fixedPairs;
+    }
 }
