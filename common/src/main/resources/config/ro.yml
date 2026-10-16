@@ -115,9 +115,9 @@ NoSlow:
     # Marchează între 0.03-0.2 constant cu NoSlow activ
     threshold: 0.001
     # Setback rapid la primul obiect pentru a elimina orice avantaj dat de NoSlow
-    setbackvl: 5
+    setbackvl: 2
     # Scade atunci când jucătorul folosește un item ȘI este încetinit de acesta
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # Cu cât ar trebui să înmulțim avantajul total atunci când jucătorul este legitim

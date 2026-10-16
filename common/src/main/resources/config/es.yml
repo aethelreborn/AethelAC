@@ -118,9 +118,9 @@ NoSlow:
     # Marca por 0.03-0.2 consistentemente con NoSlow activado
     threshold: 0.001
     # Retroceder rápidamente en el primer item para eliminar toda ventaja que NoSlow brinde
-    setbackvl: 5
+    setbackvl: 2
     # Decadencia cuando un jugador usa un item Y se ralentiza por el
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # Por cuanto deberíamos multiplicar la ventaja total cuando el jugador es legítimo

@@ -125,9 +125,9 @@ NoSlow:
     # 启用 NoSlow 后，标记量持续为 0.03-0.2
     threshold: 0.001
     # 到达多少VL时回弹
-    setbackvl: 5
+    setbackvl: 2
     # 当玩家使用一个物品并被它减慢时衰减多少VL
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # 当玩家合法时，我们应该将总优势乘以多少

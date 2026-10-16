@@ -115,9 +115,9 @@ NoSlow:
     # Génère des avertissements avec des valeurs comprises entre 0,03 et 0,2 lors de l'utilisation de NoSlow
     threshold: 0.001
     # Renvoyer en arrière sur le premier objet pour éliminer tout avantage donné par NoSlow
-    setbackvl: 5
+    setbackvl: 2
     # Décroissance lorsque le joueur utilise un objet ET est ralenti par celui-ci.
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # De combien devons-nous multiplier l'avantage total lorsque le joueur est légitime ?

@@ -115,9 +115,9 @@ NoSlow:
     # Flags by 0.03-0.2 consistently with NoSlow on
     threshold: 0.001
     # Setback fast on the first item to remove any advantage NoSlow gives
-    setbackvl: 5
+    setbackvl: 2
     # Decay's when the player uses an item AND is slowed by it
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # How much should we multiply total advantage by when the player is legit

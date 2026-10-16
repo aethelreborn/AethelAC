@@ -115,9 +115,9 @@ NoSlow:
     # NoSlow açıkken 0.03-0.2 aralığında sürekli olarak uyarı verir
     threshold: 0.001
     # NoSlow'un sağladığı avantajı ortadan kaldırmak için ilk itemi hızlı bir şekilde geri alın
-    setbackvl: 5
+    setbackvl: 2
     # Oyuncu bir eşya kullandığında VE onun tarafından yavaşlatıldığında beklenilen zaman
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # Oyuncu legit olduğunda toplam avantajı ne kadarla çarpmalıyız

@@ -115,9 +115,9 @@ NoSlow:
     # Konsekwentnie wykrywa odchylenia o 0.03-0.2 przy włączonym NoSlow.
     threshold: 0.001
     # Szybkie cofnięcie przy pierwszym użyciu przedmiotu, aby usunąć przewagę dawaną przez NoSlow.
-    setbackvl: 5
+    setbackvl: 2
     # Spadek naruszeń, gdy gracz używa przedmiotu I jest przez niego spowalniany.
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # O ile powinniśmy pomnożyć całkowitą przewagę, gdy gracz gra zgodnie z zasadami?

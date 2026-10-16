@@ -115,9 +115,9 @@ NoSlow:
     # Flaggen met 0.03-0.2 consequent met NoSlow aan
     threshold: 0.001
     # Snel terugzetten op het eerste item om elk voordeel dat NoSlow geeft te verwijderen
-    setbackvl: 5
+    setbackvl: 2
     # Verval treedt op wanneer de speler een voorwerp gebruikt EN erdoor wordt vertraagd
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # Met hoeveel moeten we het totale voordeel vermenigvuldigen als de speler legitiem is?

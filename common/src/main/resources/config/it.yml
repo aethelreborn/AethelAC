@@ -108,9 +108,9 @@ NoSlow:
     # Limite per rilevare l'uso scorretto dell'oggetto
     threshold: 0.001
     # Livello di violazione per l'uso scorretto dell'oggetto
-    setbackvl: 5
+    setbackvl: 2
     # Decadimento per l'uso scorretto dell'oggetto
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # Riduce gradualmente l'avanzamento totale del giocatore quando è legittimo

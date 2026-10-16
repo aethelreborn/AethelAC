@@ -117,9 +117,9 @@ NoSlow:
     # Em 0.03-0.2 detecta com consistência.
     threshold: 0.001
     # Recuo imediato para inibir as vantagens rapidamente.
-    setbackvl: 5
+    setbackvl: 2
     # Decai quando o jogador usa um item e é efetivamente desacelerado.
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # Por quanto deve-se multiplicar a vantagem desde a última vez que falhou na verificação?

@@ -115,9 +115,9 @@ NoSlow:
     # Flags um 0,03-0,2 konsequent mit NoSlow on
     threshold: 0.001
     # Schnell auf das erste Element zurücksetzen, um jeden Vorteil von NoSlow zu beseitigen
-    setbackvl: 5
+    setbackvl: 2
     # Verfall ist, wenn der Spieler einen Gegenstand benutzt UND dadurch verlangsamt wird
-    decay: 0.05
+    decay: 0.02
 
 Knockback:
     # Mit wie viel soll der Gesamtvorteil multipliziert werden, wenn der Spieler legitim ist.
