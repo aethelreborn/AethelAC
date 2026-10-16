@@ -69,10 +69,12 @@ Punishments:
       - "PacketOrder"
       - "Crash"
     commands:
-      - "20:20 [alert]"
+      - "5:5 [alert]"
       - "1:1 [log]"
-      - "40:40 [webhook]"
-      - "40:40 [proxy]"
+      - "10:10 [webhook]"
+      - "10:10 [proxy]"
+      - "20:0 kick %player% AethelAC: Invalid packet"
+      - "40:0 ban %player% 30d AethelAC: Bad packets (%vl% violations)"
   Reach:
     remove-violations-after: 300
     checks:
