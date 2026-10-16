@@ -131,7 +131,7 @@ aim-analysis:
     pitch-min-speed: 0.8
     # Rotation decay detection (RotationDecay check): ratio band and maximum
     # spread of consecutive delta ratios, minimum starting speed in deg/tick.
-    decay-ratio-min: 0.30
+    decay-ratio-min: 0.18
     decay-ratio-max: 0.995
     decay-ratio-spread: 0.06
     decay-min-start: 6.0
@@ -402,4 +402,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 28
+config-version: 29

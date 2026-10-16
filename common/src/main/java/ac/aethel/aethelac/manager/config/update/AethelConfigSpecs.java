@@ -108,9 +108,13 @@ public final class AethelConfigSpecs {
      * {@code reset-item-usage-on-item-use} knob).
      *
      * <p>v27 → v28: adds the {@code attack-patterns} mace smash knobs.
+     *
+     * <p>v28 → v29: lowers the rotation decay ratio floor to 0.18 so fast
+     * geometric rotators are caught; the redundant half-decay gate was
+     * removed.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 28, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 29, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

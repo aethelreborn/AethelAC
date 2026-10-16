@@ -110,8 +110,8 @@ ladder:
   pitch-only series (alerts from 5 violations, console kick at 60, 30-day ban
   at 120).
 - `RotationDecay` flags six consecutive rotation deltas forming a
-  constant-ratio geometric series, the hallmark of factor-based smoothing in
-  silent-aim return and ease-out rotators.
+  constant-ratio geometric series (decay ratios 0.18-0.995), the hallmark of
+  factor-based smoothing in silent-aim return and ease-out rotators.
 - `AttackRotation` flags attacks landing mid-rotation on 80% or more of at
   least twelve attacks in a minute.
 - `ReturnFlick` flags attack-anchored rotation bursts that reverse and land
@@ -157,8 +157,9 @@ All automation heuristics are experimental; each shares a punishment ladder
   line with the server-visible motion cannot be separated from a mouse
   without entity-relative position history; they are intentionally not
   guessed at.
-- Factor-based rotation smoothing with a constant ratio has no variance to
-  measure and is only caught when paired with other heuristics.
+- Factor-based rotation smoothing decays faster than the 0.18 ratio floor or
+  slower than 0.995 is out of band by design; in practice those curves decay
+  too fast to fill a series or too slow to measure above aim jitter.
 - Aura configurations running rotation speeds under roughly 10°/tick per
   axis stay under the rotating-attack threshold by design; lowering it risks
   flagging strafe-flick combat.
