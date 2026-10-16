@@ -142,6 +142,11 @@ inventory-automation:
     click-window-seconds: 10
     click-min-count: 60
     click-mean-interval-ms: 110.0
+    # Hotbar tool automation detection (AutoToolChain check): lookback window
+    # in seconds, minimum swap cycles and the mean turnaround ceiling in ms.
+    tool-swap-window-seconds: 60
+    tool-swap-min-cycles: 6
+    tool-swap-mean-turnaround-ms: 400.0
 
 reaction-analysis:
     # Damage reaction detection (DamageReaction check): maximum single
@@ -370,4 +375,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 22
+config-version: 23

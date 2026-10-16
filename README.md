@@ -117,6 +117,10 @@ The default configuration ships hardened for competitive PvP:
   `config.yml`) flags ClickPearl/AutoGApple style automation: six or more item
   uses within 120 ms (mean) of a health decrease over five minutes; it shares
   the `Misc` ladder and can also be staged with `shadow-checks`.
+- The experimental `AutoToolChain` check (`inventory-automation` in
+  `config.yml`) flags AutoTool modules that cycle the hotbar to a tool and
+  back around every dig (six or more sub-400 ms cycles a minute); it shares
+  the `Misc` ladder and can also be staged with `shadow-checks`.
 
 Everything lives in `config/*.yml`, `punishments/*.yml`, `messages/*.yml`, and
 `databases/*.yml` and can be tuned per server.

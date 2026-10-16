@@ -117,6 +117,7 @@ Punishments:
       - "IdleAutomation"
       - "FastClick"
       - "DamageReaction"
+      - "AutoToolChain"
       - "Break"
       - "TransactionOrder"
       - "Elytra"

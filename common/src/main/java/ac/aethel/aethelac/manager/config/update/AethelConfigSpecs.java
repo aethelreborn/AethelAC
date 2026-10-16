@@ -90,9 +90,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v21 → v22: adds the {@code reaction-analysis} section. Same
      * drift-free default rewrite.
+     *
+     * <p>v22 → v23: adds the {@code inventory-automation} tool-swap knobs.
+     * Same drift-free default rewrite.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 22, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 23, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
