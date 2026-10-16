@@ -64,6 +64,8 @@ profile:
     - "&bRéactions aux dégâts (5m): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&bFenêtre mace: &f%mace_band%"
     - "&bRapports pack fixes: &f%pack_fixed%"
+    - "&bRappels rapides: &f%fish_quick%"
+    - "&bBoosts de fusée: &f%firework_boosts%"
     - "&7======================"
 help:
     - "&7======================"
@@ -142,4 +144,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Marqueurs de schéma — voir le commentaire d'en-tête dans config.yml.
 config-flavor: V2
-config-version: 5
+config-version: 6

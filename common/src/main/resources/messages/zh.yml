@@ -64,6 +64,8 @@ profile:
     - "&b受伤反应 (5分): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&b锤击窗口: &f%mace_band%"
     - "&b固定间隔资源包报告: &f%pack_fixed%"
+    - "&b快速收杆: &f%fish_quick%"
+    - "&b烟花推进: &f%firework_boosts%"
     - "&7======================"
 help:
     - "&7======================"
@@ -137,4 +139,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # 模式标记 — 参见 config.yml 顶部的注释。
 config-flavor: V2
-config-version: 5
+config-version: 6

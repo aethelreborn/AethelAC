@@ -162,8 +162,8 @@ All automation heuristics are experimental; each shares a punishment ladder
 - `/aethel profile <player>` renders the automation metrics behind these
   checks (attack CPS, attack cadence CV, rotating-attack fraction, container
   click rate, idle events, tool-swap cycles, damage reactions, mace smash
-  band, fixed-gap pack reports) so staff can eyeball a suspect without
-  reading flag history.
+  band, fixed-gap pack reports, quick reels, firework boosts) so staff can
+  eyeball a suspect without reading flag history.
 
 ### Known limitations
 

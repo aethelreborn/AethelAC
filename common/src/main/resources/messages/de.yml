@@ -63,6 +63,8 @@ profile:
     - "&bSchadensreaktionen (5m): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&bMace-Smash-Fenster: &f%mace_band%"
     - "&bFeste Pack-Meldungen: &f%pack_fixed%"
+    - "&bSchnelle Einholvorgänge: &f%fish_quick%"
+    - "&bFeuerwerks-Boosts: &f%firework_boosts%"
     - "&7======================"
 help:
     - "&7======================"
@@ -140,4 +142,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Schema-Marker — siehe Kopf-Kommentar in config.yml.
 config-flavor: V2
-config-version: 5
+config-version: 6

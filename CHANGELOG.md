@@ -3,6 +3,11 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.9] - 2026-10-17
+
+- `/aethel profile` gains quick reel and firework boost counters
+  (`%fish_quick%`, `%firework_boosts%`).
+
 ## [v3.8] - 2026-10-17
 
 - Add `AutoFish`: three or more reels landing within 120 ms of the bobber

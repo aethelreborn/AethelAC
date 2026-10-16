@@ -198,9 +198,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v4 → v5: adds the mace smash window and fixed-gap pack report
      * metrics to the {@code profile} template.
+     *
+     * <p>v5 → v6: adds the quick reel and firework boost metrics to the
+     * {@code profile} template.
      */
     public static @NotNull ConfigUpdater.Spec messages() {
-        return ConfigUpdater.Spec.builder("/messages/", 5, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/messages/", 6, ConfigUpdater.ConfigFlavor.V2)
                 .build();
     }
 

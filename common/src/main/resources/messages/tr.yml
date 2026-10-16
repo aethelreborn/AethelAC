@@ -64,6 +64,8 @@ profile:
     - "&bHasar tepkileri (5dk): &f%reaction_pairs% &7(avg &f%reaction_mean_ms%&7 ms)"
     - "&bMace vuruş aralığı: &f%mace_band%"
     - "&bSabit paket raporları: &f%pack_fixed%"
+    - "&bHızlı toplamalar: &f%fish_quick%"
+    - "&bFişek itişleri: &f%firework_boosts%"
     - "&7======================"
 help:
     - "&7======================"
@@ -141,4 +143,4 @@ aethel-history-check-count: "&f%check_name%&7 x&c%count%"
 
 # Şema işaretçileri — bkz. config.yml'deki başlık yorumu.
 config-flavor: V2
-config-version: 5
+config-version: 6
