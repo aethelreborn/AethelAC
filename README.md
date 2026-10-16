@@ -1,5 +1,9 @@
 # AethelAC
 
+[![Release](https://github.com/aethelreborn/AethelAC/actions/workflows/release.yml/badge.svg)](https://github.com/aethelreborn/AethelAC/actions/workflows/release.yml)
+[![CI](https://github.com/aethelreborn/AethelAC/actions/workflows/ci.yml/badge.svg)](https://github.com/aethelreborn/AethelAC/actions/workflows/ci.yml)
+[![Latest release](https://img.shields.io/github/v/release/aethelreborn/AethelAC)](https://github.com/aethelreborn/AethelAC/releases)
+
 Async, prediction-based anticheat for Minecraft Java Edition 1.8–26.3, built on [PacketEvents](https://github.com/retrooper/packetevents).
 
 AethelAC simulates vanilla movement and physics server-side for every player, then compares the simulation with what the client actually sent. Bypasses require moving outside of the game's own physics, which makes the checks mathematically grounded instead of heuristic.
