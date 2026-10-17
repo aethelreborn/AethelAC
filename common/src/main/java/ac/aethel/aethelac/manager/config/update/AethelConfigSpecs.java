@@ -169,9 +169,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v47 → v48: adds the {@code aim-analysis} through-wall tracking knobs
      * for the HiddenAim check.
+     *
+     * <p>v48 → v49: adds the {@code attack-patterns} precision-tier knobs for
+     * the TriggerBot check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 48, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 49, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

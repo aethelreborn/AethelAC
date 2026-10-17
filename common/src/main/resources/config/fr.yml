@@ -145,6 +145,13 @@ attack-patterns:
     trigger-static-speed: 1.5
     trigger-min-events: 3
     trigger-counter-seconds: 30
+    # Precision tier (TriggerBot): delay-configured triggerbots firing a
+    # little slower than the primary window are separated from fast humans
+    # by how close the crosshair is to the hitbox center at the attack.
+    trigger-precise-reaction-max-ms: 120.0
+    trigger-precise-center-offset: 0.10
+    trigger-precise-min-events: 4
+    trigger-precise-counter-seconds: 60.0
     trigger-reach: 3.5
     # Instant crystal aura detection (CrystalCadence check): crystals broken
     # within this many ms of spawn, cycles needed and cadence CV ceiling.
@@ -513,4 +520,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 48
+config-version: 49
