@@ -99,6 +99,11 @@ Attack patterns (`attack-patterns` in `config.yml`):
 - `UniformClick` flags uniformly randomized autoclickers: 200 click intervals
   at 5+ CPS whose excess kurtosis falls below 0.5 - a bounded random delay
   never leaves its band, and human click streams are always heavy-tailed.
+- `SubTickClick` flags attacks delivered faster than the client input loop
+  allows: repeated attacks within 25 ms mean multiple packets per input tick,
+  the signature of packet-flooding kill-aura modules and duplicated attack
+  exploits. Isolated delivery hiccups are ignored; only repeated sub-tick
+  bursts within the counter window flag.
 - `NoSwingAttack` flags silent-aura modes that strip the arm animation: four
   or more attacks in a row with no swing within 200 ms.
 - `MaceSmash` flags mace smash-timing automation: ten or more recent smash
@@ -234,11 +239,11 @@ checks carry proof-like weight"):
 - v4.1 (shipped): through-wall aim tracking - precision-tracking a moving,
   fully occluded player for sustained ticks is closer to an invariant than a
   threshold, because the information needed is not legally visible.
-- v4.2: reaction-time tiers - sub-120ms repeated reactions split from
-  statistically fast humans by crosshair-entry precision, not by a single
-  timing bound.
-- v4.3: autoclicker bounds - physical impossibility windows (sustained
-  inter-click intervals below muscle twitch periodicity) rather than
+- v4.2 (shipped): reaction-time tiers - sub-120ms repeated reactions split
+  from statistically fast humans by crosshair-entry precision, not by a
+  single timing bound.
+- v4.3 (shipped): autoclicker bounds - the sub-tick delivery window of the
+  client input loop (at most one attack per tick) instead of
   distribution-shape tests.
 
 ### Staging and tooling

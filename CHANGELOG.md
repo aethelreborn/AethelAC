@@ -3,6 +3,13 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.3] - 2026-10-17
+
+- Add `SubTickClick`: attacks delivered faster than the client input loop
+  allows (repeated sub-25 ms deliveries), catching packet-flooding kill-aura
+  modules and duplicated attack exploits by physical impossibility instead
+  of distribution shape.
+
 ## [v4.2] - 2026-10-17
 
 - TriggerBot precision tier: delay-configured triggerbots (100-120 ms
