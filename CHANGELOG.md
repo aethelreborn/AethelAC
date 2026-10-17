@@ -3,6 +3,11 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.13] - 2026-10-17
+
+- Add `TriggerBot`: attacks within 100 ms of a target entering the crosshair
+  of a near-static rotation, catching zero-delay triggerbot modules.
+
 ## [v3.12] - 2026-10-17
 
 - Add `SwapAttack`: held slot changed within 15 ms of an attack, or instantly
