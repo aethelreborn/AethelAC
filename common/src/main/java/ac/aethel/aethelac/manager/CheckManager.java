@@ -246,6 +246,7 @@ public class CheckManager implements BasicReloadable {
                 .put(InvalidPlaceCursor.class, new InvalidPlaceCursor(player))
                 .put(InvalidPlaceFace.class, new InvalidPlaceFace(player))
                 .put(AirLiquidPlace.class, new AirLiquidPlace(player))
+                .put(AirPlace.class, new AirPlace(player))
                 .put(MultiPlace.class, new MultiPlace(player))
                 .put(MultiActionsF.class, new MultiActionsF(player))
                 .put(MultiActionsG.class, new MultiActionsG(player))
