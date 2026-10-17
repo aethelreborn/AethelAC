@@ -129,6 +129,7 @@ Punishments:
       - "TriggerBot"
       - "CloseSpoof"
       - "JumpCadence"
+      - "PearlSwap"
       - "AirPlace"
     commands:
       - "5:5 [alert]"

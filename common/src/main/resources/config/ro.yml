@@ -124,6 +124,13 @@ attack-patterns:
     swap-attack-min-pairs: 4
     swap-attack-revert-ms: 250
     swap-attack-counter-seconds: 60
+    # Pearl-flash macro detection (PearlSwap check): a pearl thrown within
+    # this many ms of a slot change counts as a pair; instant slot reverts
+    # and the counter window mirror the swap-attack tuning.
+    pearl-use-gap-ms: 15
+    pearl-min-pairs: 4
+    pearl-revert-ms: 250
+    pearl-counter-seconds: 60
     # Triggerbot detection (TriggerBot check): attack latency after the target
     # first enters the crosshair of a near-static rotation.
     trigger-reaction-max-ms: 100
@@ -487,4 +494,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 44
+config-version: 45

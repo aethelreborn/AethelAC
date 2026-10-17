@@ -157,9 +157,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v43 → v44: adds the {@code jump-analysis} metronome knobs for the
      * JumpCadence check.
+     *
+     * <p>v44 → v45: adds the {@code attack-patterns} pearl-flash knobs for
+     * the PearlSwap check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 44, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 45, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
