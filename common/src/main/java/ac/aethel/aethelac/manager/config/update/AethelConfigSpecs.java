@@ -136,9 +136,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v36 → v37: adds the {@code attack-patterns} instant crystal knobs for
      * the CrystalCadence check.
+     *
+     * <p>v37 → v38: adds the {@code attack-patterns} ping gate and the
+     * optional high-ping attack cancellation policy.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 37, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 38, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

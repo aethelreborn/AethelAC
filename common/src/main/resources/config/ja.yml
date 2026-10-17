@@ -138,6 +138,12 @@ attack-patterns:
     crystal-cycle-max-ms: 150
     crystal-min-cycles: 8
     crystal-cadence-max-cv: 0.6
+    # Ping ceiling (ms) above which ms-based timing checks ignore attacks, to
+    # absorb out-of-order packet batching on high latency connections.
+    timing-max-ping-ms: 150
+    # Optional policy: cancel attack packets from players above this ping so
+    # their hits do not register on the server. -1 disables.
+    cancel-attack-over-ping-ms: -1
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -446,4 +452,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 37
+config-version: 38
