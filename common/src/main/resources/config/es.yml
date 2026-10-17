@@ -226,6 +226,12 @@ inventory-automation:
     # seconds and the minimum burst size that triggers a flag.
     drop-window-seconds: 1
     drop-min-count: 12
+    # Fake close-window detection (CloseSpoof check): a close-window packet
+    # this many ms before an attack counts as a spoofed pair; pairs needed in
+    # the counter window to flag.
+    close-attack-max-ms: 50
+    close-attack-min-pairs: 3
+    close-attack-counter-seconds: 60
 
 reaction-analysis:
     # Damage reaction detection (DamageReaction check): maximum single
@@ -473,4 +479,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 42
+config-version: 43

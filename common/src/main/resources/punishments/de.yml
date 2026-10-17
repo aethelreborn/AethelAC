@@ -129,6 +129,7 @@ Punishments:
       - "AutoFish"
       - "SwapAttack"
       - "TriggerBot"
+      - "CloseSpoof"
       - "AirPlace"
     commands:
       - "5:5 [alert]"
