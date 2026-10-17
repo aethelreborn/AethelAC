@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.5] - 2026-10-17
+
+- Add `AutoBlock`: shield use toggled within 50 ms of attacks, catching
+  shield-drain and auto-block modules whose shield activation rides the
+  same tick as their attacks.
+
 ## [v4.4] - 2026-10-17
 
 - Add `SubTickBreak`: dig starts delivered faster than the client input loop

@@ -108,6 +108,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
   starts within 25 ms mean a single input tick produced multiple start
   packets - nuker floods and duplicated dig exploits, including same-position
   restarts MultiBreak's per-tick attribution cannot see.
+- `AutoBlock` flags shield-drain and auto-block modules: shield use toggled
+  within 50 ms of attacks, four or more times a minute. Re-pressing the
+  shield key that fast on every click is beyond reliable human coordination,
+  and the toggle rides the module's own attack tick.
 - `NoSwingAttack` flags silent-aura modes that strip the arm animation: four
   or more attacks in a row with no swing within 200 ms.
 - `MaceSmash` flags mace smash-timing automation: ten or more recent smash
