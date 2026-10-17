@@ -100,6 +100,12 @@ attack-patterns:
     subtick-break-max-interval-ms: 25
     subtick-break-min-events: 3
     subtick-break-counter-seconds: 10
+    # Shield toggle tier (AutoBlock): shield use within this many ms of an
+    # attack, repeated, is a module signature; humans cannot re-press the
+    # shield key on every single click that fast.
+    autoblock-max-gap-ms: 50.0
+    autoblock-min-events: 4
+    autoblock-counter-seconds: 60.0
     # Slow-cadence metronome detection (SlowCadence check): sample count,
     # coefficient-of-variation ceiling and maximum interval in milliseconds.
     metronome-samples: 48
@@ -531,4 +537,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 51
+config-version: 52

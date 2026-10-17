@@ -138,6 +138,7 @@ Punishments:
       - "JumpCadence"
       - "PearlSwap"
       - "InvWalk"
+      - "AutoBlock"
       - "AirPlace"
     commands:
       - "5:5 [alert]"
