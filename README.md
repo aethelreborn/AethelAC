@@ -105,6 +105,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
   attack, followed by a revert to the exact pre-attack rotation inside 90 ms -
   the on-tick rotation pattern of LiquidBounce-style silent aim that a human
   cannot reproduce around a click.
+- `SwapAttack` flags silent-hotbar meta swaps: the held slot changing within
+  15 ms of an attack (or reverting back within 250 ms), the mechanism behind
+  mace swap, lunge/attribute swap and breach swap macros and the zero
+  switch-delay default of modern aura clients.
 
 Aim analysis (`aim-analysis` in `config.yml`), all sharing the `AimHeuristics`
 ladder:

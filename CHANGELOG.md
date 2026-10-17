@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.12] - 2026-10-17
+
+- Add `SwapAttack`: held slot changed within 15 ms of an attack, or instantly
+  reverted, catching mace swap, lunge/attribute swap and breach swap macros
+  plus the same-tick silent-hotbar sync of modern aura clients.
+
 ## [v3.11] - 2026-10-17
 
 - Add `SilentAim`: rotation snap toward the target around an attack followed
