@@ -119,6 +119,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
   the same respawn anchor position, each pair of clicks within 150 ms of each
   other with a machine-consistent cadence, matching the two-tick step delay of
   AutoAnchor-style mods and air-anchor double clicks.
+- `AirPlace` flags placement optimizer modules clicking blocks that only exist
+  client-side: a click on a position that is air in our world counts only when
+  the position has been stable air with no block history and no recent own
+  placement, so ghost-block desync cannot false it.
 - All timing-sensitive combat checks skip attacks from players whose
   transaction ping exceeds `attack-patterns.timing-max-ping-ms` (150 ms by
   default) to absorb out-of-order packet batching on high latency links.

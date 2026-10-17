@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.17] - 2026-10-17
+
+- Add `AirPlace`: clicks on positions that have been stable air with no block
+  history and no recent own placement, catching airplace and placement
+  optimizer modules without false-flagging ghost-block desync.
+
 ## [v3.16] - 2026-10-17
 
 - Add `AnchorCadence`: respawn anchors clicked twice within 150 ms of each
