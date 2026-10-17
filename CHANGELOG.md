@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.18] - 2026-10-17
+
+- Harden `CrystalCadence` with a tick-quantized tier: "safe" two-tick
+  automations that dodge the millisecond CV gate still land on the same tick
+  deltas every cycle and are now caught by the tick ring.
+
 ## [v3.17] - 2026-10-17
 
 - Add `AirPlace`: clicks on positions that have been stable air with no block

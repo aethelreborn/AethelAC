@@ -114,7 +114,8 @@ Attack patterns (`attack-patterns` in `config.yml`):
   react to, matching the 0 ms default attack delay of triggerbot modules.
 - `CrystalCadence` flags instant crystal auras: eight or more end crystals
   broken within 150 ms of their own spawn with a cadence CV at or below 0.6,
-  a pace only a placer/destroyer module attacking the spawn packet can hold.
+  or quantized to three ticks or less across the ring, a pace only a
+  placer/destroyer module attacking the spawn packet can hold.
 - `AnchorCadence` flags anchor macros: eight or more charge-detonate cycles on
   the same respawn anchor position, each pair of clicks within 150 ms of each
   other with a machine-consistent cadence, matching the two-tick step delay of
