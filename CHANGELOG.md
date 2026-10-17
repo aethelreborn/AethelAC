@@ -3,6 +3,16 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.15] - 2026-10-17
+
+- Make all ms-based timing checks ping-aware: attacks from players whose
+  transaction ping exceeds `timing-max-ping-ms` (150 ms) are ignored by
+  SilentAim, SwapAttack, TriggerBot and CrystalCadence to absorb out-of-order
+  packet batching.
+- Add optional `PingPolicy` module (`cancel-attack-over-ping-ms`, disabled by
+  default) that cancels attack packets over a ping ceiling so hits do not
+  register.
+
 ## [v3.14] - 2026-10-17
 
 - Add `CrystalCadence`: end crystals broken within 150 ms of their own spawn

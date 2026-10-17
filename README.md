@@ -115,6 +115,11 @@ Attack patterns (`attack-patterns` in `config.yml`):
 - `CrystalCadence` flags instant crystal auras: eight or more end crystals
   broken within 150 ms of their own spawn with a cadence CV at or below 0.6,
   a pace only a placer/destroyer module attacking the spawn packet can hold.
+- All timing-sensitive combat checks skip attacks from players whose
+  transaction ping exceeds `attack-patterns.timing-max-ping-ms` (150 ms by
+  default) to absorb out-of-order packet batching on high latency links.
+  `attack-patterns.cancel-attack-over-ping-ms` (disabled by default) optionally
+  cancels attack packets above a ping ceiling so the hits never register.
 
 Aim analysis (`aim-analysis` in `config.yml`), all sharing the `AimHeuristics`
 ladder:
