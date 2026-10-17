@@ -112,6 +112,9 @@ Attack patterns (`attack-patterns` in `config.yml`):
   15 ms of an attack (or reverting back within 250 ms), the mechanism behind
   mace swap, lunge/attribute swap and breach swap macros and the zero
   switch-delay default of modern aura clients.
+- `PearlSwap` flags pearl-flash macros: an ender pearl thrown within 15 ms of
+  selecting it (or the slot reverting instantly), the signature of pearl
+  catch and switchback throw modules.
 - `TriggerBot` flags attacks fired on the first tick a target enters the
   crosshair of a near-static rotation - sub-100 ms entries a human cannot
   react to, matching the 0 ms default attack delay of triggerbot modules.
