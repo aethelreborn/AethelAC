@@ -202,6 +202,35 @@ All automation heuristics are experimental; each shares a punishment ladder
 (`Autoclicker`, `AimHeuristics`, or `Misc`) and can be staged with
 `shadow-checks`.
 
+### Detection reliability tiers
+
+Checks are deliberately split into two reliability classes so operators know
+what a flag is worth:
+
+- **Invariant checks** flag states the vanilla client cannot legally produce:
+  failed movement predictions, desync between placements and world state,
+  protocol ordering violations, world interactions while a container GUI
+  captures input, dig/place state machines, and arithmetic impossibilities
+  (durability, cadence rings). These are proof-grade on their own.
+- **Behavioral checks** (aim heuristics, triggerbot timing, autoclicker
+  statistics, client fingerprints) flag improbable patterns rather than
+  impossibilities. They stay behind `experimental-checks` plus per-check ping
+  gates and are meant to be layered over the invariant set, not to stand
+  alone against a cheater who randomizes their signatures.
+
+Active hardening roadmap for the behavioral families ("make the probabilistic
+checks carry proof-like weight"):
+
+- v4.1: through-wall aim tracking - precision-tracking a moving, fully
+  occluded player for sustained ticks is closer to an invariant than a
+  threshold, because the information needed is not legally visible.
+- v4.2: reaction-time tiers - sub-120ms repeated reactions split from
+  statistically fast humans by crosshair-entry precision, not by a single
+  timing bound.
+- v4.3: autoclicker bounds - physical impossibility windows (sustained
+  inter-click intervals below muscle twitch periodicity) rather than
+  distribution-shape tests.
+
 ### Staging and tooling
 
 - `shadow-checks` in `config.yml` stages any check in alert-and-log-only mode,

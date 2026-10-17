@@ -3,6 +3,18 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.0] - 2026-10-17
+
+Stability milestone. No new detections: full registry, config and punishment
+audit, plus documented reliability tiers for every check family.
+
+- Audit: 158 checks, all stable keys unique; all punishment entries resolve
+  (family names match by substring); 13/13 config locales in perfect key
+  parity; config version 47 consistent across locales.
+- Document the invariant vs behavioral reliability tiers in the README,
+  including the hardening roadmap for the behavioral families (aim,
+  triggerbot, autoclicker, fingerprint).
+
 ## [v3.24] - 2026-10-17
 
 - Add `InvWalk`: attacks, placements and digs while a container window is
