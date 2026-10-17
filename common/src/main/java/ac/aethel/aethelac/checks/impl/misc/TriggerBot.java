@@ -25,6 +25,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -36,6 +37,12 @@ import java.util.Locale;
  * turns positive, while a human needs at least a visual reaction time from
  * the moment the target slides under a pre-aimed crosshair. Repeated
  * sub-100 ms entries with no aiming motion in between are robotic.</p>
+ *
+ * <p>Delay-configured modules that mimic 100-120 ms "legit" delays are
+ * caught by a second tier separating them from statistically fast humans
+ * through crosshair-entry precision rather than a single timing bound: the
+ * attack lands while the ray passes within a tenth of a block of the hitbox
+ * center, which a human cannot reliably do at that reaction speed.</p>
  */
 @CheckData(name = "TriggerBot", stableKey = "aethel.misc.trigger_bot",
         description = "Attacks on the first tick a target enters a static crosshair", experimental = true)
@@ -64,12 +71,19 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
     private long firstTriggerNanos;
     private long lastFlagNanos;
 
+    private final long[] preciseRing = new long[8];
+    private int preciseIndex;
+
     private double reactionMaxMs;
     private double staticSpeed;
     private int minEvents;
     private double counterSeconds;
     private double reach;
     private int maxPingMs;
+    private double preciseReactionMaxMs;
+    private double preciseCenterOffset;
+    private int preciseMinEvents;
+    private double preciseCounterSeconds;
 
     public TriggerBot(AethelPlayer player) {
         super(player);
@@ -83,6 +97,10 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         counterSeconds = config.getDoubleElse("attack-patterns.trigger-counter-seconds", 30.0D);
         reach = config.getDoubleElse("attack-patterns.trigger-reach", 3.5D);
         maxPingMs = config.getIntElse("attack-patterns.timing-max-ping-ms", 150);
+        preciseReactionMaxMs = config.getDoubleElse("attack-patterns.trigger-precise-reaction-max-ms", 120.0D);
+        preciseCenterOffset = config.getDoubleElse("attack-patterns.trigger-precise-center-offset", 0.10D);
+        preciseMinEvents = Math.max(2, config.getIntElse("attack-patterns.trigger-precise-min-events", 4));
+        preciseCounterSeconds = config.getDoubleElse("attack-patterns.trigger-precise-counter-seconds", 60.0D);
     }
 
     @Override
@@ -165,9 +183,10 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         }
 
         long now = System.nanoTime();
-        if (now - entity.enterNanos <= (long) (reactionMaxMs * 1_000_000L)
-                && entity.entrySpeed <= staticSpeed
-                && !player.packetStateData.lastPacketWasTeleport) {
+        long reactionNanos = now - entity.enterNanos;
+        boolean staticEntry = entity.entrySpeed <= staticSpeed && !player.packetStateData.lastPacketWasTeleport;
+
+        if (reactionNanos <= (long) (reactionMaxMs * 1_000_000L) && staticEntry) {
             entity.enterNanos = 0L;
             triggers++;
             if (firstTriggerNanos == 0L || now - firstTriggerNanos > (long) (counterSeconds * 1_000_000_000L)) {
@@ -180,7 +199,48 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
                         triggers, reactionMaxMs));
                 lastFlagNanos = now;
             }
+            return;
         }
+
+        if (reactionNanos <= (long) (preciseReactionMaxMs * 1_000_000L) && staticEntry
+                && crosshairCenterOffset(entity) <= preciseCenterOffset) {
+            entity.enterNanos = 0L;
+            preciseRing[preciseIndex] = now;
+            preciseIndex = (preciseIndex + 1) % preciseRing.length;
+
+            int preciseEvents = 0;
+            for (long stamp : preciseRing) {
+                if (stamp != 0L && now - stamp <= (long) (preciseCounterSeconds * 1_000_000_000L)) {
+                    preciseEvents++;
+                }
+            }
+
+            if (preciseEvents >= preciseMinEvents && now - lastFlagNanos >= FLAG_COOLDOWN_NANOS) {
+                flag(String.format(Locale.ROOT,
+                        "%d attacks within %.0f ms of a static crosshair entry, crosshair within %.2f blocks of the hitbox center",
+                        preciseEvents, preciseReactionMaxMs, preciseCenterOffset));
+                lastFlagNanos = now;
+                Arrays.fill(preciseRing, 0L);
+            }
+        }
+    }
+
+    private double crosshairCenterOffset(Tracked entity) {
+        double yawRad = Math.toRadians(lastYaw);
+        double pitchRad = Math.toRadians(lastPitch);
+        double dirX = -Math.sin(yawRad) * Math.cos(pitchRad);
+        double dirY = -Math.sin(pitchRad);
+        double dirZ = Math.cos(yawRad) * Math.cos(pitchRad);
+
+        double vx = entity.x - player.x;
+        double vy = entity.y + 0.9D - (player.y + player.getEyeHeight());
+        double vz = entity.z - player.z;
+
+        double along = Math.max(0.0D, vx * dirX + vy * dirY + vz * dirZ);
+        double px = vx - along * dirX;
+        double py = vy - along * dirY;
+        double pz = vz - along * dirZ;
+        return Math.sqrt(px * px + py * py + pz * pz);
     }
 
     private void spawn(int id, Vector3d position) {
