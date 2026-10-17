@@ -179,6 +179,12 @@ Inventory and macro automation:
   while a container is open: a vanilla GUI captures the mouse completely, so
   attacking, placing or digging seconds after an open-window packet is only
   possible for invwalk and loot aura modules.
+- `HiddenAim` (`aim-analysis` in `config.yml`) flags precision-tracking of a
+  moving, fully occluded player: the vanilla client cannot show a hidden
+  target, so holding the crosshair within a few degrees of its hitbox center
+  for ten rotation updates while it moves is only possible with ESP-fed
+  smoothing. Occlusion is a collision-shape ray to the target center (glass
+  exempt), so partial blocks never count.
 - `DamageReaction` (`reaction-analysis` in `config.yml`) flags
   ClickPearl/AutoGApple/AutoSwap style automation: six or more item uses or
   offhand manipulations (offhand clicks or swap actions) within 120 ms (mean)
@@ -221,8 +227,8 @@ what a flag is worth:
 Active hardening roadmap for the behavioral families ("make the probabilistic
 checks carry proof-like weight"):
 
-- v4.1: through-wall aim tracking - precision-tracking a moving, fully
-  occluded player for sustained ticks is closer to an invariant than a
+- v4.1 (shipped): through-wall aim tracking - precision-tracking a moving,
+  fully occluded player for sustained ticks is closer to an invariant than a
   threshold, because the information needed is not legally visible.
 - v4.2: reaction-time tiers - sub-120ms repeated reactions split from
   statistically fast humans by crosshair-entry precision, not by a single
