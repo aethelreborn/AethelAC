@@ -33,6 +33,7 @@ import ac.aethel.aethelac.checks.impl.misc.PackSpoof;
 import ac.aethel.aethelac.checks.impl.misc.PingPolicy;
 import ac.aethel.aethelac.checks.impl.misc.SwapAttack;
 import ac.aethel.aethelac.checks.impl.misc.TriggerBot;
+import ac.aethel.aethelac.checks.impl.misc.CloseSpoof;
 import ac.aethel.aethelac.checks.impl.misc.DamageReaction;
 import ac.aethel.aethelac.checks.impl.misc.FastClick;
 import ac.aethel.aethelac.checks.impl.misc.GhostBlockMitigation;
@@ -157,6 +158,7 @@ public class CheckManager implements BasicReloadable {
                 .put(AutoFish.class, new AutoFish(player))
                 .put(SwapAttack.class, new SwapAttack(player))
                 .put(TriggerBot.class, new TriggerBot(player))
+                .put(CloseSpoof.class, new CloseSpoof(player))
                 .put(PingPolicy.class, new PingPolicy(player))
                 .put(NoFall.class, new NoFall(player))
                 .put(ExploitA.class, new ExploitA(player))
