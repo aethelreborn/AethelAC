@@ -8,6 +8,7 @@ import ac.aethel.aethelac.checks.Check;
 import ac.aethel.aethelac.checks.impl.aim.AimDuplicateLook;
 import ac.aethel.aethelac.checks.impl.aim.AimLinear;
 import ac.aethel.aethelac.checks.impl.aim.RotationDecay;
+import ac.aethel.aethelac.checks.impl.aim.SilentAim;
 import ac.aethel.aethelac.checks.impl.aim.AimModulo360;
 import ac.aethel.aethelac.checks.impl.aim.processor.AimProcessor;
 import ac.aethel.aethelac.checks.impl.badpackets.*;
@@ -185,6 +186,7 @@ public class CheckManager implements BasicReloadable {
                 .put(AimDuplicateLook.class, new AimDuplicateLook(player))
                 .put(AimLinear.class, new AimLinear(player))
                 .put(RotationDecay.class, new RotationDecay(player))
+                .put(SilentAim.class, new SilentAim(player))
                 .put(VehiclePredictionRunner.class, new VehiclePredictionRunner(player))
 
                 .put(NegativeTimer.class, new NegativeTimer(player))
