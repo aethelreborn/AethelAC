@@ -88,6 +88,12 @@ attack-patterns:
     uniform-click-min-cps: 5.0
     uniform-click-max-interval-ms: 1000.0
     uniform-click-max-kurtosis: 0.5
+    # Sub-tick delivery tier (SubTickClick): the client input loop allows at
+    # most one attack per tick, so repeated attacks closer than this are
+    # bursts from packet-flooding modules or duplicated attack exploits.
+    subtick-click-max-interval-ms: 25
+    subtick-click-min-events: 3
+    subtick-click-counter-seconds: 10
     # Slow-cadence metronome detection (SlowCadence check): sample count,
     # coefficient-of-variation ceiling and maximum interval in milliseconds.
     metronome-samples: 48
@@ -519,4 +525,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 49
+config-version: 50

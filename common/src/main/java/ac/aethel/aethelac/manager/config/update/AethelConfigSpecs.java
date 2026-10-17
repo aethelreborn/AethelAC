@@ -172,9 +172,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v48 → v49: adds the {@code attack-patterns} precision-tier knobs for
      * the TriggerBot check.
+     *
+     * <p>v49 → v50: adds the {@code attack-patterns} sub-tick delivery knobs
+     * for the SubTickClick check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 49, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 50, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
