@@ -204,6 +204,14 @@ aim-analysis:
     accuracy-center-offset: 0.025
     accuracy-min-attacks: 12
     accuracy-precision-fraction: 0.75
+    # Through-wall aim detection (HiddenAim check): precision-tracking a
+    # moving, occluded player. Range in blocks, tolerance in degrees from
+    # the target center, min rotation updates, min target movement.
+    hidden-aim-range: 24.0
+    hidden-aim-tolerance-deg: 3.0
+    hidden-aim-min-ticks: 10
+    hidden-aim-move-blocks: 0.75
+    hidden-aim-cooldown-seconds: 5
     decay-ratio-min: 0.18
     decay-ratio-max: 0.995
     decay-ratio-spread: 0.06
@@ -504,4 +512,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 47
+config-version: 48
