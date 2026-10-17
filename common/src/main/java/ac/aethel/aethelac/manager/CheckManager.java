@@ -287,6 +287,7 @@ public class CheckManager implements BasicReloadable {
                 .put(FastBreak.class, new FastBreak(player))
                 .put(MultiBreak.class, new MultiBreak(player))
                 .put(PhantomBreak.class, new PhantomBreak(player))
+                .put(SubTickBreak.class, new SubTickBreak(player))
                 .put(NoSwingBreak.class, new NoSwingBreak(player))
                 .put(FarBreak.class, new FarBreak(player))
                 .put(InvalidBreak.class, new InvalidBreak(player))
