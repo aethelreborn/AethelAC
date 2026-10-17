@@ -53,6 +53,7 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
     private double cycleMaxMs;
     private int minCycles;
     private double cadenceMaxCv;
+    private int maxPingMs;
 
     public CrystalCadence(AethelPlayer player) {
         super(player);
@@ -63,6 +64,7 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
         cycleMaxMs = config.getDoubleElse("attack-patterns.crystal-cycle-max-ms", 150.0D);
         minCycles = Math.max(4, config.getIntElse("attack-patterns.crystal-min-cycles", 8));
         cadenceMaxCv = config.getDoubleElse("attack-patterns.crystal-cadence-max-cv", 0.6D);
+        maxPingMs = config.getIntElse("attack-patterns.timing-max-ping-ms", 150);
     }
 
     @Override
@@ -93,6 +95,10 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
 
         WrapperPlayClientInteractEntity packet = new WrapperPlayClientInteractEntity(event);
         if (packet.getAction() != WrapperPlayClientInteractEntity.InteractAction.ATTACK) {
+            return;
+        }
+
+        if (player.getTransactionPing() > maxPingMs) {
             return;
         }
 

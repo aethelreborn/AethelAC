@@ -55,6 +55,7 @@ public class SilentAim extends Check implements RotationListener, PacketReceiveL
     private double revertWindowMs;
     private int flipsToFlag;
     private double counterWindowSeconds;
+    private int maxPingMs;
 
     public SilentAim(AethelPlayer player) {
         super(player);
@@ -68,6 +69,7 @@ public class SilentAim extends Check implements RotationListener, PacketReceiveL
         revertWindowMs = config.getDoubleElse("aim-analysis.silent-revert-window-ms", 90.0D);
         flipsToFlag = Math.max(1, config.getIntElse("aim-analysis.silent-flips-to-flag", 2));
         counterWindowSeconds = config.getDoubleElse("aim-analysis.silent-counter-window-seconds", 10.0D);
+        maxPingMs = config.getIntElse("attack-patterns.timing-max-ping-ms", 150);
     }
 
     @Override
@@ -82,6 +84,11 @@ public class SilentAim extends Check implements RotationListener, PacketReceiveL
 
         if (exempt) {
             exempt = false;
+            return;
+        }
+
+        if (player.getTransactionPing() > maxPingMs) {
+            pending = false;
             return;
         }
 
@@ -114,6 +121,10 @@ public class SilentAim extends Check implements RotationListener, PacketReceiveL
         }
         WrapperPlayClientInteractEntity packet = new WrapperPlayClientInteractEntity(event);
         if (packet.getAction() != WrapperPlayClientInteractEntity.InteractAction.ATTACK) {
+            return;
+        }
+
+        if (player.getTransactionPing() > maxPingMs) {
             return;
         }
 

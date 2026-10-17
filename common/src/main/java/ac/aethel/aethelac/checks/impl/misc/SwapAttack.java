@@ -42,6 +42,7 @@ public class SwapAttack extends Check implements PacketReceiveListener {
     private int minPairs;
     private double revertMs;
     private double counterSeconds;
+    private int maxPingMs;
 
     public SwapAttack(AethelPlayer player) {
         super(player);
@@ -53,6 +54,7 @@ public class SwapAttack extends Check implements PacketReceiveListener {
         minPairs = Math.max(2, config.getIntElse("attack-patterns.swap-attack-min-pairs", 4));
         revertMs = config.getDoubleElse("attack-patterns.swap-attack-revert-ms", 250.0D);
         counterSeconds = config.getDoubleElse("attack-patterns.swap-attack-counter-seconds", 60.0D);
+        maxPingMs = config.getIntElse("attack-patterns.timing-max-ping-ms", 150);
     }
 
     @Override
@@ -68,6 +70,10 @@ public class SwapAttack extends Check implements PacketReceiveListener {
     }
 
     private void handleSwap(long now, int slot) {
+        if (player.getTransactionPing() > maxPingMs) {
+            return;
+        }
+
         if (lastSwapNanos != 0L && now - lastSwapNanos <= (long) (revertMs * 1_000_000L)
                 && slot == previousSlot && slot != currentSlot) {
             reverts++;
@@ -85,6 +91,9 @@ public class SwapAttack extends Check implements PacketReceiveListener {
     }
 
     private void handleAttack(long now) {
+        if (player.getTransactionPing() > maxPingMs) {
+            return;
+        }
         lastAttackNanos = now;
         if (lastSwapNanos != 0L && now - lastSwapNanos <= (long) (gapMs * 1_000_000L)) {
             pairs++;

@@ -69,6 +69,7 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
     private int minEvents;
     private double counterSeconds;
     private double reach;
+    private int maxPingMs;
 
     public TriggerBot(AethelPlayer player) {
         super(player);
@@ -81,6 +82,7 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         minEvents = Math.max(2, config.getIntElse("attack-patterns.trigger-min-events", 3));
         counterSeconds = config.getDoubleElse("attack-patterns.trigger-counter-seconds", 30.0D);
         reach = config.getDoubleElse("attack-patterns.trigger-reach", 3.5D);
+        maxPingMs = config.getIntElse("attack-patterns.timing-max-ping-ms", 150);
     }
 
     @Override
@@ -150,6 +152,10 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
 
         WrapperPlayClientInteractEntity packet = new WrapperPlayClientInteractEntity(event);
         if (packet.getAction() != WrapperPlayClientInteractEntity.InteractAction.ATTACK) {
+            return;
+        }
+
+        if (player.getTransactionPing() > maxPingMs) {
             return;
         }
 
