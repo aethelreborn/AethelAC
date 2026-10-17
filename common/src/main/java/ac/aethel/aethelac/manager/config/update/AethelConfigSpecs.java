@@ -145,9 +145,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v39 → v40: adds the {@code placement-analysis} airplace knobs for the
      * AirPlace check.
+     *
+     * <p>v40 → v41: adds the tick-quantized tier knobs for the CrystalCadence
+     * check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 40, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 41, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

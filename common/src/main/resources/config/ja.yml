@@ -138,6 +138,12 @@ attack-patterns:
     crystal-cycle-max-ms: 150
     crystal-min-cycles: 8
     crystal-cadence-max-cv: 0.6
+    # Tick-quantized tier of CrystalCadence: cycles at or below this many
+    # ticks enter the tick ring; breaks at or below this tick count are
+    # "instant"; flag when that fraction over the ring is reached.
+    crystal-tick-ring-max: 4
+    crystal-instant-ticks: 3
+    crystal-instant-fraction: 0.75
     # Ping ceiling (ms) above which ms-based timing checks ignore attacks, to
     # absorb out-of-order packet batching on high latency connections.
     timing-max-ping-ms: 150
@@ -467,4 +473,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 40
+config-version: 41
