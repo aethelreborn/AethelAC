@@ -137,6 +137,7 @@ public class CheckManager implements BasicReloadable {
                 .put(NoSwingAttack.class, new NoSwingAttack(player))
                 .put(MaceSmash.class, new MaceSmash(player))
                 .put(CrystalCadence.class, new CrystalCadence(player))
+                .put(AnchorCadence.class, new AnchorCadence(player))
                 .put(PacketEntityReplication.class, player.packetEntityReplication)
                 .put(PacketChangeGameState.class, new PacketChangeGameState(player))
                 .put(CompensatedInventory.class, player.inventory)
