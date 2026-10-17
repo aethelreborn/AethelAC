@@ -115,6 +115,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
 - `CrystalCadence` flags instant crystal auras: eight or more end crystals
   broken within 150 ms of their own spawn with a cadence CV at or below 0.6,
   a pace only a placer/destroyer module attacking the spawn packet can hold.
+- `AnchorCadence` flags anchor macros: eight or more charge-detonate cycles on
+  the same respawn anchor position, each pair of clicks within 150 ms of each
+  other with a machine-consistent cadence, matching the two-tick step delay of
+  AutoAnchor-style mods and air-anchor double clicks.
 - All timing-sensitive combat checks skip attacks from players whose
   transaction ping exceeds `attack-patterns.timing-max-ping-ms` (150 ms by
   default) to absorb out-of-order packet batching on high latency links.

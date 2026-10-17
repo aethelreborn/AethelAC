@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.16] - 2026-10-17
+
+- Add `AnchorCadence`: respawn anchors clicked twice within 150 ms of each
+  other (charge + detonate) eight or more times with a tight cadence,
+  catching anchor macro mods and air-anchor double clicks.
+
 ## [v3.15] - 2026-10-17
 
 - Make all ms-based timing checks ping-aware: attacks from players whose
