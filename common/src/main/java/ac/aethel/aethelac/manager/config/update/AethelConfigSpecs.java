@@ -163,9 +163,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v45 → v46: adds the {@code attack-patterns} uniform-click knobs for
      * the UniformClick check.
+     *
+     * <p>v46 → v47: adds the {@code inventory-automation} container
+     * interaction knobs for the InvWalk check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 46, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 47, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

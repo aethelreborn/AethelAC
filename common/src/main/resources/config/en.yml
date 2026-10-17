@@ -256,6 +256,12 @@ inventory-automation:
     close-attack-max-ms: 50
     close-attack-min-pairs: 3
     close-attack-counter-seconds: 60
+    # Container-interaction detection (InvWalk check): world interactions
+    # count only this many ms after an open-window packet, need this many
+    # events within the counter window to flag.
+    invwalk-min-open-ms: 350
+    invwalk-min-events: 2
+    invwalk-counter-seconds: 10
 
 reaction-analysis:
     # Damage reaction detection (DamageReaction check): maximum single
@@ -498,4 +504,4 @@ update-permission-ticks: 20
 #   config-version: bumped on every breaking shape change. Old configs
 #                   auto-migrate up via the bundled updater on next start.
 config-flavor: V2
-config-version: 46
+config-version: 47

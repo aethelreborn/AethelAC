@@ -132,6 +132,7 @@ Punishments:
       - "CloseSpoof"
       - "JumpCadence"
       - "PearlSwap"
+      - "InvWalk"
       - "AirPlace"
     commands:
       - "5:5 [alert]"
