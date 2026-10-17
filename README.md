@@ -96,6 +96,9 @@ Attack patterns (`attack-patterns` in `config.yml`):
 - `SlowCadence` flags triggerbot-style metronome cadence at human-plausible
   rates in two tiers: 48 intervals with a coefficient of variation at or below
   0.05, or 100 intervals at or below 0.08 for randomized-delay bots.
+- `UniformClick` flags uniformly randomized autoclickers: 200 click intervals
+  at 5+ CPS whose excess kurtosis falls below 0.5 - a bounded random delay
+  never leaves its band, and human click streams are always heavy-tailed.
 - `NoSwingAttack` flags silent-aura modes that strip the arm animation: four
   or more attacks in a row with no swing within 200 ms.
 - `MaceSmash` flags mace smash-timing automation: ten or more recent smash

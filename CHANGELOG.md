@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.23] - 2026-10-17
+
+- Add `UniformClick`: 200 click intervals at 5+ CPS with excess kurtosis
+  below 0.5, catching uniformly randomized autoclicker delays that bounded
+  randomizers cannot leave.
+
 ## [v3.22] - 2026-10-17
 
 - Add `PearlSwap`: ender pearls thrown within 15 ms of a slot change, or the
