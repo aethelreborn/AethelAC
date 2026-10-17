@@ -105,6 +105,9 @@ Attack patterns (`attack-patterns` in `config.yml`):
   attack, followed by a revert to the exact pre-attack rotation inside 90 ms -
   the on-tick rotation pattern of LiquidBounce-style silent aim that a human
   cannot reproduce around a click.
+- `Accuracy` flags hitbox-center locking: the crosshair ray passing within
+  0.025 blocks of the exact hitbox center for three quarters of the attack
+  ring - a precision humans only reach by chance.
 - `SwapAttack` flags silent-hotbar meta swaps: the held slot changing within
   15 ms of an attack (or reverting back within 250 ms), the mechanism behind
   mace swap, lunge/attribute swap and breach swap macros and the zero

@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.19] - 2026-10-17
+
+- Add `Accuracy`: crosshair pins within 0.025 blocks of the hitbox center
+  across most attacks, catching center-locking aim modules that survive
+  rotation-pattern checks.
+
 ## [v3.18] - 2026-10-17
 
 - Harden `CrystalCadence` with a tick-quantized tier: "safe" two-tick
