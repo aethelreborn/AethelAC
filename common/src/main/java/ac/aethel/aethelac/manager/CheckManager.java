@@ -38,6 +38,7 @@ import ac.aethel.aethelac.checks.impl.misc.CloseSpoof;
 import ac.aethel.aethelac.checks.impl.misc.JumpCadence;
 import ac.aethel.aethelac.checks.impl.misc.PearlSwap;
 import ac.aethel.aethelac.checks.impl.misc.InvWalk;
+import ac.aethel.aethelac.checks.impl.misc.AutoBlock;
 import ac.aethel.aethelac.checks.impl.misc.DamageReaction;
 import ac.aethel.aethelac.checks.impl.misc.FastClick;
 import ac.aethel.aethelac.checks.impl.misc.GhostBlockMitigation;
@@ -168,6 +169,7 @@ public class CheckManager implements BasicReloadable {
                 .put(JumpCadence.class, new JumpCadence(player))
                 .put(PearlSwap.class, new PearlSwap(player))
                 .put(InvWalk.class, new InvWalk(player))
+                .put(AutoBlock.class, new AutoBlock(player))
                 .put(PingPolicy.class, new PingPolicy(player))
                 .put(NoFall.class, new NoFall(player))
                 .put(ExploitA.class, new ExploitA(player))
