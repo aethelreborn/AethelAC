@@ -131,6 +131,11 @@ attack-patterns:
     trigger-min-events: 3
     trigger-counter-seconds: 30
     trigger-reach: 3.5
+    # Instant crystal aura detection (CrystalCadence check): crystals broken
+    # within this many ms of spawn, cycles needed and cadence CV ceiling.
+    crystal-cycle-max-ms: 150
+    crystal-min-cycles: 8
+    crystal-cadence-max-cv: 0.6
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -430,4 +435,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 36
+config-version: 37

@@ -133,9 +133,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v35 → v36: adds the {@code attack-patterns} triggerbot knobs for the
      * TriggerBot check.
+     *
+     * <p>v36 → v37: adds the {@code attack-patterns} instant crystal knobs for
+     * the CrystalCadence check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 36, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 37, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
