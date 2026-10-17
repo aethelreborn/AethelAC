@@ -125,6 +125,7 @@ Punishments:
       - "DropBurst"
       - "PackSpoof"
       - "Break"
+      - "SubTickBreak"
       - "TransactionOrder"
       - "Elytra"
       - "Chat"

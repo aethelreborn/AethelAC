@@ -95,6 +95,12 @@ attack-patterns:
     subtick-click-max-interval-ms: 25
     subtick-click-min-events: 3
     subtick-click-counter-seconds: 10
+    # Sub-tick dig tier (SubTickBreak): the client input loop allows at most
+    # one dig start per tick, so repeated starts closer than this are floods
+    # from nuker modules or duplicated dig exploits.
+    subtick-break-max-interval-ms: 25
+    subtick-break-min-events: 3
+    subtick-break-counter-seconds: 10
     # Slow-cadence metronome detection (SlowCadence check): sample count,
     # coefficient-of-variation ceiling and maximum interval in milliseconds.
     metronome-samples: 48
@@ -507,4 +513,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 50
+config-version: 51

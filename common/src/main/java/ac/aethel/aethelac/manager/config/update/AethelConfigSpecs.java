@@ -175,9 +175,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v49 → v50: adds the {@code attack-patterns} sub-tick delivery knobs
      * for the SubTickClick check.
+     *
+     * <p>v50 → v51: adds the {@code attack-patterns} sub-tick dig knobs for
+     * the SubTickBreak check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 50, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 51, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
