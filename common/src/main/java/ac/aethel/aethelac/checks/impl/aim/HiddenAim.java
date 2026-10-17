@@ -118,10 +118,10 @@ public class HiddenAim extends Check implements RotationListener {
                 continue;
             }
 
-            TrackInfo info = tracked.get(entry.getIntKey());
+            TrackInfo info = tracked.get(entry.getKey().intValue());
             if (info == null) {
                 info = new TrackInfo(cx, cy, cz);
-                tracked.put(entry.getIntKey(), info);
+                tracked.put(entry.getKey().intValue(), info);
             }
             info.ticks++;
 
