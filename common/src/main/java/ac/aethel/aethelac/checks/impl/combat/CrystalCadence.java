@@ -1,5 +1,6 @@
 package ac.aethel.aethelac.checks.impl.combat;
 
+import ac.aethel.aethelac.AethelAPI;
 import ac.aethel.aethelac.checks.Check;
 import ac.aethel.aethelac.checks.CheckData;
 import ac.aethel.aethelac.checks.type.PacketReceiveListener;
@@ -29,6 +30,10 @@ import java.util.Locale;
  * CrystalAura-style clients attack the spawn packet the moment it arrives,
  * so the server sees the break barely above the ping floor, cycle after
  * cycle, with machine-consistent deltas.</p>
+ *
+ * <p>Bots configured for "safe" two-tick delays still quantize: their
+ * spawn-to-break deltas land on two or three ticks every cycle regardless of
+ * millisecond jitter, which a human cannot hold for a sustained run.</p>
  */
 @CheckData(name = "CrystalCadence", stableKey = "aethel.combat.crystal_cadence",
         description = "End crystals broken within the spawn round trip repeatedly", experimental = true)
@@ -38,6 +43,7 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
 
     private static final class Crystal {
         long spawnNanos;
+        int spawnTick;
         double x;
         double y;
         double z;
@@ -47,6 +53,9 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
     private final double[] deltasMs = new double[CAPACITY];
     private int deltaCount;
     private int deltaIndex;
+    private final int[] tickDeltas = new int[CAPACITY];
+    private int tickCount;
+    private int tickIndex;
 
     private long lastFlagNanos;
 
@@ -54,6 +63,9 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
     private int minCycles;
     private double cadenceMaxCv;
     private int maxPingMs;
+    private int tickRingMax;
+    private int instantTicks;
+    private double instantFraction;
 
     public CrystalCadence(AethelPlayer player) {
         super(player);
@@ -65,6 +77,9 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
         minCycles = Math.max(4, config.getIntElse("attack-patterns.crystal-min-cycles", 8));
         cadenceMaxCv = config.getDoubleElse("attack-patterns.crystal-cadence-max-cv", 0.6D);
         maxPingMs = config.getIntElse("attack-patterns.timing-max-ping-ms", 150);
+        tickRingMax = Math.max(2, config.getIntElse("attack-patterns.crystal-tick-ring-max", 4));
+        instantTicks = Math.max(1, config.getIntElse("attack-patterns.crystal-instant-ticks", 3));
+        instantFraction = config.getDoubleElse("attack-patterns.crystal-instant-fraction", 0.75D);
     }
 
     @Override
@@ -75,6 +90,7 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
                 Crystal crystal = new Crystal();
                 Vector3d position = packet.getPosition();
                 crystal.spawnNanos = System.nanoTime();
+                crystal.spawnTick = AethelAPI.INSTANCE.getTickManager().currentTick;
                 crystal.x = position.x;
                 crystal.y = position.y;
                 crystal.z = position.z;
@@ -114,15 +130,26 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
         }
 
         long now = System.nanoTime();
-        double deltaMs = (now - crystal.spawnNanos) / 1_000_000.0D;
-        if (deltaMs > cycleMaxMs) {
-            return;
+        int tickDelta = AethelAPI.INSTANCE.getTickManager().currentTick - crystal.spawnTick;
+        if (tickDelta >= 0 && tickDelta <= tickRingMax) {
+            tickDeltas[tickIndex] = tickDelta;
+            tickIndex = (tickIndex + 1) % CAPACITY;
+            if (tickCount < CAPACITY) {
+                tickCount++;
+            }
         }
 
-        deltasMs[deltaIndex] = deltaMs;
-        deltaIndex = (deltaIndex + 1) % CAPACITY;
-        if (deltaCount < CAPACITY) {
-            deltaCount++;
+        double deltaMs = (now - crystal.spawnNanos) / 1_000_000.0D;
+        if (deltaMs <= cycleMaxMs) {
+            deltasMs[deltaIndex] = deltaMs;
+            deltaIndex = (deltaIndex + 1) % CAPACITY;
+            if (deltaCount < CAPACITY) {
+                deltaCount++;
+            }
+        }
+
+        if (now - lastFlagNanos < FLAG_COOLDOWN_NANOS) {
+            return;
         }
 
         if (deltaCount >= minCycles) {
@@ -139,13 +166,35 @@ public class CrystalCadence extends Check implements PacketSendListener, PacketR
             }
             double cv = mean > 0.0D ? Math.sqrt(variance / deltaCount) / mean : 0.0D;
 
-            if (cv <= cadenceMaxCv && now - lastFlagNanos >= FLAG_COOLDOWN_NANOS) {
+            if (cv <= cadenceMaxCv) {
                 flag(String.format(Locale.ROOT,
                         "%d crystals broken %.1f ms (%.2f cv) after spawn", deltaCount, mean, cv));
-                lastFlagNanos = now;
-                deltaCount = 0;
-                deltaIndex = 0;
+                reset();
+                return;
             }
         }
+
+        if (tickCount >= minCycles) {
+            int instant = 0;
+            for (int i = 0; i < tickCount; i++) {
+                if (tickDeltas[i] <= instantTicks) {
+                    instant++;
+                }
+            }
+
+            if ((double) instant / tickCount >= instantFraction) {
+                flag(String.format(Locale.ROOT,
+                        "%d crystals broken in %d ticks or less after spawn (tick-quantized)", tickCount, instantTicks));
+                reset();
+            }
+        }
+    }
+
+    private void reset() {
+        lastFlagNanos = System.nanoTime();
+        deltaCount = 0;
+        deltaIndex = 0;
+        tickCount = 0;
+        tickIndex = 0;
     }
 }
