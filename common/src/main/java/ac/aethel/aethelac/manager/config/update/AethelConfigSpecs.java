@@ -127,9 +127,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v33 → v34: adds the {@code aim-analysis} silent aim knobs for the
      * SilentAim check.
+     *
+     * <p>v34 → v35: adds the {@code attack-patterns} meta-swap knobs for the
+     * SwapAttack check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 34, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 35, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

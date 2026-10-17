@@ -127,6 +127,7 @@ Punishments:
       - "Exploit"
       - "FireworkCadence"
       - "AutoFish"
+      - "SwapAttack"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"

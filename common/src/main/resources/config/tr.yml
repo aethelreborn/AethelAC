@@ -118,6 +118,12 @@ attack-patterns:
     mace-band-max: 1.7
     mace-min-attacks: 10
     mace-band-fraction: 0.9
+    # Meta-swap detection (SwapAttack check): held slot changed within this
+    # many ms of an attack, or reverted this fast; counts per window.
+    swap-attack-gap-ms: 15
+    swap-attack-min-pairs: 4
+    swap-attack-revert-ms: 250
+    swap-attack-counter-seconds: 60
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -420,4 +426,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 34
+config-version: 35
