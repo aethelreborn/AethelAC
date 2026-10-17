@@ -131,6 +131,14 @@ aim-analysis:
     pitch-min-speed: 0.8
     # Rotation decay detection (RotationDecay check): ratio band and maximum
     # spread of consecutive delta ratios, minimum starting speed in deg/tick.
+    # Silent aim (SilentAim check): rotation snap toward the target around an
+    # attack, followed by a revert to the pre-attack rotation. Degrees and ms.
+    silent-flip-min-angle: 25.0
+    silent-revert-angle: 10.0
+    silent-attack-lag-ms: 40
+    silent-revert-window-ms: 90
+    silent-flips-to-flag: 2
+    silent-counter-window-seconds: 10.0
     decay-ratio-min: 0.18
     decay-ratio-max: 0.995
     decay-ratio-spread: 0.06
@@ -418,4 +426,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 33
+config-version: 34
