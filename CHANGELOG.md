@@ -3,6 +3,13 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.2] - 2026-10-17
+
+- TriggerBot precision tier: delay-configured triggerbots (100-120 ms
+  "human-like" delays) are separated from statistically fast humans by
+  crosshair-entry precision - the attack must land within 0.10 blocks of the
+  hitbox center, four times within 60 seconds.
+
 ## [v4.1] - 2026-10-17
 
 - Add `HiddenAim`: through-wall precision tracking of a moving, occluded

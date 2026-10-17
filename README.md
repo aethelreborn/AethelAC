@@ -121,6 +121,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
 - `TriggerBot` flags attacks fired on the first tick a target enters the
   crosshair of a near-static rotation - sub-100 ms entries a human cannot
   react to, matching the 0 ms default attack delay of triggerbot modules.
+  A second tier separates delay-configured modules (100-120 ms "legit"
+  delays) from fast humans through crosshair-entry precision instead of a
+  single timing bound: the attack must also land within 0.10 blocks of the
+  hitbox center.
 - `CrystalCadence` flags instant crystal auras: eight or more end crystals
   broken within 150 ms of their own spawn with a cadence CV at or below 0.6,
   or quantized to three ticks or less across the ring, a pace only a
