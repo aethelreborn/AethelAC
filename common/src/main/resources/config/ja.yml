@@ -151,6 +151,15 @@ attack-patterns:
     anchor-min-cycles: 8
     anchor-cadence-max-cv: 0.6
 
+placement-analysis:
+    # Airplace detection (AirPlace check): a clicked position must have been
+    # stable air for this many ticks with no block history and no recent own
+    # placement to count as a nonexistent block. Events needed within the
+    # counter window to flag.
+    airplace-stability-ticks: 20
+    airplace-grace-ms: 400
+    airplace-min-events: 2
+    airplace-counter-seconds: 30
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
     # of variation ceiling across 15 consecutive combat-speed rotation ticks.
@@ -458,4 +467,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 39
+config-version: 40

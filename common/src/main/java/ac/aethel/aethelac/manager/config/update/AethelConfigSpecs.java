@@ -142,9 +142,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v38 → v39: adds the {@code attack-patterns} anchor cadence knobs for
      * the AnchorCadence check.
+     *
+     * <p>v39 → v40: adds the {@code placement-analysis} airplace knobs for the
+     * AirPlace check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 39, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 40, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
