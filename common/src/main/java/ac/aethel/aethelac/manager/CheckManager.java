@@ -136,6 +136,7 @@ public class CheckManager implements BasicReloadable {
                 .put(Reach.class, new Reach(player))
                 .put(Autoclicker.class, new Autoclicker(player))
                 .put(SlowCadence.class, new SlowCadence(player))
+                .put(UniformClick.class, new UniformClick(player))
                 .put(AttackRotation.class, new AttackRotation(player))
                 .put(ReturnFlick.class, new ReturnFlick(player))
                 .put(NoSwingAttack.class, new NoSwingAttack(player))
