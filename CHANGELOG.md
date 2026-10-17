@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.24] - 2026-10-17
+
+- Add `InvWalk`: attacks, placements and digs while a container window is
+  open, catching invwalk and loot aura modules that the vanilla input model
+  makes impossible.
+
 ## [v3.23] - 2026-10-17
 
 - Add `UniformClick`: 200 click intervals at 5+ CPS with excess kurtosis

@@ -175,6 +175,10 @@ Inventory and macro automation:
 - `JumpCadence` (`jump-analysis` in `config.yml`) flags metronome jump
   tapping: twelve or more one-to-two-tick jump pulses with an interval CV at
   or below 0.12, the signature of W-tap and D-tap macro modules.
+- `InvWalk` (`inventory-automation` in `config.yml`) flags world interactions
+  while a container is open: a vanilla GUI captures the mouse completely, so
+  attacking, placing or digging seconds after an open-window packet is only
+  possible for invwalk and loot aura modules.
 - `DamageReaction` (`reaction-analysis` in `config.yml`) flags
   ClickPearl/AutoGApple/AutoSwap style automation: six or more item uses or
   offhand manipulations (offhand clicks or swap actions) within 120 ms (mean)
