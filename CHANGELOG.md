@@ -3,6 +3,11 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.21] - 2026-10-17
+
+- Add `JumpCadence`: twelve or more one-to-two-tick jump pulses with a
+  machine-constant interval cadence, catching W-tap and D-tap macros.
+
 ## [v3.20] - 2026-10-17
 
 - Add `CloseSpoof`: close-window packets fired within 50 ms before attacks

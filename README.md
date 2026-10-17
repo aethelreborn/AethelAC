@@ -166,6 +166,9 @@ Inventory and macro automation:
   close-window packet within 50 ms before an attack three or more times in a
   minute - the SimulateInventoryClosing module of modern aura clients fires
   one before every hit.
+- `JumpCadence` (`jump-analysis` in `config.yml`) flags metronome jump
+  tapping: twelve or more one-to-two-tick jump pulses with an interval CV at
+  or below 0.12, the signature of W-tap and D-tap macro modules.
 - `DamageReaction` (`reaction-analysis` in `config.yml`) flags
   ClickPearl/AutoGApple/AutoSwap style automation: six or more item uses or
   offhand manipulations (offhand clicks or swap actions) within 120 ms (mean)
