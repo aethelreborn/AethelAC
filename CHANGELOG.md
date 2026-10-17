@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.20] - 2026-10-17
+
+- Add `CloseSpoof`: close-window packets fired within 50 ms before attacks
+  three or more times a minute, catching the SimulateInventoryClosing aura
+  module that resets item-usage state before every hit.
+
 ## [v3.19] - 2026-10-17
 
 - Add `Accuracy`: crosshair pins within 0.025 blocks of the hitbox center

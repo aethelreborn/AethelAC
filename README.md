@@ -162,6 +162,10 @@ Inventory and macro automation:
   minute).
 - `DropBurst` (same section) flags drop-everything macros: twelve or more
   drops inside a second.
+- `CloseSpoof` (same section) flags simulated inventory closing: a
+  close-window packet within 50 ms before an attack three or more times in a
+  minute - the SimulateInventoryClosing module of modern aura clients fires
+  one before every hit.
 - `DamageReaction` (`reaction-analysis` in `config.yml`) flags
   ClickPearl/AutoGApple/AutoSwap style automation: six or more item uses or
   offhand manipulations (offhand clicks or swap actions) within 120 ms (mean)
