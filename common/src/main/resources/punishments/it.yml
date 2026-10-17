@@ -117,6 +117,7 @@ Punishments:
       - "SwapAttack"
       - "TriggerBot"
       - "CloseSpoof"
+      - "JumpCadence"
       - "AirPlace"
     commands:
       - "5:5 [alert]"

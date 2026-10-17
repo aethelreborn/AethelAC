@@ -206,6 +206,15 @@ idle-automation:
     max-interval-seconds: 15.0
     stillness-milliseconds: 2000
 
+jump-analysis:
+    # Metronome jump tapping detection (JumpCadence check): pulses at or
+    # below this many ticks count as taps; pulses needed, interval CV
+    # ceiling and the longest interval that still counts as a rhythm.
+    jump-max-pulse-ticks: 2
+    jump-min-pulses: 12
+    jump-interval-cv: 0.12
+    jump-max-interval-ticks: 40
+
 inventory-automation:
     # Container click-rate detection (FastClick check): window in seconds,
     # minimum pickup/shift-move clicks in the window and the mean interval in
@@ -456,4 +465,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 43
+config-version: 44

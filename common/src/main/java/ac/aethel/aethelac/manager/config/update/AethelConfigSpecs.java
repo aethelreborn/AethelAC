@@ -154,9 +154,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v42 → v43: adds the {@code inventory-automation} fake-close knobs
      * for the CloseSpoof check.
+     *
+     * <p>v43 → v44: adds the {@code jump-analysis} metronome knobs for the
+     * JumpCadence check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 43, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 44, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
