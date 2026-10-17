@@ -3,6 +3,13 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.11] - 2026-10-17
+
+- Add `SilentAim`: rotation snap toward the target around an attack followed
+  by a revert to the exact pre-attack rotation within 90 ms - the on-tick
+  silent-aim pattern of modern clients (Vape-style silent aim, LiquidBounce
+  on-tick timing).
+
 ## [v3.10] - 2026-10-17
 
 - Audit pass: 145 checks with unique stable keys, config and message

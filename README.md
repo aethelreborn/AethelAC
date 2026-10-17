@@ -101,6 +101,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
 - `MaceSmash` flags mace smash-timing automation: ten or more recent smash
   attacks with 90% or more pinned to the minimal 1.5-1.7 block fall window,
   where natural leaps and knockback never cluster.
+- `SilentAim` flags silent auras: a rotation snap toward the target around an
+  attack, followed by a revert to the exact pre-attack rotation inside 90 ms -
+  the on-tick rotation pattern of LiquidBounce-style silent aim that a human
+  cannot reproduce around a click.
 
 Aim analysis (`aim-analysis` in `config.yml`), all sharing the `AimHeuristics`
 ladder:
