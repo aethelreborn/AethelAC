@@ -142,6 +142,12 @@ attack-patterns:
     # Optional policy: cancel attack packets from players above this ping so
     # their hits do not register on the server. -1 disables.
     cancel-attack-over-ping-ms: -1
+    # Anchor macro detection (AnchorCadence check): two clicks on the same
+    # respawn anchor within this many ms count as one charge-detonate cycle;
+    # cycles needed and cadence CV ceiling.
+    anchor-cycle-max-ms: 150
+    anchor-min-cycles: 8
+    anchor-cadence-max-cv: 0.6
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -440,4 +446,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 38
+config-version: 39
