@@ -81,6 +81,14 @@ attack-patterns:
     # interval counts as machine cadence (humans burst at high CPS).
     no-burst-min-cps: 14.0
     burst-gap-ms: 35.0
+    # Uniformly randomized click detection (UniformClick check): click
+    # intervals needed, minimum CPS, the longest interval that keeps the
+    # stream alive and the excess-kurtosis ceiling below which a bounded
+    # random distribution counts as machine.
+    uniform-click-samples: 200
+    uniform-click-min-cps: 5.0
+    uniform-click-max-interval-ms: 1000.0
+    uniform-click-max-kurtosis: 0.5
     # Slow-cadence metronome detection (SlowCadence check): sample count,
     # coefficient-of-variation ceiling and maximum interval in milliseconds.
     metronome-samples: 48
@@ -472,4 +480,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 45
+config-version: 46

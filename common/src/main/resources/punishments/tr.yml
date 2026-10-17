@@ -176,6 +176,7 @@ Punishments:
     checks:
       - "Autoclicker"
       - "SlowCadence"
+      - "UniformClick"
     commands:
       - "10:20 [alert]"
       - "1:1 [log]"

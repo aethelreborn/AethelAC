@@ -160,9 +160,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v44 → v45: adds the {@code attack-patterns} pearl-flash knobs for
      * the PearlSwap check.
+     *
+     * <p>v45 → v46: adds the {@code attack-patterns} uniform-click knobs for
+     * the UniformClick check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 45, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 46, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
