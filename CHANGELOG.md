@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.4] - 2026-10-17
+
+- Add `SubTickBreak`: dig starts delivered faster than the client input loop
+  allows, catching nuker floods and duplicated dig exploits at the packet
+  level - including same-position restarts MultiBreak cannot see.
+
 ## [v4.3] - 2026-10-17
 
 - Add `SubTickClick`: attacks delivered faster than the client input loop

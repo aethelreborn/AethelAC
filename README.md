@@ -104,6 +104,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
   the signature of packet-flooding kill-aura modules and duplicated attack
   exploits. Isolated delivery hiccups are ignored; only repeated sub-tick
   bursts within the counter window flag.
+- `SubTickBreak` applies the same input-loop bound to digging: repeated dig
+  starts within 25 ms mean a single input tick produced multiple start
+  packets - nuker floods and duplicated dig exploits, including same-position
+  restarts MultiBreak's per-tick attribution cannot see.
 - `NoSwingAttack` flags silent-aura modes that strip the arm animation: four
   or more attacks in a row with no swing within 200 ms.
 - `MaceSmash` flags mace smash-timing automation: ten or more recent smash
