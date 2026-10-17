@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v3.14] - 2026-10-17
+
+- Add `CrystalCadence`: end crystals broken within 150 ms of their own spawn
+  eight or more times with a tight cadence, catching instant placer/destroyer
+  crystal auras.
+
 ## [v3.13] - 2026-10-17
 
 - Add `TriggerBot`: attacks within 100 ms of a target entering the crosshair

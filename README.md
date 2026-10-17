@@ -112,6 +112,9 @@ Attack patterns (`attack-patterns` in `config.yml`):
 - `TriggerBot` flags attacks fired on the first tick a target enters the
   crosshair of a near-static rotation - sub-100 ms entries a human cannot
   react to, matching the 0 ms default attack delay of triggerbot modules.
+- `CrystalCadence` flags instant crystal auras: eight or more end crystals
+  broken within 150 ms of their own spawn with a cadence CV at or below 0.6,
+  a pace only a placer/destroyer module attacking the spawn packet can hold.
 
 Aim analysis (`aim-analysis` in `config.yml`), all sharing the `AimHeuristics`
 ladder:
