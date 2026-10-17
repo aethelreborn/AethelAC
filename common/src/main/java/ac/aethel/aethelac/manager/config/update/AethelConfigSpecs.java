@@ -130,9 +130,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v34 → v35: adds the {@code attack-patterns} meta-swap knobs for the
      * SwapAttack check.
+     *
+     * <p>v35 → v36: adds the {@code attack-patterns} triggerbot knobs for the
+     * TriggerBot check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 35, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 36, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

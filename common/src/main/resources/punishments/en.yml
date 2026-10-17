@@ -132,6 +132,7 @@ Punishments:
       - "FireworkCadence"
       - "AutoFish"
       - "SwapAttack"
+      - "TriggerBot"
     commands:
       - "5:5 [alert]"
       - "1:1 [log]"

@@ -124,6 +124,13 @@ attack-patterns:
     swap-attack-min-pairs: 4
     swap-attack-revert-ms: 250
     swap-attack-counter-seconds: 60
+    # Triggerbot detection (TriggerBot check): attack latency after the target
+    # first enters the crosshair of a near-static rotation.
+    trigger-reaction-max-ms: 100
+    trigger-static-speed: 1.5
+    trigger-min-events: 3
+    trigger-counter-seconds: 30
+    trigger-reach: 3.5
 
 aim-analysis:
     # Machine-constant rotation detection (LinearRotation check): coefficient
@@ -423,4 +430,4 @@ update-permission-ticks: 20
 #   config-version: bumped on every breaking shape change. Old configs
 #                   auto-migrate up via the bundled updater on next start.
 config-flavor: V2
-config-version: 35
+config-version: 36
