@@ -184,6 +184,12 @@ aim-analysis:
     silent-revert-window-ms: 90
     silent-flips-to-flag: 2
     silent-counter-window-seconds: 10.0
+    # Hitbox-center lock detection (Accuracy check): attacks whose crosshair
+    # ray passes within this many blocks of the hitbox center count as
+    # precise; fraction needed over the attack ring to flag.
+    accuracy-center-offset: 0.025
+    accuracy-min-attacks: 12
+    accuracy-precision-fraction: 0.75
     decay-ratio-min: 0.18
     decay-ratio-max: 0.995
     decay-ratio-spread: 0.06
@@ -482,4 +488,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 41
+config-version: 42
