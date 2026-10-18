@@ -8,16 +8,19 @@ import ac.grim.grimac.api.config.ConfigManager;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
 import com.github.retrooper.packetevents.protocol.item.type.ItemTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
+import com.github.retrooper.packetevents.protocol.player.ClientVersion;
+import com.github.retrooper.packetevents.protocol.player.DiggingAction;
 import com.github.retrooper.packetevents.protocol.world.BlockFace;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerBlockPlacement;
+import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerDigging;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Locale;
 
 /**
- * Detects auto-block modules: shield use toggled within milliseconds of
+ * Detects auto-block modules: block use toggled within milliseconds of
  * attacks, over and over.
  *
  * <p>Shield-drain and auto-block modules raise the shield the instant their
@@ -25,11 +28,13 @@ import java.util.Locale;
  * opponent can never punish. Pressing the secondary key that fast after -
  * or before - every single click is beyond reliable human coordination,
  * while the module's shield activation rides the same client tick as the
- * attack. The pattern requires a shield actually held at use time, so
- * regular sword spamming and real placements never count.</p>
+ * attack. On 1.8 protocols the same modules toggle sword blocking instead,
+ * so a held sword counts as a blocking item there. The pattern requires a
+ * blocking item actually held, so regular sword spamming and real
+ * placements never count.</p>
  */
 @CheckData(name = "AutoBlock", stableKey = "aethel.misc.auto_block",
-        description = "Toggled shield use within milliseconds of attacks", experimental = true)
+        description = "Toggled block use within milliseconds of attacks", experimental = true)
 public class AutoBlock extends Check implements PacketReceiveListener {
     private static final long FLAG_COOLDOWN_NANOS = 5_000_000_000L;
 
@@ -67,6 +72,14 @@ public class AutoBlock extends Check implements PacketReceiveListener {
             return;
         }
 
+        if (event.getPacketType() == PacketType.Play.Client.PLAYER_DIGGING) {
+            if (new WrapperPlayClientPlayerDigging(event).getAction() == DiggingAction.RELEASE_USE_ITEM
+                    && isBlockingItem()) {
+                handleUse(System.nanoTime());
+            }
+            return;
+        }
+
         boolean use;
         if (event.getPacketType() == PacketType.Play.Client.USE_ITEM) {
             use = true;
@@ -77,10 +90,18 @@ public class AutoBlock extends Check implements PacketReceiveListener {
         }
         if (!use) return;
 
-        if (player.inventory.getHeldItem().getType() != ItemTypes.SHIELD) {
+        if (!isBlockingItem()) {
             return;
         }
         handleUse(System.nanoTime());
+    }
+
+    private boolean isBlockingItem() {
+        if (player.inventory.getHeldItem().getType() == ItemTypes.SHIELD) {
+            return true;
+        }
+        return player.getClientVersion().isOlderThan(ClientVersion.V_1_9)
+                && player.inventory.getHeldItem().getType().getName().toString().endsWith("_sword");
     }
 
     private void handleAttack(long now) {
@@ -116,7 +137,7 @@ public class AutoBlock extends Check implements PacketReceiveListener {
 
         if (events >= minEvents && now - lastFlagNanos >= FLAG_COOLDOWN_NANOS) {
             flag(String.format(Locale.ROOT,
-                    "%d shield toggles within %.0f ms of attacks", events, maxGapMs));
+                    "%d block toggles within %.0f ms of attacks", events, maxGapMs));
             lastFlagNanos = now;
             Arrays.fill(ring, 0L);
         }
