@@ -3,6 +3,13 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.6] - 2026-10-17
+
+- Add the committed session handoff folder (`HANDOFF/`): full development
+  log, workflow mandate, verified API notes and next moves, so development
+  can resume seamlessly from any machine. The next detection stage starts
+  at v4.7.
+
 ## [v4.5] - 2026-10-17
 
 - Add `AutoBlock`: shield use toggled within 50 ms of attacks, catching
