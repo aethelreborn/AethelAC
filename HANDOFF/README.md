@@ -172,32 +172,32 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.5** (CI 39051140638). Config version **52**,
+- **Latest release: v4.7** (CI 39137006222). Config version **53**,
   messages version 6, 13 config locales / 11 punishment locales / 11 message
   locales. All CI green this session.
-- **This session shipped 14 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **This session shipped 16 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit + README reliability tiers, v4.1 HiddenAim,
   v4.2 TriggerBot precision tier, v4.3 SubTickClick, v4.4 SubTickBreak,
-  v4.5 AutoBlock. (Full details per stage in `SESSION_LOG.md`.)
+  v4.5 AutoBlock, v4.6 handoff docs, v4.7 JumpReset.
+  (Full details per stage in `SESSION_LOG.md`.)
 - Repo tip at handoff: `c17cd296f` (plus the handoff commit that follows).
-- **v4.6 = this handoff documentation** (shipped so a new-OS session can
-  continue; see CHANGELOG). **Next stage to build: v4.7 JumpReset**
-  (knockback jump-reset modules). Research was just starting when the user
-  announced the OS switch. Design plan: listen for self-velocity (knockback)
-  events, then a jump rising edge within ≤2 ticks repeatedly →
-  `jump-analysis` reset-* keys. The two exploratory greps
-  (`ENTITY_VELOCITY`, `JumpCadence` hooks) were aborted — **redo them**
-  before writing code.
+- **v4.6 = handoff documentation**; **v4.7 JumpReset shipped** (done:
+  self-velocity wrapper = `WrapperPlayServerEntityVelocity` with
+  `entityId == player.entityID`, KnockbackHandler.java:48-60 precedent;
+  rising-edge pattern = JumpCadence tick sampling with `player.isJumping`).
 
 ## 7. Next moves (priority order)
 
-1. **v4.7 JumpReset** — finish research (self-velocity wrapper + isJumping
-   rising-edge pattern from JumpCadence), implement, ship per loop.
-2. **v4.8+ candidates** (backlog): rotation-statistics hardening step (aim
-   family), shield/consumable use-under-hit tier, stats stages, dig-side
-   corollaries, any new bypass intel.
+1. **v4.8** — rotation-statistics hardening step (aim family): research
+   first which checks consume the AimProcessor divisor/sensitivity signals
+   (`checks/impl/aim/processor/AimProcessor.java`: sensitivityYaw/divisorYaw/
+   modeYaw fields), then pick the strongest invariant-style extension
+   (e.g. rotation-delta autocorrelation, or gcd-divisor violations under
+   combat). Backlog also: consumable use-under-hit tier, stats stages.
+2. **v4.9+ candidates** (backlog): dig-side corollaries, any new bypass
+   intel from research.
 3. Keep monitoring Modrinth behavior per release (low priority).
 4. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.
