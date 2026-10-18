@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.7] - 2026-10-17
+
+- Add `JumpReset`: jumps pinned to within two ticks of every knockback
+  (ping-adaptive window), catching automatic sprint-reset modules while
+  human resets stay in their organic timing band.
+
 ## [v4.6] - 2026-10-17
 
 - Add the committed session handoff folder (`HANDOFF/`): full development

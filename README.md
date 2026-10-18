@@ -192,6 +192,10 @@ Inventory and macro automation:
 - `JumpCadence` (`jump-analysis` in `config.yml`) flags metronome jump
   tapping: twelve or more one-to-two-tick jump pulses with an interval CV at
   or below 0.12, the signature of W-tap and D-tap macro modules.
+- `JumpReset` flags automatic jump resets: a jump within two ticks of a
+  knockback (widened by one tick per 50 ms of ping), five or more times a
+  minute. Jump-reset modules pin the reset to the velocity packet on every
+  hit; human resets land in a wide organic band.
 - `InvWalk` (`inventory-automation` in `config.yml`) flags world interactions
   while a container is open: a vanilla GUI captures the mouse completely, so
   attacking, placing or digging seconds after an open-window packet is only
