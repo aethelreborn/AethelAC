@@ -172,15 +172,18 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.7** (CI 39137006222). Config version **53**,
-  messages version 6, 13 config locales / 11 punishment locales / 11 message
-  locales. All CI green this session.
-- **This session shipped 16 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.10** (docs/maintenance; v4.9 = AutoBlock extension,
+  CI 39137727179). **NEXT RELEASE NUMBER: v4.11 — increment this on EVERY
+  push to main, including docs-only pushes (each push creates a release!).**
+  Config version **53**, messages version 6, 13 config locales / 11
+  punishment locales / 11 message locales. All CI green this session.
+- **This session shipped 20 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
-  v4.0 stability audit + README reliability tiers, v4.1 HiddenAim,
-  v4.2 TriggerBot precision tier, v4.3 SubTickClick, v4.4 SubTickBreak,
-  v4.5 AutoBlock, v4.6 handoff docs, v4.7 JumpReset.
+  v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
+  v4.3 SubTickClick, v4.4 SubTickBreak, v4.5 AutoBlock, v4.6 handoff docs,
+  v4.7 JumpReset, v4.8 handoff refresh, v4.9 AutoBlock extension,
+  v4.10 changelog/numbering maintenance.
   (Full details per stage in `SESSION_LOG.md`.)
 - Repo tip at handoff: `c17cd296f` (plus the handoff commit that follows).
 - **v4.6 = handoff documentation**; **v4.7 JumpReset shipped** (done:
