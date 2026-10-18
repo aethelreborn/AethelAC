@@ -3,6 +3,12 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.8] - 2026-10-17
+
+- Extend `AutoBlock` to legacy protocols: on 1.8 a held sword counts as a
+  blocking item (sword-block modules), and shield release packets now count
+  as toggles on modern protocols (drop-shield-to-attack pattern).
+
 ## [v4.7] - 2026-10-17
 
 - Add `JumpReset`: jumps pinned to within two ticks of every knockback
