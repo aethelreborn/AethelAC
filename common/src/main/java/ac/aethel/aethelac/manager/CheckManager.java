@@ -36,6 +36,7 @@ import ac.aethel.aethelac.checks.impl.misc.SwapAttack;
 import ac.aethel.aethelac.checks.impl.misc.TriggerBot;
 import ac.aethel.aethelac.checks.impl.misc.CloseSpoof;
 import ac.aethel.aethelac.checks.impl.misc.JumpCadence;
+import ac.aethel.aethelac.checks.impl.misc.JumpReset;
 import ac.aethel.aethelac.checks.impl.misc.PearlSwap;
 import ac.aethel.aethelac.checks.impl.misc.InvWalk;
 import ac.aethel.aethelac.checks.impl.misc.AutoBlock;
@@ -167,6 +168,7 @@ public class CheckManager implements BasicReloadable {
                 .put(TriggerBot.class, new TriggerBot(player))
                 .put(CloseSpoof.class, new CloseSpoof(player))
                 .put(JumpCadence.class, new JumpCadence(player))
+                .put(JumpReset.class, new JumpReset(player))
                 .put(PearlSwap.class, new PearlSwap(player))
                 .put(InvWalk.class, new InvWalk(player))
                 .put(AutoBlock.class, new AutoBlock(player))
