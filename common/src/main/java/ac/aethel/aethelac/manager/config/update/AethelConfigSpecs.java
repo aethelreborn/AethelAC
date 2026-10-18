@@ -181,9 +181,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v51 → v52: adds the {@code attack-patterns} shield toggle knobs for
      * the AutoBlock check.
+     *
+     * <p>v52 → v53: adds the {@code jump-analysis} knockback reset knobs for
+     * the JumpReset check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 52, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 53, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

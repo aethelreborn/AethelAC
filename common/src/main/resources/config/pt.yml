@@ -262,6 +262,12 @@ jump-analysis:
     jump-min-pulses: 12
     jump-interval-cv: 0.12
     jump-max-interval-ticks: 40
+    # Automatic jump-reset detection (JumpReset check): a jump this many
+    # ticks after a knockback (plus one tick per 50 ms of ping), repeated,
+    # is a module pinning the reset to the velocity packet.
+    jumpreset-max-ticks: 2
+    jumpreset-min-events: 5
+    jumpreset-counter-seconds: 60.0
 
 inventory-automation:
     # Container click-rate detection (FastClick check): window in seconds,
@@ -546,4 +552,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 52
+config-version: 53

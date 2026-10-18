@@ -132,6 +132,7 @@ Punishments:
       - "TriggerBot"
       - "CloseSpoof"
       - "JumpCadence"
+      - "JumpReset"
       - "PearlSwap"
       - "InvWalk"
       - "AutoBlock"
