@@ -3,6 +3,20 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.14] - 2026-10-19
+
+- Extend `TriggerBot` with a metronome tier for delayed triggerbot modules:
+  over the last 20 crosshair-entry opportunities that lasted at least
+  300 ms, a module that answers at least 85% of them with a mean reaction
+  in 100-280 ms and a reaction coefficient of variation at or below 0.10 is
+  flagged. Simulated validation: delayed bots (fixed/uniform/normal sleeps
+  120-250 ms, including a module skipping one opportunity in ten) all reach
+  a 0.96-1.0 stream flag rate at the shipped thresholds, while plausible
+  humans (50-75% fire rates, ex-Gaussian reaction times) stay at or below
+  0.07; only physiologically implausible consistency (reaction spread under
+  25-30 ms with no slow tail) reaches bot territory, documented as an
+  accepted experimental-tier risk.
+
 ## [v4.13] - 2026-10-19
 
 - Harden `RotationGrid` with a sustained tier: the fitted mouse quantum now

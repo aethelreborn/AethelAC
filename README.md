@@ -139,7 +139,13 @@ Attack patterns (`attack-patterns` in `config.yml`):
   A second tier separates delay-configured modules (100-120 ms "legit"
   delays) from fast humans through crosshair-entry precision instead of a
   single timing bound: the attack must also land within 0.10 blocks of the
-  hitbox center.
+  hitbox center. A third, metronome tier catches modules that sleep
+  100-450 ms between detection and attack by stream consistency instead of
+  a single bound: over the last 20 crosshair entries lasting at least
+  300 ms, the module answers at least 85% of them with a mean reaction in
+  100-280 ms and a coefficient of variation at or below 0.10 (simulated:
+  delayed bots 0.96-1.0 stream flag rate, plausible humans at or below
+  0.07).
 - `CrystalCadence` flags instant crystal auras: eight or more end crystals
   broken within 150 ms of their own spawn with a cadence CV at or below 0.6,
   or quantized to three ticks or less across the ring, a pace only a
