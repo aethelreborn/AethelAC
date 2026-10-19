@@ -202,9 +202,13 @@ public final class AethelConfigSpecs {
      * <p>v57 → v58: adds the {@code aim-analysis} tracking-lock knobs for
      * the TrackingLock check (swept-tick angular floor, lock angle, window,
      * reversal floor and the locked-fraction gate).
+     *
+     * <p>v58 → v59: adds the {@code inventory-automation} rotation-tier
+     * knobs for the InvWalk check (summed yaw+pitch delta floor, counted
+     * updates and the counter window).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 58, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 59, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

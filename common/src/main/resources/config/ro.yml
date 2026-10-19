@@ -360,6 +360,13 @@ inventory-automation:
     invwalk-min-open-ms: 350
     invwalk-min-events: 2
     invwalk-counter-seconds: 10
+    # GUI-rotation detection (InvWalk rotation tier): a rotation update
+    # counts when the summed yaw+pitch delta reaches this many degrees;
+    # this many counted updates within the counter window flags. Bedrock
+    # (Geyser/Floodgate) players are exempt.
+    invwalk-rotation-min-delta-deg: 0.5
+    invwalk-rotation-min-events: 2
+    invwalk-rotation-counter-seconds: 10
 
 reaction-analysis:
     # Damage reaction detection (DamageReaction check): maximum single
@@ -606,4 +613,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 58
+config-version: 59
