@@ -3,6 +3,15 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.11] - 2026-10-19
+
+- Add `RotationGrid` (`aim-analysis`): catches mixed aim-assist / silent-aim
+  rotation streams by fitting the sensitivity quantum from the delta
+  histogram and counting combat deltas that are neither multiples of the
+  fitted grid nor explained by another populated cluster. Only streams that
+  demonstrably contain quantized mouse deltas can flag; fully smoothed,
+  cinematic and protocol-quantized 1.8 input never opens the grid gate.
+
 ## [v4.10] - 2026-10-17
 
 - Maintenance: correct release numbering in this changelog (handoff state
