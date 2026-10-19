@@ -12,6 +12,7 @@ import ac.aethel.aethelac.checks.impl.aim.SilentAim;
 import ac.aethel.aethelac.checks.impl.aim.Accuracy;
 import ac.aethel.aethelac.checks.impl.aim.HiddenAim;
 import ac.aethel.aethelac.checks.impl.aim.RotationGrid;
+import ac.aethel.aethelac.checks.impl.aim.TrackingLock;
 import ac.aethel.aethelac.checks.impl.aim.AimModulo360;
 import ac.aethel.aethelac.checks.impl.aim.processor.AimProcessor;
 import ac.aethel.aethelac.checks.impl.badpackets.*;
@@ -215,6 +216,7 @@ public class CheckManager implements BasicReloadable {
                 .put(Accuracy.class, new Accuracy(player))
                 .put(HiddenAim.class, new HiddenAim(player))
                 .put(RotationGrid.class, new RotationGrid(player))
+                .put(TrackingLock.class, new TrackingLock(player))
                 .put(VehiclePredictionRunner.class, new VehiclePredictionRunner(player))
 
                 .put(NegativeTimer.class, new NegativeTimer(player))
