@@ -257,6 +257,14 @@ aim-analysis:
     grid-window-samples: 30
     grid-combat-window-ms: 3000
     grid-flag-cooldown-seconds: 5
+    # Sustained tier: the fitted quantum survives this many seconds without
+    # fresh grid evidence, so a fight full of synthetic rotation cannot close
+    # the gate mid-combat; the horizon tier flags when the violation fraction
+    # of the last grid-horizon-samples armed probes reaches grid-horizon-percent
+    # (catches slow-burn corrections that never cluster into a 30-probe burst).
+    grid-memory-seconds: 120
+    grid-horizon-samples: 300
+    grid-horizon-percent: 5.0
 
 idle-automation:
     # Anti-AFK automation detection (IdleAutomation check): a player who only
@@ -567,4 +575,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 54
+config-version: 55

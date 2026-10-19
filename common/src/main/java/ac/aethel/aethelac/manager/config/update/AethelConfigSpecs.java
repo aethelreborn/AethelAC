@@ -187,9 +187,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v53 → v54: adds the {@code aim-analysis} rotation grid knobs for the
      * RotationGrid check.
+     *
+     * <p>v54 → v55: adds the RotationGrid sustained-tier knobs (quantum
+     * memory across synthetic phases, horizon violation fraction).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 54, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 55, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
