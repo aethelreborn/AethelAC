@@ -40,6 +40,14 @@ import java.util.Locale;
  * arms and the check is silent for them. Only a stream that mixes the two -
  * quantized human movement plus off-grid synthetic corrections - can flag,
  * which is the mixed/intermittent aim-assist signature.</p>
+ *
+ * <p>Two tiers share the armed probes. The burst tier flags when 8 of the
+ * last 30 armed probes are off-grid. The horizon tier flags when the
+ * violation fraction of the last 300 armed probes reaches 5%, which catches
+ * slow-burn corrections spread over a long fight that never cluster into a
+ * 30-probe burst. The fitted quantum survives a stretch of fully synthetic
+ * rotation with no mouse input for a memory period, so a sustained fight
+ * cannot close the gate mid-combat.</p>
  */
 @CheckData(name = "RotationGrid", stableKey = "aethel.aim.rotation_grid",
         description = "Interleaved non-quantized rotation deltas with grid-quantized mouse movement", experimental = true)
@@ -52,6 +60,7 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
     private static final double FIT_HI = 12.0D;
     private static final int CANDIDATE_MIN = 4;
     private static final int MAX_CANDIDATES = 64;
+    private static final int MAX_HORIZON = 512;
     private static final double PROBE_LO = 0.04D;
     private static final double PROBE_MAX_DEG = 12.0D;
     private static final double PROBE_QUANTA_LIMIT = 150.0D;
@@ -66,7 +75,10 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
     private int clusterEvidence;
     private double absoluteTolerance;
     private int minViolations;
+    private int horizonSize;
+    private double horizonPercent;
     private long combatWindowNanos;
+    private long gridMemoryNanos;
     private long flagCooldownNanos;
 
     private boolean[] probes;
@@ -88,8 +100,11 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
         clusterEvidence = Math.max(2, config.getIntElse("aim-analysis.grid-cluster-evidence", 8));
         absoluteTolerance = Math.max(1.0E-5D, config.getDoubleElse("aim-analysis.grid-tolerance-deg", 0.004D));
         minViolations = Math.max(2, config.getIntElse("aim-analysis.grid-min-violations", 8));
-        int ringSize = Math.max(minViolations, config.getIntElse("aim-analysis.grid-window-samples", 30));
+        int ringSize = Math.min(MAX_HORIZON, Math.max(minViolations, config.getIntElse("aim-analysis.grid-window-samples", 30)));
+        horizonSize = Math.max(ringSize, Math.min(MAX_HORIZON, config.getIntElse("aim-analysis.grid-horizon-samples", 300)));
+        horizonPercent = Math.min(50.0D, Math.max(0.5D, config.getDoubleElse("aim-analysis.grid-horizon-percent", 5.0D)));
         combatWindowNanos = Math.max(0, config.getIntElse("aim-analysis.grid-combat-window-ms", 3000)) * 1_000_000L;
+        gridMemoryNanos = Math.max(1, config.getIntElse("aim-analysis.grid-memory-seconds", 120)) * 1_000_000_000L;
         flagCooldownNanos = Math.max(1, config.getIntElse("aim-analysis.grid-flag-cooldown-seconds", 5)) * 1_000_000_000L;
         probes = new boolean[ringSize];
         resetProbes();
@@ -144,7 +159,7 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
         }
 
         if (state.dirty && (state.updates % REFIT_INTERVAL == 0L || state.qest <= 0.0D)) {
-            refit(state);
+            refit(state, now);
         }
 
         if (combat) {
@@ -164,18 +179,18 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
 
         double tolerance = Math.max(absoluteTolerance, RELATIVE_TOLERANCE * quantum);
         if (onGrid(delta, quantum, tolerance)) {
-            recordProbe(false, now);
+            recordProbe(state, false, now);
             return;
         }
 
         double alternative = alternativeQuantum(state, delta, tolerance);
         if (alternative > 0.0D) {
             state.qest = alternative;
-            recordProbe(false, now);
+            recordProbe(state, false, now);
             return;
         }
 
-        recordProbe(true, now);
+        recordProbe(state, true, now);
     }
 
     private static boolean onGrid(double delta, double quantum, double tolerance) {
@@ -197,7 +212,7 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
         return best;
     }
 
-    private void recordProbe(boolean violation, long now) {
+    private void recordProbe(AxisState state, boolean violation, long now) {
         if (probeCount == probes.length && probes[probeIndex]) {
             probeViolations--;
         } else if (probeCount < probes.length) {
@@ -209,21 +224,45 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
         }
         probeIndex = (probeIndex + 1) % probes.length;
 
-        if (probeCount < probes.length || probeViolations < minViolations) {
-            return;
+        if (probeCount == probes.length && probeViolations >= minViolations) {
+            int violations = probeViolations;
+            int total = probes.length;
+            resetProbes();
+            emitFlag(now, String.format(Locale.ROOT,
+                    "%d of the last %d armed combat rotation probes were off the quantized mouse grid (yaw q %.4f, pitch q %.4f)",
+                    violations, total, yawAxis.qest, pitchAxis.qest));
         }
 
-        int violations = probeViolations;
-        int total = probes.length;
-        resetProbes();
+        if (state.horizonCount > horizonSize) {
+            resetHorizon(state);
+        }
+        if (state.horizonCount == horizonSize && state.horizon[state.horizonIndex]) {
+            state.horizonViolations--;
+        } else if (state.horizonCount < horizonSize) {
+            state.horizonCount++;
+        }
+        state.horizon[state.horizonIndex] = violation;
+        if (violation) {
+            state.horizonViolations++;
+        }
+        state.horizonIndex = (state.horizonIndex + 1) % horizonSize;
 
+        if (state.horizonCount == horizonSize && state.horizonViolations * 100.0D >= horizonPercent * horizonSize) {
+            int violations = state.horizonViolations;
+            int total = horizonSize;
+            resetHorizon(state);
+            emitFlag(now, String.format(Locale.ROOT,
+                    "%.1f%% of the last %d armed combat rotation probes were off the quantized mouse grid (yaw q %.4f, pitch q %.4f)",
+                    violations * 100.0D / total, total, yawAxis.qest, pitchAxis.qest));
+        }
+    }
+
+    private void emitFlag(long now, String message) {
         if (now - lastFlagNanos < flagCooldownNanos) {
             return;
         }
         lastFlagNanos = now;
-        flag(String.format(Locale.ROOT,
-                "%d of the last %d armed combat rotation probes were off the quantized mouse grid (yaw q %.4f, pitch q %.4f)",
-                violations, total, yawAxis.qest, pitchAxis.qest));
+        flag(message);
     }
 
     private void resetProbes() {
@@ -233,7 +272,14 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
         probeViolations = 0;
     }
 
-    private void refit(AxisState state) {
+    private static void resetHorizon(AxisState state) {
+        Arrays.fill(state.horizon, false);
+        state.horizonIndex = 0;
+        state.horizonCount = 0;
+        state.horizonViolations = 0;
+    }
+
+    private void refit(AxisState state, long now) {
         Int2IntOpenHashMap histogram = state.histogram;
         histogram.clear();
         for (int i = 0; i < state.windowCount; i++) {
@@ -257,7 +303,12 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
             }
         }
 
-        state.qest = bestKey != Integer.MIN_VALUE ? refine(state, bestCenter) : 0.0D;
+        if (bestKey != Integer.MIN_VALUE) {
+            state.qest = refine(state, bestCenter);
+            state.lastGridNanos = now;
+        } else if (now - state.lastGridNanos > gridMemoryNanos) {
+            state.qest = 0.0D;
+        }
 
         int candidateCount = 0;
         if (bestKey != Integer.MIN_VALUE) {
@@ -293,11 +344,16 @@ public class RotationGrid extends Check implements RotationListener, PacketRecei
         private final double[] window = new double[WINDOW_SIZE];
         private final Int2IntOpenHashMap histogram = new Int2IntOpenHashMap();
         private final double[] candidates = new double[MAX_CANDIDATES];
+        private final boolean[] horizon = new boolean[MAX_HORIZON];
         private int windowIndex;
         private int windowCount;
         private long updates;
         private boolean dirty;
         private double qest;
         private int candidateCount;
+        private int horizonIndex;
+        private int horizonCount;
+        private int horizonViolations;
+        private long lastGridNanos;
     }
 }
