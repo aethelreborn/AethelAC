@@ -622,6 +622,10 @@ exploit:
 debug-pipeline-on-join: false
 
 # Habilita verificações experimentais.
+# Shipped default: true. With this false, every tier marked experimental is
+# completely silent - no alerts, no punishments, no stored evidence - which
+# drops most of the newest detection stack. A config carried over from before
+# this default flipped keeps its old false; set it to true to restore them.
 experimental-checks: true
 
 reset-item-usage-on-item-update: true
