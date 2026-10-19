@@ -183,6 +183,11 @@ attack-patterns:
     trigger-metronome-min-mean-ms: 100.0
     trigger-metronome-max-mean-ms: 280.0
     trigger-metronome-max-cv: 0.10
+    # Late-band metronome tier: narrowly jittered modules sleeping up to the
+    # late mean ceiling are flagged at a much tighter reaction CV ceiling,
+    # because tick quantization leaves a human's spread too wide to pass.
+    trigger-metronome-late-max-mean-ms: 460.0
+    trigger-metronome-late-max-cv: 0.04
     trigger-reach: 3.5
     # Instant crystal aura detection (CrystalCadence check): crystals broken
     # within this many ms of spawn, cycles needed and cadence CV ceiling.
@@ -587,4 +592,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 56
+config-version: 57

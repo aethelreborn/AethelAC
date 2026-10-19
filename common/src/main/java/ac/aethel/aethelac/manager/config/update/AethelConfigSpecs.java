@@ -194,9 +194,13 @@ public final class AethelConfigSpecs {
      * <p>v55 → v56: adds the TriggerBot metronome-tier knobs (crosshair
      * opportunity duration, window of opportunities, fire ratio, mean
      * reaction band, coefficient-of-variation ceiling).
+     *
+     * <p>v56 → v57: adds the TriggerBot metronome late band (higher mean
+     * reaction ceiling guarded by a tighter coefficient-of-variation
+     * ceiling for narrowly jittered delays).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 56, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 57, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
