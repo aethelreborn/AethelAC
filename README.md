@@ -145,7 +145,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
   300 ms, the module answers at least 85% of them with a mean reaction in
   100-280 ms and a coefficient of variation at or below 0.10 (simulated:
   delayed bots 0.96-1.0 stream flag rate, plausible humans at or below
-  0.07).
+  0.07), and a late band covers narrower jittered sleeps up to 460 ms at a
+  coefficient of variation at or below 0.04 (fixed and 50 ms-wide delayed
+  modules across 300-450 ms all flag at a 1.0 simulated stream rate,
+  plausible humans stay at or below 0.045).
 - `CrystalCadence` flags instant crystal auras: eight or more end crystals
   broken within 150 ms of their own spawn with a cadence CV at or below 0.6,
   or quantized to three ticks or less across the ring, a pace only a

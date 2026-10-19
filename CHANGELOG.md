@@ -3,6 +3,26 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.16] - 2026-10-19
+
+- Extend `TriggerBot`'s metronome tier with a late band: modules whose mean
+  reaction sits above 280 ms (up to 460 ms) are flagged at a tighter
+  reaction coefficient-of-variation ceiling of 0.04, because a
+  machine-steady beat survives the tick quantization that widens a human's
+  spread. Simulated validation: fixed 300/350/400 ms and 50 ms-wide
+  uniform delays across 300-450 ms all reach a 1.0 stream flag rate, while
+  plausible humans (slow 300-400 ms means, held-attack cadences, high fire
+  rates) stay at or below 0.045; the only leak is the already-documented
+  implausible profile (25 ms reaction spread, no slow tail). Uniform delay
+  ranges 100 ms and wider keep the reaction CV above both ceilings and are
+  the tier's known evasion class.
+
+## [v4.15] - 2026-10-19
+
+- Maintenance: refresh the committed handoff state through v4.14
+  (TriggerBot metronome tier) so the next session resumes from the current
+  stage.
+
 ## [v4.14] - 2026-10-19
 
 - Extend `TriggerBot` with a metronome tier for delayed triggerbot modules:
