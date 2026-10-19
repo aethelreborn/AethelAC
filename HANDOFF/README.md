@@ -195,12 +195,12 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.20** (InvWalk rotation tier; v4.19 = handoff
-  refresh; v4.18 = TrackingLock aim check; CI run id recorded in
-  `SESSION_LOG.md`). **NEXT RELEASE NUMBER: v4.21 — increment this on EVERY
-  push to main, including docs-only pushes (each push creates a
-  release!).** Config version **59**, messages version 6, 13 config locales
-  / 11 punishment locales / 11 message locales. All CI green.
+- **Latest release: v4.20** (InvWalk rotation tier, CI 39228312781; v4.19 =
+  handoff refresh; v4.18 = TrackingLock aim check). **NEXT RELEASE NUMBER:
+  v4.21 — increment this on EVERY push to main, including docs-only pushes
+  (each push creates a release!).** Config version **59**, messages version
+  6, 13 config locales / 11 punishment locales / 11 message locales. All CI
+  green.
 - **This session shipped 29 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
@@ -213,8 +213,8 @@ under `common/src/main/resources/{config,punishments,messages}`.
   v4.17 handoff refresh, v4.18 TrackingLock, v4.19 handoff refresh,
   v4.20 InvWalk rotation tier. (Full details per stage in
   `SESSION_LOG.md`.)
-- Repo tip at handoff: parent `28e5f61` plus the docs commit that carries
-  this file.
+- Repo tip at handoff: `33d5c22` plus the handoff refresh commit that
+  carries this file.
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
   **v4.13** with quantum memory (120 s) and a 300-probe horizon tier (5%
@@ -269,8 +269,11 @@ under `common/src/main/resources/{config,punishments,messages}`.
    dig starts), stats stages, or new bypass intel from research. Backlog:
    FailSwing-style pre-swing bands (FP-risky without a cadence filter),
    triggerbot uniform wide-range late delays (documented evasion class),
-   TrackingLock straight-line exemption (needs reversal evidence) and its
-   soft-smoothing miss band (gain < ~0.7).
+   TrackingLock straight-line tier (sim7: dropping the reversal requirement
+   leaks no human model, but the walker class never arms - run a
+   constant-omega circular-orbit sim with predictive humans before
+   designing; they are the class to disprove) and its soft-smoothing miss
+   band (gain < ~0.7).
 2. Keep monitoring Modrinth behavior per release (low priority).
 3. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.
