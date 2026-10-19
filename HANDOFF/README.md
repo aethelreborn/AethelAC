@@ -165,6 +165,16 @@ under `common/src/main/resources/{config,punishments,messages}`.
   triggerbot default delay 0ms.
 - catpvp runs old Grim + manual moderation; BetterHitreg is appearance-only;
   150 ms temporal-buffer validation pattern.
+- **Mouse quantization intel (v4.11)**: vanilla mouse deltas are whole
+  multiples of q = 1.2*(0.6*sens+0.2)^3 (float32): 0.0096 deg at sens 0,
+  0.6144 at sens 1. The 1.8 protocol quantizes yaw to 1.40625 deg, so
+  quantum-fitting checks are structurally blind on 1.8 (by design, not a
+  regression). Upstream Grim's baritone divisor detection is acknowledged
+  broken (issue #1432). Upstream FP class for raw quantum tests: Optifine
+  cinematic camera (sub-quantum micro deltas). `AethelMath.gcd` returns the
+  last remainder above MINIMUM_DIVISOR (~0.0086), so per-pair gcd tests
+  cannot cleanly recover the quantum - histogram cluster fitting is the
+  working approach.
 - Competitive servers used for testing: eu.loyisa.cn.
 - Behavioral C-tier criticism from user's reviewer: aim/triggerbot/autoclicker/
   fingerprint were "threshold guesses" — this session answered it with the
@@ -172,39 +182,44 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.10** (docs/maintenance; v4.9 = AutoBlock extension,
-  CI 39137727179). **NEXT RELEASE NUMBER: v4.11 — increment this on EVERY
-  push to main, including docs-only pushes (each push creates a release!).**
-  Config version **53**, messages version 6, 13 config locales / 11
-  punishment locales / 11 message locales. All CI green this session.
-- **This session shipped 20 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.12** (this handoff refresh, docs-only; v4.11 =
+  RotationGrid, CI 39211114141). **NEXT RELEASE NUMBER: v4.13 — increment
+  this on EVERY push to main, including docs-only pushes (each push creates
+  a release!).** Config version **54**, messages version 6, 13 config
+  locales / 11 punishment locales / 11 message locales. All CI green.
+- **This session shipped 22 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
   v4.3 SubTickClick, v4.4 SubTickBreak, v4.5 AutoBlock, v4.6 handoff docs,
   v4.7 JumpReset, v4.8 handoff refresh, v4.9 AutoBlock extension,
-  v4.10 changelog/numbering maintenance.
-  (Full details per stage in `SESSION_LOG.md`.)
-- Repo tip at handoff: `c17cd296f` (plus the handoff commit that follows).
+  v4.10 changelog/numbering maintenance, v4.11 RotationGrid, v4.12 handoff
+  refresh. (Full details per stage in `SESSION_LOG.md`.)
+- Repo tip at handoff: `980d0bf` (plus the handoff commit that follows).
 - **v4.6 = handoff documentation**; **v4.7 JumpReset shipped** (done:
   self-velocity wrapper = `WrapperPlayServerEntityVelocity` with
   `entityId == player.entityID`, KnockbackHandler.java:48-60 precedent;
   rising-edge pattern = JumpCadence tick sampling with `player.isJumping`).
+- **v4.11 RotationGrid shipped**: per-axis 256-sample delta window +
+  histogram cluster fit + armed combat probes + 30-probe ring (8 violation
+  flag, 5 s cooldown). State is in-memory per player; config keys grid-*
+  under aim-analysis; AimHeuristics ladder. Fully-synthetic rotation streams
+  (never quantized) stay silent by construction — see section 7 item 1.
 
 ## 7. Next moves (priority order)
 
-1. **v4.8** — rotation-statistics hardening step (aim family): research
-   first which checks consume the AimProcessor divisor/sensitivity signals
-   (`checks/impl/aim/processor/AimProcessor.java`: sensitivityYaw/divisorYaw/
-   modeYaw fields), then pick the strongest invariant-style extension
-   (e.g. rotation-delta autocorrelation, or gcd-divisor violations under
-   combat). Backlog also: consumable use-under-hit tier, stats stages.
-2. **v4.9+ candidates** (backlog): dig-side corollaries, any new bypass
-   intel from research.
-3. Keep monitoring Modrinth behavior per release (low priority).
-4. **AethelGuard** (native ModSeeker-style client verification subsystem) —
+1. Next detection stage candidates (research first, then pick one):
+   (a) pure-arbitrary rotation detector for the RotationGrid hole - streams
+   that never show quantized deltas (fully synthetic aim). Any design must
+   keep cinematic-smoothing legit input silent; live idea: decisive-delta
+   (0.5-12 deg) consistency during combat windows only, no cluster gate;
+   (b) consumable use-under-hit tier (auto-eat/auto-pot under damage);
+   (c) new bypass intel from research. Backlog: stats stages, dig-side
+   corollaries.
+2. Keep monitoring Modrinth behavior per release (low priority).
+3. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.
-5. Maintain this handoff folder every stage.
+4. Maintain this handoff folder every stage.
 
 ## 8. Assistant memory (carry this forward)
 
@@ -218,5 +233,10 @@ under `common/src/main/resources/{config,punishments,messages}`.
   `com.github…`, `org…`, `java…`.
 - CI failures are normal — read `gh run view <id> --log-failed`, fix, push a
   "Fix ..." commit, re-monitor.
+- Fresh-machine setup (2026-10-19, Windows): repo-local git identity is NOT
+  set (`git config user.name Aethel; git config user.email
+  aethelreborn@gmail.com`) and Python lacks PyYAML (`python -m pip install
+  pyyaml`) — both must be done before the first commit / stage script run.
+  PowerShell has no `grep`; use the grep tool or `Select-String`.
 - `AETHEL_DEV_NOTES.md` at repo root is the legacy gitignored scratch; from
   now on the canonical, committed log is `HANDOFF/SESSION_LOG.md`.
