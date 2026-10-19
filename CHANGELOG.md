@@ -3,6 +3,21 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.18] - 2026-10-19
+
+- Add `TrackingLock` (`aim-analysis`): catches smoothing / lock aim-assist
+  by judging only swept ticks - target-direction updates of at least 1.5
+  degrees per tick - and measuring how often the crosshair holds within 1.5
+  degrees of the hitbox center. A flag needs 20+ swept ticks with 3+ strafe
+  reversals and a 0.9 locked fraction inside a 60-tick window. Simulated
+  validation: ten human tracking models (lag/gain/noise, tremor and
+  predictive variants, 300 trials per target-motion class) all stay at a
+  0.0 stream flag rate with best-window lock fractions at or below 0.16,
+  while exponential smoothing trackers (gain 0.7-1.0, with and without aim
+  jitter) reach 0.52-0.88 per stream; straight-line motion is exempt by
+  design (no reversals) and very soft smoothing (gain 0.5) is the
+  documented miss class.
+
 ## [v4.16] - 2026-10-19
 
 - Extend `TriggerBot`'s metronome tier with a late band: modules whose mean

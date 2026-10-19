@@ -195,13 +195,13 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.16** (TriggerBot metronome late band, CI 39220735594;
-  v4.15 = handoff refresh; v4.14 = TriggerBot metronome tier). **NEXT
-  RELEASE NUMBER: v4.17 — increment this on EVERY push to main, including
-  docs-only pushes (each push creates a release!).** Config version **57**,
-  messages version 6, 13 config locales / 11 punishment locales / 11 message
-  locales. All CI green.
-- **This session shipped 26 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.18** (TrackingLock aim check; v4.17 = handoff
+  refresh; v4.16 = TriggerBot metronome late band; CI run id recorded in
+  `SESSION_LOG.md`). **NEXT RELEASE NUMBER: v4.19 — increment this on EVERY
+  push to main, including docs-only pushes (each push creates a
+  release!).** Config version **58**, messages version 6, 13 config locales
+  / 11 punishment locales / 11 message locales. All CI green.
+- **This session shipped 28 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
@@ -209,9 +209,11 @@ under `common/src/main/resources/{config,punishments,messages}`.
   v4.7 JumpReset, v4.8 handoff refresh, v4.9 AutoBlock extension,
   v4.10 changelog/numbering maintenance, v4.11 RotationGrid, v4.12 handoff
   refresh, v4.13 RotationGrid sustained tier, v4.14 TriggerBot metronome
-  tier, v4.15 handoff refresh, v4.16 TriggerBot metronome late band. (Full
-  details per stage in `SESSION_LOG.md`.)
-- Repo tip at handoff: `9848a5b` (plus the handoff commit that follows).
+  tier, v4.15 handoff refresh, v4.16 TriggerBot metronome late band,
+  v4.17 handoff refresh, v4.18 TrackingLock. (Full details per stage in
+  `SESSION_LOG.md`.)
+- Repo tip at handoff: parent `76d89b6` plus the docs commit that carries
+  this file.
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
   **v4.13** with quantum memory (120 s) and a 300-probe horizon tier (5%
@@ -229,6 +231,18 @@ under `common/src/main/resources/{config,punishments,messages}`.
   ~90% fire-rate humans with reaction spread <= 25 ms and no slow tail reach
   bot territory by design, and uniform delay ranges 100 ms and wider keep
   the reaction CV above both ceilings (the tier's evasion class).
+- **v4.18 TrackingLock shipped** (new aim check, AimHeuristics ladder):
+  swept-tick tracking-lock detector - a target-direction angular rate of at
+  least 1.5 deg/tick arms a sample, a crosshair within 1.5 deg of the
+  hitbox center locks it; flag needs 20+ samples, 3+ direction reversals
+  (floor 0.1 deg/tick) and a 0.9 locked fraction in a 60-tick window (5 s
+  cooldown). Config keys tracking-lock-* under aim-analysis (config v58).
+  Sim evidence: all human models (10, including tremor/predictive, 300
+  trials per motion class) 0.000 with best-window lock fractions <= 0.16;
+  smoothing bots (gains 0.7-1.0, aim jitter, flip and ramped reversals)
+  0.52-0.88 per stream. Documented holes: straight-line motion (no
+  reversals) is exempt; gain < ~0.7 soft smoothing misses; targets mounted
+  on vehicles whose riders send no positions are not judged.
 
 ## 7. Next moves (priority order)
 
@@ -242,7 +256,9 @@ under `common/src/main/resources/{config,punishments,messages}`.
    (c) dig-side corollaries (SubTickBreak analogues: repetition/velocity of
    dig starts), stats stages, or new bypass intel from research. Backlog:
    FailSwing-style pre-swing bands (FP-risky without a cadence filter),
-   triggerbot uniform wide-range late delays (documented evasion class).
+   triggerbot uniform wide-range late delays (documented evasion class),
+   TrackingLock straight-line exemption (needs reversal evidence) and its
+   soft-smoothing miss band (gain < ~0.7).
 2. Keep monitoring Modrinth behavior per release (low priority).
 3. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.

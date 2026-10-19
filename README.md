@@ -229,6 +229,15 @@ Inventory and macro automation:
   fights cannot close the gate mid-combat. Streams that never show
   quantized deltas (smoothing-only, cinematic, protocol-quantized 1.8
   rotations) never open the grid gate and stay silent.
+- `TrackingLock` (same section) flags smoothing aim-assist glued to a
+  strafing target: only ticks where the target's direction sweeps at least
+  1.5 degrees per tick are judged, a swept tick is locked when the crosshair
+  sits within 1.5 degrees of the hitbox center, and a flag needs ninety
+  percent of a 60-tick window locked through at least three strafe
+  reversals. Sensorimotor latency keeps human tracking several degrees
+  behind a reversaling target; tick-rate exponential smoothing holds the
+  sub-degree lock indefinitely. Straight-line motion without reversals is
+  exempt by design.
 - `DamageReaction` (`reaction-analysis` in `config.yml`) flags
   ClickPearl/AutoGApple/AutoSwap style automation: six or more item uses or
   offhand manipulations (offhand clicks or swap actions) within 120 ms (mean)
@@ -318,6 +327,11 @@ checks carry proof-like weight"):
   reaction spread under about 25 ms and no slow tail reaches bot territory.
   Plausible humans (50-75% fire rates, ex-Gaussian reactions) stay at or
   below a 0.07 stream flag rate in simulation.
+- `TrackingLock` deliberately exempts straight-line motion (no direction
+  reversals) because predictive human tracking of a uniformly moving target
+  is legitimate; it also misses very soft smoothing (gain under roughly
+  0.7), whose steady-state error floor sits above the lock angle at the
+  swept-tick floor.
 - Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
   for a server-side anticheat.
 - The offhand and tool-automation checks anchor on damage and dig cycles;
