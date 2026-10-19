@@ -43,11 +43,21 @@ import java.util.Locale;
  * through crosshair-entry precision rather than a single timing bound: the
  * attack lands while the ray passes within a tenth of a block of the hitbox
  * center, which a human cannot reliably do at that reaction speed.</p>
+ *
+ * <p>Delayed triggerbots ("metronome" modules) sleep 100-450 ms before
+ * attacking, dodging both tiers above: their reaction is too slow for the
+ * first tier and imprecise relative to the second. They are separated
+ * instead by stream consistency: over the last 20 crosshair-entry
+ * opportunities that lasted at least 300 ms, a bot answers nearly every one
+ * (ratio &gt;= 0.85) with a mean reaction inside 100-280 ms and a coefficient
+ * of variation of at most 0.10 - a beat no human choosing when to click can
+ * hold across a whole fight.</p>
  */
 @CheckData(name = "TriggerBot", stableKey = "aethel.misc.trigger_bot",
         description = "Attacks on the first tick a target enters a static crosshair", experimental = true)
 public class TriggerBot extends Check implements RotationListener, PacketReceiveListener, PacketSendListener {
     private static final long FLAG_COOLDOWN_NANOS = 5_000_000_000L;
+    private static final int METRONOME_MAX_WINDOW = 20;
 
     private static final class Tracked {
         double x;
@@ -56,6 +66,9 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         boolean onCrosshair;
         long enterNanos;
         double entrySpeed;
+        long opportunityStartNanos;
+        boolean opportunityFired;
+        double opportunityRtMs;
     }
 
     private final Int2ObjectMap<Tracked> tracked = new Int2ObjectOpenHashMap<>();
@@ -74,6 +87,11 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
     private final long[] preciseRing = new long[8];
     private int preciseIndex;
 
+    private final boolean[] opportunityFired;
+    private final double[] opportunityRtMs;
+    private int opportunityIndex;
+    private int opportunityCount;
+
     private double reactionMaxMs;
     private double staticSpeed;
     private int minEvents;
@@ -84,9 +102,17 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
     private double preciseCenterOffset;
     private int preciseMinEvents;
     private double preciseCounterSeconds;
+    private double metronomeOpportunityMs;
+    private int metronomeWindow;
+    private double metronomeMinRatio;
+    private double metronomeMinMeanMs;
+    private double metronomeMaxMeanMs;
+    private double metronomeMaxCv;
 
     public TriggerBot(AethelPlayer player) {
         super(player);
+        opportunityFired = new boolean[METRONOME_MAX_WINDOW];
+        opportunityRtMs = new double[METRONOME_MAX_WINDOW];
     }
 
     @Override
@@ -101,6 +127,13 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         preciseCenterOffset = config.getDoubleElse("attack-patterns.trigger-precise-center-offset", 0.10D);
         preciseMinEvents = Math.max(2, config.getIntElse("attack-patterns.trigger-precise-min-events", 4));
         preciseCounterSeconds = config.getDoubleElse("attack-patterns.trigger-precise-counter-seconds", 60.0D);
+        metronomeOpportunityMs = Math.max(0.0D, config.getDoubleElse("attack-patterns.trigger-metronome-opportunity-ms", 300.0D));
+        metronomeWindow = Math.max(4, Math.min(METRONOME_MAX_WINDOW,
+                config.getIntElse("attack-patterns.trigger-metronome-window", METRONOME_MAX_WINDOW)));
+        metronomeMinRatio = config.getDoubleElse("attack-patterns.trigger-metronome-min-ratio", 0.85D);
+        metronomeMinMeanMs = config.getDoubleElse("attack-patterns.trigger-metronome-min-mean-ms", 100.0D);
+        metronomeMaxMeanMs = config.getDoubleElse("attack-patterns.trigger-metronome-max-mean-ms", 280.0D);
+        metronomeMaxCv = config.getDoubleElse("attack-patterns.trigger-metronome-max-cv", 0.10D);
     }
 
     @Override
@@ -156,8 +189,12 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
                 revalidate(packet.getEntityId(), entity);
             }
         } else if (event.getPacketType() == PacketType.Play.Server.DESTROY_ENTITIES) {
+            long now = System.nanoTime();
             for (int id : new WrapperPlayServerDestroyEntities(event).getEntityIds()) {
-                tracked.remove(id);
+                Tracked entity = tracked.remove(id);
+                if (entity != null) {
+                    resolveOpportunity(entity, now);
+                }
             }
         }
     }
@@ -178,11 +215,20 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         }
 
         Tracked entity = tracked.get(packet.getEntityId());
-        if (entity == null || !entity.onCrosshair || entity.enterNanos == 0L) {
+        if (entity == null) {
             return;
         }
 
         long now = System.nanoTime();
+        if (entity.onCrosshair && entity.opportunityStartNanos != 0L && !entity.opportunityFired) {
+            entity.opportunityFired = true;
+            entity.opportunityRtMs = (now - entity.opportunityStartNanos) / 1_000_000.0D;
+        }
+
+        if (!entity.onCrosshair || entity.enterNanos == 0L) {
+            return;
+        }
+
         long reactionNanos = now - entity.enterNanos;
         boolean staticEntry = entity.entrySpeed <= staticSpeed && !player.packetStateData.lastPacketWasTeleport;
 
@@ -248,7 +294,11 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         entity.x = position.x;
         entity.y = position.y;
         entity.z = position.z;
-        tracked.put(id, entity);
+        entity.opportunityRtMs = -1.0D;
+        Tracked previous = tracked.put(id, entity);
+        if (previous != null) {
+            resolveOpportunity(previous, System.nanoTime());
+        }
     }
 
     private void move(int id, double dx, double dy, double dz) {
@@ -266,9 +316,11 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         double x = entity.x - player.x;
         double z = entity.z - player.z;
         if (x * x + z * z > 40.0 * 40.0) {
+            resolveOpportunity(entity, System.nanoTime());
             tracked.remove(id);
         } else if (hasRotation) {
-            evaluateCrosshair(entity, System.nanoTime(), currentSpeed(System.nanoTime()));
+            long now = System.nanoTime();
+            evaluateCrosshair(entity, now, currentSpeed(now));
         }
     }
 
@@ -287,6 +339,9 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         double dx = entity.x - player.x;
         double dz = entity.z - player.z;
         if (dx * dx + dz * dz > 36.0) {
+            if (entity.onCrosshair) {
+                resolveOpportunity(entity, now);
+            }
             entity.onCrosshair = false;
             entity.enterNanos = 0L;
             return;
@@ -310,8 +365,80 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         if (onCrosshair && !entity.onCrosshair) {
             entity.enterNanos = now;
             entity.entrySpeed = speed;
+            entity.opportunityStartNanos = now;
+            entity.opportunityFired = false;
+            entity.opportunityRtMs = -1.0D;
+        } else if (!onCrosshair && entity.onCrosshair) {
+            resolveOpportunity(entity, now);
         }
         entity.onCrosshair = onCrosshair;
+    }
+
+    private void resolveOpportunity(Tracked entity, long now) {
+        if (entity.opportunityStartNanos != 0L
+                && now - entity.opportunityStartNanos >= (long) (metronomeOpportunityMs * 1_000_000L)) {
+            recordOpportunity(entity.opportunityFired, entity.opportunityRtMs);
+        }
+        entity.opportunityStartNanos = 0L;
+    }
+
+    private void recordOpportunity(boolean fired, double rtMs) {
+        opportunityFired[opportunityIndex] = fired;
+        opportunityRtMs[opportunityIndex] = fired ? rtMs : -1.0D;
+        opportunityIndex = (opportunityIndex + 1) % opportunityFired.length;
+        if (opportunityCount < opportunityFired.length) {
+            opportunityCount++;
+        }
+        evaluateMetronome();
+    }
+
+    private void evaluateMetronome() {
+        if (opportunityCount < metronomeWindow) {
+            return;
+        }
+
+        int firedCount = 0;
+        double sum = 0.0D;
+        double sumSq = 0.0D;
+        for (int i = 0; i < metronomeWindow; i++) {
+            int slot = Math.floorMod(opportunityIndex - 1 - i, opportunityFired.length);
+            if (!opportunityFired[slot]) {
+                continue;
+            }
+            double rt = opportunityRtMs[slot];
+            firedCount++;
+            sum += rt;
+            sumSq += rt * rt;
+        }
+
+        if (firedCount < 4 || (double) firedCount / metronomeWindow < metronomeMinRatio) {
+            return;
+        }
+
+        double mean = sum / firedCount;
+        if (mean < metronomeMinMeanMs || mean > metronomeMaxMeanMs) {
+            return;
+        }
+
+        double variance = Math.max(0.0D, sumSq / firedCount - mean * mean);
+        double cv = Math.sqrt(variance) / mean;
+        if (cv > metronomeMaxCv) {
+            return;
+        }
+
+        long now = System.nanoTime();
+        if (now - lastFlagNanos < FLAG_COOLDOWN_NANOS) {
+            return;
+        }
+
+        flag(String.format(Locale.ROOT,
+                "Metronome triggerbot: %d of the last %d crosshair opportunities attacked, mean reaction %.0f ms with cv %.2f",
+                firedCount, metronomeWindow, mean, cv));
+        lastFlagNanos = now;
+        Arrays.fill(opportunityFired, false);
+        Arrays.fill(opportunityRtMs, 0.0D);
+        opportunityIndex = 0;
+        opportunityCount = 0;
     }
 
     private static double rayBox(double ex, double ey, double ez, double dx, double dy, double dz,
