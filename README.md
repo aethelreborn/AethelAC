@@ -108,6 +108,16 @@ Attack patterns (`attack-patterns` in `config.yml`):
   starts within 25 ms mean a single input tick produced multiple start
   packets - nuker floods and duplicated dig exploits, including same-position
   restarts MultiBreak's per-tick attribution cannot see.
+- `NoBreakDelay` (experimental) flags chain-mining modules that patched the
+  client's post-break cooldown out: after every finished break the vanilla
+  client arms a five tick delay before it starts the next dig - on any
+  position, in survival and creative alike - so a start landing inside
+  `post-break-delay-ms` (150 ms) of the previous break, three or more times
+  in ten seconds, is a cooldown that was removed. Events are dropped while
+  the client's own tick packets (movement packets, or the arm swing it sends
+  once per tick while mining) show it ticked through the window, so a stalled
+  connection cannot look like a removed delay; instant-break blocks,
+  single-tick breaks, creative and spectator players are exempt.
 - `AutoBlock` flags shield-drain and auto-block modules: block use toggled
   within 50 ms of attacks, four or more times a minute. Re-pressing the
   shield key that fast on every click is beyond reliable human coordination,
@@ -356,6 +366,13 @@ checks carry proof-like weight"):
   player's own click, can cross that floor. Both need three such clicks
   inside ten seconds, players whose best round trip exceeds 300 ms are
   skipped, and bedrock (Geyser/Floodgate) players are exempt.
+- The `NoBreakDelay` post-break tier never judges a start whose window
+  contains four or more of the client's own tick packets; a player who
+  releases the mouse between blocks, and whose breaks and re-clicks are
+  delivered inside the same stall burst (roughly 300-400 ms of coalescing
+  about once a second), can still be measured as a removed cooldown. Clean
+  and moderate stall rates stay at a 0.000 simulated flag rate, which is why
+  the check is experimental.
 - Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
   for a server-side anticheat.
 - The offhand and tool-automation checks anchor on damage and dig cycles;

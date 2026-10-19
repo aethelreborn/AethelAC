@@ -3,6 +3,40 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.24] - 2026-10-19
+
+- Add `NoBreakDelay` (experimental): when a break completes the vanilla client
+  arms a five tick delay (`blockHitDelay` on 1.8 `PlayerControllerMP`,
+  `destroyDelay` on 1.14+ `MultiPlayerGameMode`) that gates the next dig
+  start - on any position, for survival and creative instabuild alike - so a
+  legit client cannot start the next dig sooner than about six client ticks
+  (250-300 ms) after its previous `FINISHED_DIGGING`. Starts landing inside
+  `post-break-delay-ms` (150 ms) of the finished break, three times in ten
+  seconds, flag. Events are dropped while the client's own tick packets
+  (movement packets, or the arm swing sent once per tick while mining) show
+  it ticked through the window, which keeps a stalled connection - GC pause,
+  Netty backlog or client uplink stall - from reading as a removed cooldown;
+  instant-break and single-tick breaks, creative and spectator players are
+  exempt, and isolated events are never punished.
+- Simulated validation (400 ticks/session model): holding miners, per-block
+  re-clickers and instant-break fields on 1.8 and modern protocols at 60, 20
+  and 5 FPS stay at a 0.000 flag rate on clean links and with a 150-200 ms
+  stall every 2-5 seconds; no-delay and one-tick-reduced modules reach 1.000,
+  two-tick reductions 0.99, and the wall-clock-only variant of the same rules
+  flags 0.35-0.88 of those same legit miners, which is what the tick-signal
+  filter buys. Residual class (documented): repeated 300-400 ms stalls about
+  once a second, 0.047-0.160.
+- Config `config-version` 60 -> 61 (`attack-patterns` post-break knobs:
+  `post-break-delay-ms`, `post-break-tick-signals`, `post-break-min-events`,
+  `post-break-counter-seconds`), `NoBreakDelay` joined the `Misc` punishment
+  group in all locales.
+
+## [v4.23] - 2026-10-19
+
+- Maintenance: refresh the committed handoff state through v4.22 (FastClick
+  zero-reaction looting tier) so the next session resumes from the current
+  stage.
+
 ## [v4.22] - 2026-10-19
 
 - Extend `FastClick` with a zero-reaction looting tier (instaloot and
