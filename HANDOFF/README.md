@@ -67,11 +67,11 @@ under `common/src/main/resources/{config,punishments,messages}`.
   1260000).
 - **Every push to main creates a release.** Keep CHANGELOG matching what ships.
 - Release tags: vX → vX.1; vX.n (n<24) → vX.(n+1); vX.24 → v(X+1).
-  Released through **v4.22** as of this handoff (config version **60**).
+  Released through **v4.24** as of this handoff (config version **61**).
 
 ### Config versioning (per stage that adds config)
 1. Add keys to all **13** files in `common/src/main/resources/config/*.yml`.
-2. Bump `config-version:` in all 13 (currently **52** → next 53...).
+2. Bump `config-version:` in all 13 (currently **61** → next 62...).
 3. Add AethelConfigSpecs docstring line `vN → vN+1: ...` and bump
    `ConfigUpdater.Spec.builder("/config/", N+1, ConfigFlavor.V2)`.
 4. Do it with a python script following `scripts/stage_script_template.py`
@@ -212,6 +212,18 @@ under `common/src/main/resources/{config,punishments,messages}`.
   blind-mashing a server-pushed menu on a sub-70 ms rhythm is the accepted
   FP class, while opens the player caused themselves are phase-locked to
   their own press rhythm and safe.
+- **Post-break delay invariant (v4.24)**: the vanilla client arms a five
+  tick delay after every completed break (blockHitDelay in 1.8
+  PlayerControllerMP, destroyDelay in 1.20.1 MultiPlayerGameMode) that
+  gates the next START_DIGGING on any position - creative instabuild and
+  instant-break paths included - so the legit FINISH->START floor is ~6
+  client ticks (250-300 ms). 1.8 swings once per tick while merely holding
+  attack (sendClickBlockToController -> onPlayerDamageBlock + swingItem,
+  including the blockHitDelay early-return), 1.9+ swings per tick too
+  (sparse flying packets) - that is why swing density is a usable tick
+  clock in NoBreakDelay and why wall-clock gaps alone are unusable (a
+  stall collapses gap and packet stream together; wall-clock-only detection
+  simulated 0.35-0.88 flag on legit holders).
 - **Delicate Client v1.0.0 intel (2026-10-19; 222 modules, MC 26.2/26.3)**:
   a current meta client built around a "Grim self-check" plus a module
   AntiCheat panel that self-limits packet rates - inventory clicks 5 per
@@ -231,13 +243,14 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.22** (FastClick zero-reaction looting tier + fast
-  menu-cadence band, CI 39234387454; v4.21 = handoff refresh; v4.20 =
-  InvWalk rotation tier). **NEXT RELEASE NUMBER: v4.23 — increment this on
-  EVERY push to main, including docs-only pushes (each push creates a
-  release!).** Config version **60**, messages version 6, 13 config locales
-  / 11 punishment locales / 11 message locales. All CI green.
-- **This session shipped 31 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.24** (NoBreakDelay post-break cooldown tier, CI
+  39237809539; v4.23 = handoff refresh; v4.22 = FastClick zero-reaction
+  looting tier + fast menu-cadence band). **NEXT RELEASE NUMBER: v4.25 -
+  increment this on EVERY push to main, including docs-only pushes (each
+  push creates a release!).** Config version **61**, messages version 6,
+  13 config locales / 11 punishment locales / 11 message locales. All CI
+  green.
+- **This session shipped 33 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
@@ -248,9 +261,10 @@ under `common/src/main/resources/{config,punishments,messages}`.
   tier, v4.15 handoff refresh, v4.16 TriggerBot metronome late band,
   v4.17 handoff refresh, v4.18 TrackingLock, v4.19 handoff refresh,
   v4.20 InvWalk rotation tier, v4.21 handoff refresh, v4.22 FastClick
-  zero-reaction looting tier + fast menu-cadence band. (Full details per
+  zero-reaction looting tier + fast menu-cadence band, v4.23 handoff
+  refresh, v4.24 NoBreakDelay post-break cooldown tier. (Full details per
   stage in `SESSION_LOG.md`.)
-- Repo tip at handoff: `3476a47` plus the handoff refresh commit that
+- Repo tip at handoff: `ce742b4` plus the handoff refresh commit that
   carries this file.
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
@@ -306,6 +320,21 @@ under `common/src/main/resources/{config,punishments,messages}`.
   1.000; exogenous server-pushed menus mashed blind are the documented FP
   class (0.578 with >=3 opens in 10 s). Config keys click-reaction-* under
   inventory-automation (config v60).
+- **v4.24 NoBreakDelay shipped** (new breaking check, Misc ladder, config
+  v61): the vanilla client's five tick post-break delay gates the next
+  START_DIGGING on any position, so a new start on a different position
+  arriving under post-break-delay-ms (150) after a FINISH - while the
+  client's own tick signals (movement/tick + swing packets) inside the
+  window stay under post-break-tick-signals (4) - is impossible for a
+  vanilla client. Three events inside post-break-counter-seconds (10) flag
+  (5 s cooldown). Creative/spectator and instant breaks
+  (BlockBreakSpeed.getBlockDamage >= 1.0 on START) exempt. Sim evidence:
+  legit hold/re-click/instant models 0.000 at 60/20/5 FPS including stall
+  bursts, no-delay/1-tick bots 1.000, 2-tick 0.99; without the tick-signal
+  filter the same legit holders flag 0.35-0.88 (the filter is
+  load-bearing). Experimental (opt-in): the documented FP class is the
+  stationary 1.9+ re-clicker whose finish and re-click get coalesced by
+  300-400 ms stalls about once a second (0.047-0.160 sim stream rate).
 
 ## 7. Next moves (priority order)
 
@@ -324,19 +353,24 @@ under `common/src/main/resources/{config,punishments,messages}`.
    (withheld finishes released in bursts), AutoTrade/AutoCraft window
    automation, PingSpoof vs the transaction/keepalive ping pair (the
    reaction tier's min-of-both floor survives a keepalive-only spoof by
-   construction), dig-side repetition/velocity corollaries, stats stages;
+   construction; the NoBreakDelay tick-signal clock is another survivor),
+   remaining dig-side corollaries (progress/finish surfaces), stats
+   stages. The post-break cooldown corollary shipped as v4.24
+   NoBreakDelay;
    (d) FailSwing-style pre-swing bands stay research-blocked: a human
    holding attack produces the same packets without a machine-cadence
    filter.
 2. Closed by simulation - do NOT re-open without new evidence (details in
-   SESSION_LOG v4.22 entry + section 5): straight-line TickLock precision
-   tier (sim8/sim9: flags perfect-prediction humans at 1.00), TriggerBot
-   uniform wide-range shape tier (sim10: tick quantization makes fast humans
-   platykurtic too), TriggerBot deep-sleeper band above 460 ms (sim11:
-   catching fixed 480-620 ms sleepers needs CV <= ~0.6, which leaks
-   slow-narrow humans at 0.8-1.0). TrackingLock's soft-smoothing miss band
-   (gain < ~0.7) stays a documented hole; the orbit-sim precursor for a
-   straight-line tier is dead with the precision tier.
+   SESSION_LOG v4.22/v4.24 entries + section 5): straight-line TickLock
+   precision tier (sim8/sim9: flags perfect-prediction humans at 1.00),
+   TriggerBot uniform wide-range shape tier (sim10: tick quantization makes
+   fast humans platykurtic too), TriggerBot deep-sleeper band above 460 ms
+   (sim11: catching fixed 480-620 ms sleepers needs CV <= ~0.6, which leaks
+   slow-narrow humans at 0.8-1.0), wall-clock-only post-break detection
+   (sim13: without the tick-signal filter the same legit holders flag
+   0.35-0.88). TrackingLock's soft-smoothing miss band (gain < ~0.7) stays
+   a documented hole; the orbit-sim precursor for a straight-line tier is
+   dead with the precision tier.
 3. Keep monitoring Modrinth behavior per release (low priority).
 4. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.
