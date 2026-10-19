@@ -190,9 +190,13 @@ public final class AethelConfigSpecs {
      *
      * <p>v54 → v55: adds the RotationGrid sustained-tier knobs (quantum
      * memory across synthetic phases, horizon violation fraction).
+     *
+     * <p>v55 → v56: adds the TriggerBot metronome-tier knobs (crosshair
+     * opportunity duration, window of opportunities, fire ratio, mean
+     * reaction band, coefficient-of-variation ceiling).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 55, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 56, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
