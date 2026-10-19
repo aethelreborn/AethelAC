@@ -100,6 +100,17 @@ attack-patterns:
     subtick-break-max-interval-ms: 25
     subtick-break-min-events: 3
     subtick-break-counter-seconds: 10
+    # Post-break dig tier (NoBreakDelay): the client waits five ticks after a
+    # completed break before it starts the next dig, so a dig start closer than
+    # this to the previous break means the delay was removed.  Events are
+    # skipped when the client's own tick packets (movement packets or the arm
+    # swing sent once per tick while mining) prove it ticked through the window,
+    # since a stalled connection delivers both packets at once and would
+    # otherwise look like a removed delay.
+    post-break-delay-ms: 150
+    post-break-tick-signals: 4
+    post-break-min-events: 3
+    post-break-counter-seconds: 10
     # Shield toggle tier (AutoBlock): shield use within this many ms of an
     # attack, repeated, is a module signature; humans cannot re-press the
     # shield key on every single click that fast.
@@ -626,4 +637,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 60
+config-version: 61

@@ -214,9 +214,14 @@ public final class AethelConfigSpecs {
      * window and the round-trip floor ceiling). Operators who pinned the old
      * 250 ms {@code menu-min-interval-ms} keep their value; new installs get
      * the widened band.
+     *
+     * <p>v60 → v61: adds the {@code attack-patterns} post-break cooldown knobs
+     * for the NoBreakDelay check (gap floor measured from the previous
+     * finished break, the client tick-signal floor that ignores collapsed
+     * wall-clock gaps behind stalls, counted events and the counter window).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 60, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 61, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
