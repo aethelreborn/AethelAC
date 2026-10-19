@@ -3,6 +3,32 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.22] - 2026-10-19
+
+- Extend `FastClick` with a zero-reaction looting tier (instaloot and
+  loot-aura modules): the first click of every opened window is compared
+  against the minimum of recent round-trip samples, because a click that
+  references a new container id can only have been produced by a client
+  that already received the open packet - the server-side gap is at least
+  one round trip. Three or more first clicks inside ten seconds landing
+  less than 70 ms above that floor flag; windows whose best round trip
+  exceeds 300 ms are never judged and bedrock (Geyser/Floodgate) players
+  are exempt. Simulated validation: human looters and self-driven mashers
+  stay at a 0.000 flag rate while tick-scheduled and packet-hooked looting
+  modules reach 1.0.
+- Widen the `FastClick` menu-cadence band down to 110 ms
+  (`menu-min-interval-ms` default 250 -> 110; operators who pinned the old
+  value keep it): the 0.045 interval CV ceiling, not the pace, is the
+  machine criterion, so the fast stealer band (110-250 ms) is now covered.
+  Simulated validation: human looting models at paces of 120-240 ms reach
+  interval CVs of 0.098-0.274 (0.000 flag rate) while machine rhythms and
+  fixed-delay modules stay at CVs of 0.008-0.031 (0.997-1.000 flag rate).
+
+## [v4.21] - 2026-10-19
+
+- Maintenance: refresh the committed handoff state through v4.20 (InvWalk
+  rotation tier) so the next session resumes from the current stage.
+
 ## [v4.20] - 2026-10-19
 
 - Extend `InvWalk` with a rotation tier: rotation updates with a summed
@@ -15,6 +41,12 @@ All notable changes to AethelAC. Releases are cut automatically by CI from
   Rotations arriving before the compensated open age are never judged
   (they can predate the window), and bedrock (Geyser/Floodgate) players are
   exempt from the rotation tier because their GUI semantics differ.
+
+## [v4.19] - 2026-10-19
+
+- Maintenance: refresh the committed handoff state through v4.18
+  (TrackingLock aim check) so the next session resumes from the current
+  stage.
 
 ## [v4.18] - 2026-10-19
 
@@ -30,6 +62,12 @@ All notable changes to AethelAC. Releases are cut automatically by CI from
   jitter) reach 0.52-0.88 per stream; straight-line motion is exempt by
   design (no reversals) and very soft smoothing (gain 0.5) is the
   documented miss class.
+
+## [v4.17] - 2026-10-19
+
+- Maintenance: refresh the committed handoff state through v4.16
+  (TriggerBot metronome late band) so the next session resumes from the
+  current stage.
 
 ## [v4.16] - 2026-10-19
 

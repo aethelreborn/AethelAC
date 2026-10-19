@@ -188,9 +188,16 @@ Inventory and macro automation:
 - `FastClick` (`inventory-automation` in `config.yml`) flags chest-stealer
   style container clicking — sixty or more pickup or shift-move clicks in ten
   seconds at a mean interval of 110 ms or less — armory automation (four
-  or more direct armor-slot clicks inside 400 ms), and menu bots (twenty
+  or more direct armor-slot clicks inside 400 ms), menu bots (twenty
   consecutive clicks with near-constant intervals, CV at or below 0.045, in
-  the 250-900 ms band).
+  the 110-900 ms band), and zero-reaction looting (three or more first clicks
+  inside ten seconds landing less than 70 ms above the round-trip floor of a
+  freshly opened window). The reaction tier rests on a protocol fact: a click
+  that references a new container id can only have been produced by a client
+  that already received the open packet, so the server-side gap between
+  sending the window and receiving the first click is at least one round
+  trip. Instaloot and loot-aura modules answer the packet and show a gap
+  equal to the round-trip floor; human input needs a visual reaction first.
 - `AutoToolChain` (same section) flags AutoTool modules that cycle the hotbar
   to a tool and back around every dig (six or more sub-400 ms cycles a
   minute).
@@ -342,6 +349,13 @@ checks carry proof-like weight"):
   reach the client, because those can be legitimate input sent while the
   window was still in flight; players on bedrock (Geyser/Floodgate) are
   exempt wholesale because their GUI semantics differ.
+- The `FastClick` zero-reaction tier compares the first click of every
+  opened window against the minimum of recent round-trip samples; a link
+  that improves by tens of milliseconds after those samples, or blind
+  mashing on a fast rhythm through menus the server opened without the
+  player's own click, can cross that floor. Both need three such clicks
+  inside ten seconds, players whose best round trip exceeds 300 ms are
+  skipped, and bedrock (Geyser/Floodgate) players are exempt.
 - Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
   for a server-side anticheat.
 - The offhand and tool-automation checks anchor on damage and dig cycles;
