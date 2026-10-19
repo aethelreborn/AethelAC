@@ -423,6 +423,30 @@ pack-spoof:
     spoof-max-ms: 360
     spoof-min-pairs: 2
 
+ping-spoof:
+    # Keepalive-vs-transaction ping divergence detection (PingSpoof check):
+    # a spoofing client delays only the keepalive replies it knows the server
+    # times, so our own keepalive round trips run ahead of the transaction
+    # round trips measured by Grim. Keepalives every second (Paper-style
+    # fleets, proxies) give the check the most samples; a vanilla 15 second
+    # interval still works, just with later judgement. min-divergence-ms is
+    # the median paired gap that counts as spoofing, max-spread-ms the
+    # keepalive stream spread above which frame quantization or a jittery
+    # link makes the two indistinguishable (never judged), and
+    # min-keepalive-spread-ms skips perfectly steady streams (frame-locked
+    # timing). Judgement needs min-keepalive-samples paired samples and
+    # min-transaction-samples transaction samples inside window-seconds, then
+    # min-events events inside counter-seconds (events are counted at most
+    # once per second).
+    min-divergence-ms: 100.0
+    max-spread-ms: 80.0
+    min-keepalive-spread-ms: 2.0
+    min-keepalive-samples: 4
+    min-transaction-samples: 16
+    pair-window-seconds: 3.0
+    window-seconds: 60
+    min-events: 3
+    counter-seconds: 15
 shadow-checks:
     # Checks listed here only send staff alerts and database logs. Webhook and
     # proxy broadcasts, console commands, kicks and bans are suppressed, so new
@@ -652,4 +676,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 61
+config-version: 62

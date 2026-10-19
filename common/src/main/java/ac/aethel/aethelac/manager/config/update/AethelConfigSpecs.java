@@ -219,9 +219,14 @@ public final class AethelConfigSpecs {
      * for the NoBreakDelay check (gap floor measured from the previous
      * finished break, the client tick-signal floor that ignores collapsed
      * wall-clock gaps behind stalls, counted events and the counter window).
+     *
+     * <p>v61 → v62: adds the {@code ping-spoof} knobs for the PingSpoof check
+     * (median paired keepalive-vs-transaction divergence floor, the
+     * keepalive-stream spread gates, the pairing window and the sample/event
+     * counts).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 61, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 62, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

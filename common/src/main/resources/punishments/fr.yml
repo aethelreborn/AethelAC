@@ -123,6 +123,7 @@ Punishments:
       - "Break"
       - "SubTickBreak"
       - "NoBreakDelay"
+      - "PingSpoof"
       - "TransactionOrder"
       - "Elytra"
       - "Chat"
