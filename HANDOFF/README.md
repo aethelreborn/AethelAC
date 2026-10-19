@@ -224,6 +224,23 @@ under `common/src/main/resources/{config,punishments,messages}`.
   clock in NoBreakDelay and why wall-clock gaps alone are unusable (a
   stall collapses gap and packet stream together; wall-clock-only detection
   simulated 0.35-0.88 flag on legit holders).
+- **Keepalive/transaction pairing invariant (v4.26)**: both echo streams
+  ride the same TCP connection, so any delay applied to both cancels; only a
+  delay applied to the keepalive echoes alone (the stream servers show in
+  tab lists and trust) survives as a paired divergence. Two simulation
+  findings reshaped the design: (a) window-wide medians are invalid because
+  the transaction ring only covers its last ~10 s while the keepalive ring
+  spans the whole window - congestion with the same period as the keepalive
+  interval (15 s) reads as a 0.230 FP rate (sim14b), fixed by centred
+  per-keepalive pairing (sim15: 0.000); (b) a client frame period that
+  divides the keepalive interval (5/10/20/30/40 FPS caps divide 1 s and
+  15 s) locks or quantizes keepalive reply timing, which is why judgement
+  requires a keepalive quartile spread inside [2, 80] ms. Sampling rate
+  facts: keepalives are server-sent (1 s Paper-style fleets/proxies; 15 s
+  vanilla) while transaction samples come from every valid PONG /
+  WINDOW_CONFIRMATION response (Grim's own pings), so both sample-count
+  gates must survive either regime; judgement needs 4 pairs and lands ~8 s
+  (1 s regime) or ~57 s (15 s regime) into a session.
 - **Delicate Client v1.0.0 intel (2026-10-19; 222 modules, MC 26.2/26.3)**:
   a current meta client built around a "Grim self-check" plus a module
   AntiCheat panel that self-limits packet rates - inventory clicks 5 per
@@ -243,14 +260,14 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.24** (NoBreakDelay post-break cooldown tier, CI
-  39237809539; v4.23 = handoff refresh; v4.22 = FastClick zero-reaction
-  looting tier + fast menu-cadence band). **NEXT RELEASE NUMBER: v4.25 -
+- **Latest release: v4.26** (PingSpoof keepalive-vs-transaction divergence
+  tier, CI 39245309082; v4.25 = handoff refresh; v4.24 = NoBreakDelay
+  post-break cooldown tier). **NEXT RELEASE NUMBER: v4.27 -
   increment this on EVERY push to main, including docs-only pushes (each
-  push creates a release!).** Config version **61**, messages version 6,
+  push creates a release!).** Config version **62**, messages version 6,
   13 config locales / 11 punishment locales / 11 message locales. All CI
   green.
-- **This session shipped 33 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **This session shipped 35 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
@@ -262,9 +279,10 @@ under `common/src/main/resources/{config,punishments,messages}`.
   v4.17 handoff refresh, v4.18 TrackingLock, v4.19 handoff refresh,
   v4.20 InvWalk rotation tier, v4.21 handoff refresh, v4.22 FastClick
   zero-reaction looting tier + fast menu-cadence band, v4.23 handoff
-  refresh, v4.24 NoBreakDelay post-break cooldown tier. (Full details per
-  stage in `SESSION_LOG.md`.)
-- Repo tip at handoff: `ce742b4` plus the handoff refresh commit that
+  refresh, v4.24 NoBreakDelay post-break cooldown tier, v4.25 handoff
+  refresh, v4.26 PingSpoof keepalive-vs-transaction divergence tier.
+  (Full details per stage in `SESSION_LOG.md`.)
+- Repo tip at handoff: `5a13737` plus the handoff refresh commit that
   carries this file.
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
@@ -335,6 +353,37 @@ under `common/src/main/resources/{config,punishments,messages}`.
   load-bearing). Experimental (opt-in): the documented FP class is the
   stationary 1.9+ re-clicker whose finish and re-click get coalesced by
   300-400 ms stalls about once a second (0.047-0.160 sim stream rate).
+- **v4.26 PingSpoof shipped** (new misc check, Misc ladder, config v62,
+  experimental): flags keepalive latency spoofing - the Delicate PingSpoof
+  "KeepAlive delays" module shape, the one remaining uncovered Delicate
+  surface with a real server-side signature. The check times its own
+  keepalive round trips (id-matched send/receive) and pairs every one with
+  the transaction samples inside a centred window (pair-window-seconds 3 ->
+  half 1.5 s; a queue of up to 4 pending pairs), judging only the median
+  paired divergence (>= min-divergence-ms 100 across >= 4 pairs inside
+  window-seconds 60; 3 events inside counter-seconds 15; 10 s cooldown).
+  Pairing exists because simulation killed the naive median-vs-median
+  comparison in two ways: (a) coverage mismatch - the keepalive ring spans
+  the whole window while the transaction ring only its last ~10 s, so
+  congestion that covers the sparse keepalive samples but not recent
+  transactions reads as divergence (0.230 FP against a 15 s-periodic
+  bufferbloat model in the vanilla 15 s interval regime); (b) frame
+  quantization - a low frame rate can delay keepalive replies by up to a
+  frame when the frame period divides the keepalive interval (0.135-0.985
+  across the asymmetric models before the spread gates). Final gates: both
+  streams' alive counts, keepalive spread inside [min-keepalive-spread-ms 2,
+  max-spread-ms 80] (above the ceiling the client's own timing is
+  indistinguishable from added delay; below the floor it is frame-locked),
+  transaction-side-only delay deliberately unjudged (it lowers every paired
+  divergence), bedrock exempt. Sim evidence (sim15: 200 sessions x 120 s per
+  model, both keepalive regimes, GC stalls, aligned and jittered
+  bufferbloat, route changes, 1-60 FPS symmetric and asymmetric handling):
+  all 12 legit models 0.000 in both regimes; fixed +100/+150/+200/+300 ms
+  spoofs 0.995-1.000 at 1 s intervals (median first flag 7.7-9.2 s) and
+  0.795-1.000 at 15 s intervals (~57 s); uniform 50-250 ms spoofs
+  0.765-1.000; spoof + bufferbloat 1.000; spoof + heavy GC 1.000.
+  Documented holes: two-sided delay invisible (needs TCP-level RTT), under
+  ~10 FPS or wide-jitter clients gated out, sub-2 ms steady links skipped.
 
 ## 7. Next moves (priority order)
 
@@ -351,12 +400,11 @@ under `common/src/main/resources/{config,punishments,messages}`.
    (c) Delicate-style meta-client surfaces not yet mapped as checks:
    HideMining (dig progress withheld from other players), PacketMine
    (withheld finishes released in bursts), AutoTrade/AutoCraft window
-   automation, PingSpoof vs the transaction/keepalive ping pair (the
-   reaction tier's min-of-both floor survives a keepalive-only spoof by
-   construction; the NoBreakDelay tick-signal clock is another survivor),
-   remaining dig-side corollaries (progress/finish surfaces), stats
-   stages. The post-break cooldown corollary shipped as v4.24
-   NoBreakDelay;
+   automation, remaining dig-side corollaries (progress/finish surfaces),
+   stats stages. Shipped from this list: the post-break cooldown corollary
+   as v4.24 NoBreakDelay and the keepalive-side ping pair as v4.26
+   PingSpoof (keepalive-vs-transaction paired divergence, the Delicate
+   "KeepAlive delays" module shape);
    (d) FailSwing-style pre-swing bands stay research-blocked: a human
    holding attack produces the same packets without a machine-cadence
    filter.
@@ -368,7 +416,12 @@ under `common/src/main/resources/{config,punishments,messages}`.
    (sim11: catching fixed 480-620 ms sleepers needs CV <= ~0.6, which leaks
    slow-narrow humans at 0.8-1.0), wall-clock-only post-break detection
    (sim13: without the tick-signal filter the same legit holders flag
-   0.35-0.88). TrackingLock's soft-smoothing miss band (gain < ~0.7) stays
+   0.35-0.88), window-wide keepalive-vs-transaction median comparison
+   (sim14/14b: coverage mismatch - keepalive ring spans the window, the
+   transaction ring only its last ~10 s - flags 0.230 of the legit
+   wifi/bufferbloat model in the vanilla 15 s keepalive regime; replaced by
+   centred per-keepalive pairing, sim15 0.000 in both regimes). TrackingLock's
+   soft-smoothing miss band (gain < ~0.7) stays
    a documented hole; the orbit-sim precursor for a straight-line tier is
    dead with the precision tier.
 3. Keep monitoring Modrinth behavior per release (low priority).
