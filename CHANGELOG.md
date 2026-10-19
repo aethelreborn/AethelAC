@@ -3,6 +3,48 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.26] - 2026-10-19
+
+- Add `PingSpoof` (experimental): flags keepalive latency spoofing, the
+  Delicate-style "KeepAlive delays" module shape. The check times the
+  server's own keepalive round trips and pairs each one with the transaction
+  round trips Grim already measures inside a centred window around it, so
+  congestion, stalls and the two streams' different sampling rates cancel
+  out; only a delay applied to the keepalive echoes alone survives as a
+  median paired gap. A gap of `min-divergence-ms` (100 ms) across four or
+  more pairs, repeated three times in fifteen seconds, flags (10 s
+  cooldown). The keepalive stream's own quartile spread gates judgement:
+  above `max-spread-ms` (80 ms) the client's frame quantization or a jittery
+  link makes added delay indistinguishable (never judged), and below
+  `min-keepalive-spread-ms` (2 ms) the reply timing is locked to a
+  deterministic client clock (frame-rate caps that divide the keepalive
+  interval) and equally ambiguous. Transaction-side-only delay is
+  deliberately not judged, and bedrock (Geyser/Floodgate) players are
+  exempt.
+- Simulated validation (200 sessions x 120 s per model, both a 1 s
+  Paper-style keepalive regime and the vanilla 15 s interval, with GC
+  stalls, bufferbloat phases - aligned and jittered - mid-session route
+  changes, and 1-60 FPS clients including keepalive-only and
+  transaction-only frame quantization): all twelve legit models stay at a
+  0.000 flag rate in both regimes. Fixed 100-300 ms spoofs flag
+  0.995-1.000 with a median first flag of 7.7-9.2 s in the 1 s regime
+  (0.795-1.000 at about 57 s with 15 s keepalives), uniform 50-250 ms
+  spoofs 0.765-1.000, spoofs combined with bufferbloat or heavy GC
+  0.960-1.000. Documented holes: two-sided delay (invisible from a
+  plugin), clients under ~10 FPS or with wide jitter (gated out), and
+  ultra-steady sub-2 ms links (skipped).
+- Config `config-version` 61 -> 62 (`ping-spoof` section: `min-divergence-ms`,
+  `max-spread-ms`, `min-keepalive-spread-ms`, `min-keepalive-samples`,
+  `min-transaction-samples`, `pair-window-seconds`, `window-seconds`,
+  `min-events`, `counter-seconds`), `PingSpoof` joined the `Misc` punishment
+  group in all locales.
+
+## [v4.25] - 2026-10-19
+
+- Maintenance: refresh the committed handoff state through v4.24 (NoBreakDelay
+  post-break cooldown tier) so the next session resumes from the current
+  stage.
+
 ## [v4.24] - 2026-10-19
 
 - Add `NoBreakDelay` (experimental): when a break completes the vanilla client

@@ -270,6 +270,17 @@ Inventory and macro automation:
 - `PackSpoof` (`pack-spoof` in `config.yml`) flags resource-pack spoofing:
   two or more packs reported loaded 293-360 ms after acceptance, the fixed
   timer of Server RP spoof modules; real downloads finish at network speed.
+- `PingSpoof` (`ping-spoof` in `config.yml`) flags keepalive latency
+  spoofing: the check times the server's own keepalive round trips and pairs
+  every one with the transaction round trips around it - a vanilla client
+  keeps both echo streams consistent on the same socket, while a spoofing
+  module delays only the keepalive replies it knows the server times. A
+  median paired gap of `min-divergence-ms` (100 ms) across four or more
+  pairs, repeated three times in fifteen seconds, flags. Clients whose own
+  keepalive spread exceeds `max-spread-ms` (80 ms; frame quantization, bad
+  links) and frame-locked steady streams under `min-keepalive-spread-ms`
+  (2 ms) are never judged, and bedrock (Geyser/Floodgate) players are
+  exempt.
 - `FireworkCadence` (`elytra-analysis` in `config.yml`) flags elytra boost
   automation: eight or more consecutive firework boosts with machine-constant
   intervals (CV at or below 0.05 in the 700-4000 ms band), the signature of
@@ -373,6 +384,15 @@ checks carry proof-like weight"):
   about once a second), can still be measured as a removed cooldown. Clean
   and moderate stall rates stay at a 0.000 simulated flag rate, which is why
   the check is experimental.
+- The `PingSpoof` tier can only see one-sided spoofing: a client that delays
+  keepalive *and* transaction replies by the same amount is invisible from
+  the server side (that would need TCP-level round trips a plugin cannot
+  read). Clients whose own echo spread exceeds `max-spread-ms` (very low
+  frame rates, jittery links) and links tighter than
+  `min-keepalive-spread-ms` are never judged, and transaction-side-only
+  delay is deliberately not judged because it only makes the player look
+  laggier. Vanilla 15 second keepalive intervals work, but judgement needs
+  four pairs, so flags land about a minute in instead of seconds.
 - Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
   for a server-side anticheat.
 - The offhand and tool-automation checks anchor on damage and dig cycles;
