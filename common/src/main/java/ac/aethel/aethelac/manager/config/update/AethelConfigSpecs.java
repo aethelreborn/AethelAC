@@ -198,9 +198,13 @@ public final class AethelConfigSpecs {
      * <p>v56 → v57: adds the TriggerBot metronome late band (higher mean
      * reaction ceiling guarded by a tighter coefficient-of-variation
      * ceiling for narrowly jittered delays).
+     *
+     * <p>v57 → v58: adds the {@code aim-analysis} tracking-lock knobs for
+     * the TrackingLock check (swept-tick angular floor, lock angle, window,
+     * reversal floor and the locked-fraction gate).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 57, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 58, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

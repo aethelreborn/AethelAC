@@ -282,6 +282,25 @@ aim-analysis:
     grid-memory-seconds: 120
     grid-horizon-samples: 300
     grid-horizon-percent: 5.0
+    # Tracking-lock detection (TrackingLock check): a target direction that
+    # sweeps at least tracking-lock-omega-min-deg per tick is a swept tick;
+    # a swept tick is locked when the crosshair sits within
+    # tracking-lock-lock-deg of the hitbox center. Flags when the trailing
+    # tracking-lock-window-ticks window holds at least
+    # tracking-lock-min-samples swept ticks and tracking-lock-min-reversals
+    # direction flips (at or above tracking-lock-reversal-floor-deg) with a
+    # locked fraction of tracking-lock-fraction. Range in blocks, capture in
+    # degrees around the crosshair, cooldown in seconds.
+    tracking-lock-range: 24.0
+    tracking-lock-window-ticks: 60
+    tracking-lock-capture-deg: 25.0
+    tracking-lock-lock-deg: 1.5
+    tracking-lock-omega-min-deg: 1.5
+    tracking-lock-reversal-floor-deg: 0.1
+    tracking-lock-min-samples: 20
+    tracking-lock-min-reversals: 3
+    tracking-lock-fraction: 0.9
+    tracking-lock-cooldown-seconds: 5
 
 idle-automation:
     # Anti-AFK automation detection (IdleAutomation check): a player who only
@@ -603,4 +622,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 57
+config-version: 58
