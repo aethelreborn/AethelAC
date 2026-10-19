@@ -67,7 +67,7 @@ under `common/src/main/resources/{config,punishments,messages}`.
   1260000).
 - **Every push to main creates a release.** Keep CHANGELOG matching what ships.
 - Release tags: vX → vX.1; vX.n (n<24) → vX.(n+1); vX.24 → v(X+1).
-  Released through **v4.5** as of this handoff (config version **52**).
+  Released through **v4.22** as of this handoff (config version **60**).
 
 ### Config versioning (per stage that adds config)
 1. Add keys to all **13** files in `common/src/main/resources/config/*.yml`.
@@ -189,19 +189,55 @@ under `common/src/main/resources/{config,punishments,messages}`.
   Nothing else in the documented setting surface is a new server-side
   signature - the aura family's remaining holes are the rotation-side
   ones, not the interaction-side ones.
+- **v4.22 research negatives (canonical from this stage on)**: sim8/sim9 -
+  a straight-line TrackingLock precision tier (0.4/0.3 deg lock) flags
+  perfect-prediction humans at 1.00 (worst fraction 0.95 at omega 1.8-2.5
+  deg/tick), so the documented straight-line exemption is sim-justified;
+  sim10 - uniform wide-range triggerbot delays cannot be caught by delta
+  shape, because tick quantization makes fast humans platykurtic too (the
+  "p.9 norm 160/25" human flags 0.84-1.00); sim11 - the deep-sleeper band
+  above 460 ms needs a reaction CV ratio at or below ~0.6 to be catchable,
+  after which slow-narrow humans leak 0.8-1.0. Vanilla 1.20.1
+  `MouseHandler.turnPlayer()` (smoothCamera -> SmoothDouble.
+  getNewDeltaValue -> player.turn) means cinematic camera input reaches the
+  server as dense, non-quantized deltas - any future delta-shape detector
+  must keep cinematic streams silent.
+- **Window-reaction invariant (v4.22)**: a CLICK_WINDOW referencing a fresh
+  container id cannot exist before the client received OPEN_WINDOW, so the
+  server-side gap is at least one round trip; the running minimum of
+  transaction and keepalive pings over 30 s is a lower bound of that round
+  trip (a keepalive-only ping spoof cannot inflate it - the floor takes the
+  min of both sources), and human visual reaction adds >= ~100 ms on top.
+  Apparent reaction below 70 ms three times in 10 s is machine territory;
+  blind-mashing a server-pushed menu on a sub-70 ms rhythm is the accepted
+  FP class, while opens the player caused themselves are phase-locked to
+  their own press rhythm and safe.
+- **Delicate Client v1.0.0 intel (2026-10-19; 222 modules, MC 26.2/26.3)**:
+  a current meta client built around a "Grim self-check" plus a module
+  AntiCheat panel that self-limits packet rates - inventory clicks 5 per
+  310 ms (~62 ms pace), interacts 9 per 310 ms, actions 59 per 310 ms,
+  attacks unlimited - and a ChestStealer that "takes everything out of
+  containers you open". Budget configs land in the FastClick rate tier
+  (5 per 310 ms) or, trimmed to 2-3 per 310 ms (103-155 ms), in the
+  widened cadence band. Other modules with server-side surface worth
+  mapping: HideMining (dig progress withheld from others), PacketMine
+  (withheld finishes released in bursts), MultiTask (mine + use in
+  parallel), TickShift, PingSpoof (KeepAlive delays), NoRotate
+  (BadPacketsB already covers the rotation-correction path at
+  CheckManagerListener:433), SpeedMine, VeinMiner/Nuker, Scaffold.
 - Behavioral C-tier criticism from user's reviewer: aim/triggerbot/autoclicker/
   fingerprint were "threshold guesses" — this session answered it with the
   invariant-hardening stages v4.1–v4.5.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.20** (InvWalk rotation tier, CI 39228312781; v4.19 =
-  handoff refresh; v4.18 = TrackingLock aim check). **NEXT RELEASE NUMBER:
-  v4.21 — increment this on EVERY push to main, including docs-only pushes
-  (each push creates a release!).** Config version **59**, messages version
-  6, 13 config locales / 11 punishment locales / 11 message locales. All CI
-  green.
-- **This session shipped 29 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.22** (FastClick zero-reaction looting tier + fast
+  menu-cadence band, CI 39234387454; v4.21 = handoff refresh; v4.20 =
+  InvWalk rotation tier). **NEXT RELEASE NUMBER: v4.23 — increment this on
+  EVERY push to main, including docs-only pushes (each push creates a
+  release!).** Config version **60**, messages version 6, 13 config locales
+  / 11 punishment locales / 11 message locales. All CI green.
+- **This session shipped 31 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
@@ -211,9 +247,10 @@ under `common/src/main/resources/{config,punishments,messages}`.
   refresh, v4.13 RotationGrid sustained tier, v4.14 TriggerBot metronome
   tier, v4.15 handoff refresh, v4.16 TriggerBot metronome late band,
   v4.17 handoff refresh, v4.18 TrackingLock, v4.19 handoff refresh,
-  v4.20 InvWalk rotation tier. (Full details per stage in
-  `SESSION_LOG.md`.)
-- Repo tip at handoff: `33d5c22` plus the handoff refresh commit that
+  v4.20 InvWalk rotation tier, v4.21 handoff refresh, v4.22 FastClick
+  zero-reaction looting tier + fast menu-cadence band. (Full details per
+  stage in `SESSION_LOG.md`.)
+- Repo tip at handoff: `3476a47` plus the handoff refresh commit that
   carries this file.
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
@@ -255,29 +292,55 @@ under `common/src/main/resources/{config,punishments,messages}`.
   ordering means only the open side needs latency compensation (rotations
   sent after a close arrive after the close packet). Config keys
   invwalk-rotation-* under inventory-automation (config v59).
+- **v4.22 FastClick zero-reaction looting tier + fast menu-cadence band
+  shipped** (same check, Misc ladder, no punishment change): the first click
+  of every opened window is compared against a round-trip floor (running
+  minimum of transaction/keepalive pings over 30 s) - a click that
+  references a fresh container id can only exist after the client received
+  the open, so the server-side gap is at least one round trip. Three hits of
+  apparent < 70 ms inside 10 s flag; floors above 300 ms are never judged,
+  re-sent opens with the previous container id are not armed, bedrock
+  (Geyser/Floodgate) players are exempt. The menu-cadence band floor moved
+  250 -> 110 ms (CV ceiling 0.045 unchanged, still the machine criterion).
+  Sim evidence: humans 0.000 (self-driven mashers included), instaloot bots
+  1.000; exogenous server-pushed menus mashed blind are the documented FP
+  class (0.578 with >=3 opens in 10 s). Config keys click-reaction-* under
+  inventory-automation (config v60).
 
 ## 7. Next moves (priority order)
 
 1. Next detection stage candidates (research first, then pick one):
    (a) pure-arbitrary rotation detector for the RotationGrid hole - streams
-   that never show quantized deltas (fully synthetic aim). Any design must
-   keep cinematic-smoothing legit input silent; live idea: decisive-delta
-   (0.5-12 deg) consistency during combat windows only, no cluster gate;
+   that never show quantized deltas (fully synthetic aim). Any rotation-math
+   tier must key on a human impossibility, not on quantization, because
+   cinematic camera input is source-verified to reach the server as dense
+   non-quantized deltas (MouseHandler.turnPlayer -> SmoothDouble ->
+   player.turn). Live idea: decisive-delta (0.5-12 deg) consistency during
+   combat windows only, no cluster gate - unproven, sim first;
    (b) sensitivity-aware grid spoofing (modules that add sub-quantum noise
    to genuine deltas) - arms-race tier, research first;
-   (c) dig-side corollaries (SubTickBreak analogues: repetition/velocity of
-   dig starts), stats stages, or new bypass intel from research. Backlog:
-   FailSwing-style pre-swing bands (FP-risky without a cadence filter),
-   triggerbot uniform wide-range late delays (documented evasion class),
-   TrackingLock straight-line tier (sim7: dropping the reversal requirement
-   leaks no human model, but the walker class never arms - run a
-   constant-omega circular-orbit sim with predictive humans before
-   designing; they are the class to disprove) and its soft-smoothing miss
-   band (gain < ~0.7).
-2. Keep monitoring Modrinth behavior per release (low priority).
-3. **AethelGuard** (native ModSeeker-style client verification subsystem) —
+   (c) Delicate-style meta-client surfaces not yet mapped as checks:
+   HideMining (dig progress withheld from other players), PacketMine
+   (withheld finishes released in bursts), AutoTrade/AutoCraft window
+   automation, PingSpoof vs the transaction/keepalive ping pair (the
+   reaction tier's min-of-both floor survives a keepalive-only spoof by
+   construction), dig-side repetition/velocity corollaries, stats stages;
+   (d) FailSwing-style pre-swing bands stay research-blocked: a human
+   holding attack produces the same packets without a machine-cadence
+   filter.
+2. Closed by simulation - do NOT re-open without new evidence (details in
+   SESSION_LOG v4.22 entry + section 5): straight-line TickLock precision
+   tier (sim8/sim9: flags perfect-prediction humans at 1.00), TriggerBot
+   uniform wide-range shape tier (sim10: tick quantization makes fast humans
+   platykurtic too), TriggerBot deep-sleeper band above 460 ms (sim11:
+   catching fixed 480-620 ms sleepers needs CV <= ~0.6, which leaks
+   slow-narrow humans at 0.8-1.0). TrackingLock's soft-smoothing miss band
+   (gain < ~0.7) stays a documented hole; the orbit-sim precursor for a
+   straight-line tier is dead with the precision tier.
+3. Keep monitoring Modrinth behavior per release (low priority).
+4. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.
-4. Maintain this handoff folder every stage.
+5. Maintain this handoff folder every stage.
 
 ## 8. Assistant memory (carry this forward)
 
