@@ -76,6 +76,7 @@ import ac.aethel.aethelac.platform.api.permissions.PermissionDefaultValue;
 import ac.aethel.aethelac.player.AethelPlayer;
 import ac.aethel.aethelac.predictionengine.GhostBlockDetector;
 import ac.aethel.aethelac.predictionengine.SneakingEstimator;
+import ac.aethel.aethelac.utils.anticheat.LogUtil;
 import ac.aethel.aethelac.utils.anticheat.update.*;
 import ac.aethel.aethelac.utils.latency.CompensatedCameraEntity;
 import ac.aethel.aethelac.utils.latency.CompensatedCooldown;
@@ -505,6 +506,7 @@ public class CheckManager implements BasicReloadable {
         if (inited || initedAtomic.getAndSet(true)) return;
         inited = true;
 
+        logExperimentalStatus();
         registerBuiltInVerboseTemplates();
 
         final String[] permissions = {
@@ -519,6 +521,43 @@ public class CheckManager implements BasicReloadable {
             for (String permissionName : permissions) {
                 AethelAPI.INSTANCE.getPermissionManager().registerPermission(permissionName + id, PermissionDefaultValue.FALSE);
             }
+        }
+    }
+
+    /**
+     * One-shot startup report of the experimental tier switch.
+     *
+     * <p>With {@code experimental-checks: false} every check marked
+     * experimental is completely silent: Check's recordFlag returns
+     * before the violation counter, the alert and the punishment manager, so
+     * those tiers produce no alerts, no punishments and no stored evidence at
+     * all. The bundled default is true, but a config carried over from before
+     * the default flipped keeps its old false, which quietly removes most of
+     * the newest detection stack - so say the state out loud instead of
+     * leaving an operator guessing why nothing fires.</p>
+     */
+    private void logExperimentalStatus() {
+        int totalChecks = 0;
+        int experimentalChecks = 0;
+        for (final AbstractCheck check : checks) {
+            if (check instanceof Check aethelCheck) {
+                totalChecks++;
+                if (aethelCheck.isExperimental()) {
+                    experimentalChecks++;
+                }
+            }
+        }
+        if (experimentalChecks == 0) return;
+
+        final boolean enabled = AethelAPI.INSTANCE.getConfigManager().getConfig()
+                .getBooleanElse("experimental-checks", false);
+        if (enabled) {
+            LogUtil.info("AethelAC: " + totalChecks + " checks loaded (" + experimentalChecks
+                    + " experimental tiers enabled).");
+        } else {
+            LogUtil.warn("AethelAC: experimental-checks is false - " + experimentalChecks + " of " + totalChecks
+                    + " checks are fully silent (no alerts, no punishments). The shipped default is true; "
+                    + "set experimental-checks: true in config.yml to activate those tiers.");
         }
     }
 }

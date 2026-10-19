@@ -287,8 +287,12 @@ public class ConfigManagerFileImpl implements ConfigManager, BasicReloadable {
         // The default config didn't have this change
         configString = configString.replace("threshold: 0.0001", "threshold: 0.001"); // 1e-5 -> 1e-4 default flag level
         if (!configString.contains("experimental-checks")) {
+            // Append the shipped default, not the historical false: with
+            // experimental-checks false every tier marked experimental is
+            // fully silent (no alert, no punishment, no data-store entry),
+            // which silently loses most of the newest detection stack.
             configString += "\n\n# Enables experimental checks\n" +
-                    "experimental-checks: false\n\n";
+                    "experimental-checks: true\n\n";
         }
         configString += "\nverbose:\n" +
                 "  print-to-console: false\n";
