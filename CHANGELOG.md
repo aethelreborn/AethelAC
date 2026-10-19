@@ -3,6 +3,23 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.13] - 2026-10-19
+
+- Harden `RotationGrid` with a sustained tier: the fitted mouse quantum now
+  survives two minutes of fully synthetic rotation (so a sustained fight
+  cannot close the gate mid-combat), and a horizon tier flags when 5% of
+  the last 300 armed probes are off the grid, catching slow-burn aim-assist
+  corrections that never cluster into a 30-probe burst. Simulated
+  validation: legit streams (including mouse use beside fully synthetic
+  combat phases) produced zero violations in any 300-probe window, while
+  corrections at 3-8% now activate the horizon tier within the first
+  combat phase instead of staying invisible.
+
+## [v4.12] - 2026-10-19
+
+- Maintenance: refresh the committed handoff state through v4.11
+  (RotationGrid) so the next session resumes from the current stage.
+
 ## [v4.11] - 2026-10-19
 
 - Add `RotationGrid` (`aim-analysis`): catches mixed aim-assist / silent-aim

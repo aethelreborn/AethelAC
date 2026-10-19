@@ -213,8 +213,12 @@ Inventory and macro automation:
   physical mouse delta is a whole multiple of one sensitivity quantum, so
   the check fits the smallest populated quantum cluster of the delta
   histogram and counts combat rotation deltas that are neither multiples of
-  that grid nor explained by another populated cluster. Streams that never
-  show quantized deltas (smoothing-only, cinematic, protocol-quantized 1.8
+  that grid nor explained by another populated cluster. A burst tier (8 of
+  the last 30 armed probes) catches dense corrections; a horizon tier (5%
+  of the last 300 armed probes) catches slow-burn ones, and the fitted
+  quantum survives two minutes of fully synthetic rotation so sustained
+  fights cannot close the gate mid-combat. Streams that never show
+  quantized deltas (smoothing-only, cinematic, protocol-quantized 1.8
   rotations) never open the grid gate and stay silent.
 - `DamageReaction` (`reaction-analysis` in `config.yml`) flags
   ClickPearl/AutoGApple/AutoSwap style automation: six or more item uses or
@@ -296,9 +300,10 @@ checks carry proof-like weight"):
   axis stay under the rotating-attack threshold by design; lowering it risks
   flagging strafe-flick combat.
 - A rotation source that is synthetic on every update (never interleaving
-  genuine quantized mouse deltas) never opens the `RotationGrid` gate; that
-  stream class is the target of the variance and geometric-series family
-  checks instead.
+  genuine quantized mouse deltas) never opens the `RotationGrid` gate; once
+  a grid has been demonstrated, sustained synthetic phases stay covered by
+  the quantum-memory and horizon tiers. That stream class is also the
+  target of the variance and geometric-series family checks.
 - Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
   for a server-side anticheat.
 - The offhand and tool-automation checks anchor on damage and dig cycles;
