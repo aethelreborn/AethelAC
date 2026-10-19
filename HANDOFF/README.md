@@ -176,19 +176,32 @@ under `common/src/main/resources/{config,punishments,messages}`.
   cannot cleanly recover the quantum - histogram cluster fitting is the
   working approach.
 - Competitive servers used for testing: eu.loyisa.cn.
+- **LiquidBounce KillAura docs (2026-06-08 revision, v4.16 research)**: the
+  module exposes AutoBlocking unblock modes (StopUsingItem / ChangeSlot /
+  SwapHand - the slot-swap variants are covered by SwapAttack, the
+  stop-use variant by AutoBlock), SimulateInventoryClosing (fake
+  CLOSE_WINDOW before attacks - covered by CloseSpoof v3.20), a Fake block
+  mode that is client-side animation only (no server signature, out of
+  scope), requoted FailSwing (fake swings aimed at targets 2.5-3.0 blocks
+  beyond attack range; uncovered, but FP-risky because human pre-swinging
+  looks identical without a machine-cadence filter), and KeepSprint (a
+  1.8-era sprint-reset bypass, low detection value on modern clients).
+  Nothing else in the documented setting surface is a new server-side
+  signature - the aura family's remaining holes are the rotation-side
+  ones, not the interaction-side ones.
 - Behavioral C-tier criticism from user's reviewer: aim/triggerbot/autoclicker/
   fingerprint were "threshold guesses" — this session answered it with the
   invariant-hardening stages v4.1–v4.5.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.14** (TriggerBot metronome tier, CI 39217692763;
-  v4.13 = RotationGrid sustained tier, CI 39213795614; v4.12 = handoff
-  refresh). **NEXT RELEASE NUMBER: v4.15 — increment this on EVERY push to
-  main, including docs-only pushes (each push creates a release!).** Config
-  version **56**, messages version 6, 13 config locales / 11 punishment
-  locales / 11 message locales. All CI green.
-- **This session shipped 24 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.16** (TriggerBot metronome late band, CI 39220735594;
+  v4.15 = handoff refresh; v4.14 = TriggerBot metronome tier). **NEXT
+  RELEASE NUMBER: v4.17 — increment this on EVERY push to main, including
+  docs-only pushes (each push creates a release!).** Config version **57**,
+  messages version 6, 13 config locales / 11 punishment locales / 11 message
+  locales. All CI green.
+- **This session shipped 26 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
@@ -196,8 +209,9 @@ under `common/src/main/resources/{config,punishments,messages}`.
   v4.7 JumpReset, v4.8 handoff refresh, v4.9 AutoBlock extension,
   v4.10 changelog/numbering maintenance, v4.11 RotationGrid, v4.12 handoff
   refresh, v4.13 RotationGrid sustained tier, v4.14 TriggerBot metronome
-  tier. (Full details per stage in `SESSION_LOG.md`.)
-- Repo tip at handoff: `33ef5ea` (plus the handoff commit that follows).
+  tier, v4.15 handoff refresh, v4.16 TriggerBot metronome late band. (Full
+  details per stage in `SESSION_LOG.md`.)
+- Repo tip at handoff: `9848a5b` (plus the handoff commit that follows).
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
   **v4.13** with quantum memory (120 s) and a 300-probe horizon tier (5%
@@ -208,9 +222,13 @@ under `common/src/main/resources/{config,punishments,messages}`.
   punishment change): opportunities = crosshair entries lasting >= 300 ms;
   ring of the last 20 opportunities flags when the fire ratio is >= 0.85,
   mean reaction sits in [100, 280] ms and the reaction CV is <= 0.10.
-  Config keys trigger-metronome-* under attack-patterns. Accepted risk
-  documented in the main README: ~90% fire-rate humans with reaction spread
-  <= 25 ms and no slow tail reach bot territory by design.
+  **v4.16 added the late band**: mean up to 460 ms at CV <= 0.04, catching
+  narrowly jittered higher-delay modules (fixed/50 ms-wide delays across
+  300-450 ms all flag at 1.0 in simulation). Config keys trigger-metronome-*
+  under attack-patterns. Accepted risks documented in the main README:
+  ~90% fire-rate humans with reaction spread <= 25 ms and no slow tail reach
+  bot territory by design, and uniform delay ranges 100 ms and wider keep
+  the reaction CV above both ceilings (the tier's evasion class).
 
 ## 7. Next moves (priority order)
 
@@ -223,8 +241,8 @@ under `common/src/main/resources/{config,punishments,messages}`.
    to genuine deltas) - arms-race tier, research first;
    (c) dig-side corollaries (SubTickBreak analogues: repetition/velocity of
    dig starts), stats stages, or new bypass intel from research. Backlog:
-   triggerbot jitter tier (randomized > 450 ms sleeps with high fire
-   ratio stay uncovered by the metronome mean band).
+   FailSwing-style pre-swing bands (FP-risky without a cadence filter),
+   triggerbot uniform wide-range late delays (documented evasion class).
 2. Keep monitoring Modrinth behavior per release (low priority).
 3. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.
