@@ -34,6 +34,7 @@ import ac.aethel.aethelac.checks.impl.misc.ClientFingerprint;
 import ac.aethel.aethelac.checks.impl.misc.DropBurst;
 import ac.aethel.aethelac.checks.impl.misc.PackSpoof;
 import ac.aethel.aethelac.checks.impl.misc.PingPolicy;
+import ac.aethel.aethelac.checks.impl.misc.PingSpoof;
 import ac.aethel.aethelac.checks.impl.misc.SwapAttack;
 import ac.aethel.aethelac.checks.impl.misc.TriggerBot;
 import ac.aethel.aethelac.checks.impl.misc.CloseSpoof;
@@ -175,6 +176,7 @@ public class CheckManager implements BasicReloadable {
                 .put(InvWalk.class, new InvWalk(player))
                 .put(AutoBlock.class, new AutoBlock(player))
                 .put(PingPolicy.class, new PingPolicy(player))
+                .put(PingSpoof.class, new PingSpoof(player))
                 .put(NoFall.class, new NoFall(player))
                 .put(ExploitA.class, new ExploitA(player))
                 .put(ExploitB.class, new ExploitB(player))
