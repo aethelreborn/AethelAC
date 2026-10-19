@@ -3,6 +3,19 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v4.20] - 2026-10-19
+
+- Extend `InvWalk` with a rotation tier: rotation updates with a summed
+  yaw+pitch delta of at least 0.5 degrees landing while a container is open
+  - after the open age exceeds twice the transaction ping plus 100 ms, with
+  two counted updates inside ten seconds - now flag alongside world
+  interactions, catching GUI-rotation modules that aim with the container
+  still up. A vanilla container GUI captures mouse input completely, so no
+  camera rotation can originate from a normal client while it is open.
+  Rotations arriving before the compensated open age are never judged
+  (they can predate the window), and bedrock (Geyser/Floodgate) players are
+  exempt from the rotation tier because their GUI semantics differ.
+
 ## [v4.18] - 2026-10-19
 
 - Add `TrackingLock` (`aim-analysis`): catches smoothing / lock aim-assist

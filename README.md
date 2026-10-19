@@ -208,9 +208,14 @@ Inventory and macro automation:
   minute. Jump-reset modules pin the reset to the velocity packet on every
   hit; human resets land in a wide organic band.
 - `InvWalk` (`inventory-automation` in `config.yml`) flags world interactions
-  while a container is open: a vanilla GUI captures the mouse completely, so
-  attacking, placing or digging seconds after an open-window packet is only
-  possible for invwalk and loot aura modules.
+  and rotation updates while a container is open: a vanilla GUI captures the
+  mouse completely, so attacking, placing or digging seconds after an
+  open-window packet is only possible for invwalk and loot aura modules, and
+  a counted rotation stream (0.5 degrees or more of summed yaw+pitch per
+  update, twice within ten seconds, once the open age exceeds twice the
+  transaction ping plus 100 ms) exposes GUI-rotation modules that aim with
+  the container still up. Bedrock (Geyser/Floodgate) players are exempt from
+  the rotation tier.
 - `HiddenAim` (`aim-analysis` in `config.yml`) flags precision-tracking of a
   moving, fully occluded player: the vanilla client cannot show a hidden
   target, so holding the crosshair within a few degrees of its hitbox center
@@ -332,6 +337,11 @@ checks carry proof-like weight"):
   is legitimate; it also misses very soft smoothing (gain under roughly
   0.7), whose steady-state error floor sits above the lock angle at the
   swept-tick floor.
+- The `InvWalk` rotation tier never judges rotations that land before the
+  open-window packet has had twice the transaction ping plus 100 ms to
+  reach the client, because those can be legitimate input sent while the
+  window was still in flight; players on bedrock (Geyser/Floodgate) are
+  exempt wholesale because their GUI semantics differ.
 - Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
   for a server-side anticheat.
 - The offhand and tool-automation checks anchor on damage and dig cycles;

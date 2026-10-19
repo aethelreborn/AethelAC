@@ -195,13 +195,13 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.18** (TrackingLock aim check, CI 39226744367; v4.17 =
-  handoff refresh; v4.16 = TriggerBot metronome late band). **NEXT RELEASE
-  NUMBER: v4.19 — increment this on EVERY push to main, including docs-only
-  pushes (each push creates a release!).** Config version **58**, messages
-  version 6, 13 config locales / 11 punishment locales / 11 message
-  locales. All CI green.
-- **This session shipped 28 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.20** (InvWalk rotation tier; v4.19 = handoff
+  refresh; v4.18 = TrackingLock aim check; CI run id recorded in
+  `SESSION_LOG.md`). **NEXT RELEASE NUMBER: v4.21 — increment this on EVERY
+  push to main, including docs-only pushes (each push creates a
+  release!).** Config version **59**, messages version 6, 13 config locales
+  / 11 punishment locales / 11 message locales. All CI green.
+- **This session shipped 29 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
@@ -210,10 +210,11 @@ under `common/src/main/resources/{config,punishments,messages}`.
   v4.10 changelog/numbering maintenance, v4.11 RotationGrid, v4.12 handoff
   refresh, v4.13 RotationGrid sustained tier, v4.14 TriggerBot metronome
   tier, v4.15 handoff refresh, v4.16 TriggerBot metronome late band,
-  v4.17 handoff refresh, v4.18 TrackingLock. (Full details per stage in
+  v4.17 handoff refresh, v4.18 TrackingLock, v4.19 handoff refresh,
+  v4.20 InvWalk rotation tier. (Full details per stage in
   `SESSION_LOG.md`.)
-- Repo tip at handoff: `6c230bc` plus the handoff refresh commit that
-  carries this file.
+- Repo tip at handoff: parent `28e5f61` plus the docs commit that carries
+  this file.
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
   **v4.13** with quantum memory (120 s) and a 300-probe horizon tier (5%
@@ -243,24 +244,28 @@ under `common/src/main/resources/{config,punishments,messages}`.
   0.52-0.88 per stream. Documented holes: straight-line motion (no
   reversals) is exempt; gain < ~0.7 soft smoothing misses; targets mounted
   on vehicles whose riders send no positions are not judged.
+- **v4.20 InvWalk rotation tier shipped** (same check, Misc ladder, no
+  punishment change): rotation updates with a summed yaw+pitch delta of at
+  least 0.5 deg landing while a container is open count, two within 10 s
+  flag, once the open age exceeds max(350 ms, 2x ping + 100 ms). Guards:
+  spectator, vehicle, non-self camera, teleport and 1.17-duplicate skips;
+  bedrock (Geyser/Floodgate, via GeyserUtil.isBedrockPlayer) exempt.
+  Rationale: a vanilla container GUI captures mouse input completely, so no
+  camera rotation can originate from a normal client while it is up; TCP
+  ordering means only the open side needs latency compensation (rotations
+  sent after a close arrive after the close packet). Config keys
+  invwalk-rotation-* under inventory-automation (config v59).
 
 ## 7. Next moves (priority order)
 
 1. Next detection stage candidates (research first, then pick one):
-   (a) InvWalk rotation tier (researched, cheapest next win): a rotation
-   update while a server-opened container GUI is open is impossible for the
-   vanilla mouse-captured GUI, and only world interactions are covered
-   today. Guards: ping-compensated open age (max(350 ms, 2x ping + 100 ms)
-   as InvWalk), per-update rotation delta floor, event floor within a
-   counter window, teleport/vehicle/spectator/non-self-camera skips and a
-   bedrock exemption via GeyserUtil.isBedrockPlayer(uuid);
-   (b) pure-arbitrary rotation detector for the RotationGrid hole - streams
+   (a) pure-arbitrary rotation detector for the RotationGrid hole - streams
    that never show quantized deltas (fully synthetic aim). Any design must
    keep cinematic-smoothing legit input silent; live idea: decisive-delta
    (0.5-12 deg) consistency during combat windows only, no cluster gate;
-   (c) sensitivity-aware grid spoofing (modules that add sub-quantum noise
+   (b) sensitivity-aware grid spoofing (modules that add sub-quantum noise
    to genuine deltas) - arms-race tier, research first;
-   (d) dig-side corollaries (SubTickBreak analogues: repetition/velocity of
+   (c) dig-side corollaries (SubTickBreak analogues: repetition/velocity of
    dig starts), stats stages, or new bypass intel from research. Backlog:
    FailSwing-style pre-swing bands (FP-risky without a cadence filter),
    triggerbot uniform wide-range late delays (documented evasion class),
