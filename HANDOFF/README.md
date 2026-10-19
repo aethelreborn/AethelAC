@@ -182,29 +182,35 @@ under `common/src/main/resources/{config,punishments,messages}`.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.12** (this handoff refresh, docs-only; v4.11 =
-  RotationGrid, CI 39211114141). **NEXT RELEASE NUMBER: v4.13 — increment
-  this on EVERY push to main, including docs-only pushes (each push creates
-  a release!).** Config version **54**, messages version 6, 13 config
-  locales / 11 punishment locales / 11 message locales. All CI green.
-- **This session shipped 22 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+- **Latest release: v4.14** (TriggerBot metronome tier, CI 39217692763;
+  v4.13 = RotationGrid sustained tier, CI 39213795614; v4.12 = handoff
+  refresh). **NEXT RELEASE NUMBER: v4.15 — increment this on EVERY push to
+  main, including docs-only pushes (each push creates a release!).** Config
+  version **56**, messages version 6, 13 config locales / 11 punishment
+  locales / 11 message locales. All CI green.
+- **This session shipped 24 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
   v4.3 SubTickClick, v4.4 SubTickBreak, v4.5 AutoBlock, v4.6 handoff docs,
   v4.7 JumpReset, v4.8 handoff refresh, v4.9 AutoBlock extension,
   v4.10 changelog/numbering maintenance, v4.11 RotationGrid, v4.12 handoff
-  refresh. (Full details per stage in `SESSION_LOG.md`.)
-- Repo tip at handoff: `980d0bf` (plus the handoff commit that follows).
-- **v4.6 = handoff documentation**; **v4.7 JumpReset shipped** (done:
-  self-velocity wrapper = `WrapperPlayServerEntityVelocity` with
-  `entityId == player.entityID`, KnockbackHandler.java:48-60 precedent;
-  rising-edge pattern = JumpCadence tick sampling with `player.isJumping`).
-- **v4.11 RotationGrid shipped**: per-axis 256-sample delta window +
-  histogram cluster fit + armed combat probes + 30-probe ring (8 violation
-  flag, 5 s cooldown). State is in-memory per player; config keys grid-*
+  refresh, v4.13 RotationGrid sustained tier, v4.14 TriggerBot metronome
+  tier. (Full details per stage in `SESSION_LOG.md`.)
+- Repo tip at handoff: `33ef5ea` (plus the handoff commit that follows).
+- **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
+  cluster fit + armed combat probes + 30-probe burst ring), extended in
+  **v4.13** with quantum memory (120 s) and a 300-probe horizon tier (5%
+  violation fraction). State is in-memory per player; config keys grid-*
   under aim-analysis; AimHeuristics ladder. Fully-synthetic rotation streams
   (never quantized) stay silent by construction — see section 7 item 1.
+- **v4.14 TriggerBot metronome tier shipped** (same check, Misc ladder, no
+  punishment change): opportunities = crosshair entries lasting >= 300 ms;
+  ring of the last 20 opportunities flags when the fire ratio is >= 0.85,
+  mean reaction sits in [100, 280] ms and the reaction CV is <= 0.10.
+  Config keys trigger-metronome-* under attack-patterns. Accepted risk
+  documented in the main README: ~90% fire-rate humans with reaction spread
+  <= 25 ms and no slow tail reach bot territory by design.
 
 ## 7. Next moves (priority order)
 
@@ -213,9 +219,12 @@ under `common/src/main/resources/{config,punishments,messages}`.
    that never show quantized deltas (fully synthetic aim). Any design must
    keep cinematic-smoothing legit input silent; live idea: decisive-delta
    (0.5-12 deg) consistency during combat windows only, no cluster gate;
-   (b) consumable use-under-hit tier (auto-eat/auto-pot under damage);
-   (c) new bypass intel from research. Backlog: stats stages, dig-side
-   corollaries.
+   (b) sensitivity-aware grid spoofing (modules that add sub-quantum noise
+   to genuine deltas) - arms-race tier, research first;
+   (c) dig-side corollaries (SubTickBreak analogues: repetition/velocity of
+   dig starts), stats stages, or new bypass intel from research. Backlog:
+   triggerbot jitter tier (randomized > 450 ms sleeps with high fire
+   ratio stay uncovered by the metronome mean band).
 2. Keep monitoring Modrinth behavior per release (low priority).
 3. **AethelGuard** (native ModSeeker-style client verification subsystem) —
    DEFERRED until the user gives go/no-go. Do not start unprompted.
@@ -229,6 +238,9 @@ under `common/src/main/resources/{config,punishments,messages}`.
   edit scripts (assert the forbidden token count is 0 before committing);
   `getIntKey()` doesn't exist on `Map.Entry` (use `getKey().intValue()`);
   README edits must match the actual existing sentence (grep first);
+  `onReload()` runs from the super constructor BEFORE ctor-body field
+  allocations - never dereference instance arrays there, size them with a
+  static constant and clamp config values against it;
   checkstyle imports order used in newer checks: `ac.aethel…`, `ac.grim…`,
   `com.github…`, `org…`, `java…`.
 - CI failures are normal — read `gh run view <id> --log-failed`, fix, push a

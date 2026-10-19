@@ -310,6 +310,11 @@ checks carry proof-like weight"):
   a grid has been demonstrated, sustained synthetic phases stay covered by
   the quantum-memory and horizon tiers. That stream class is also the
   target of the variance and geometric-series family checks.
+- The `TriggerBot` metronome tier deliberately trades away one implausible
+  human profile: firing on roughly 90% of crosshair opportunities with a
+  reaction spread under about 25 ms and no slow tail reaches bot territory.
+  Plausible humans (50-75% fire rates, ex-Gaussian reactions) stay at or
+  below a 0.07 stream flag rate in simulation.
 - Client-side-only cheats (freecam, nametags, sound alerts) are out of scope
   for a server-side anticheat.
 - The offhand and tool-automation checks anchor on damage and dig cycles;
