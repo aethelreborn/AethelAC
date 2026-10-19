@@ -51,7 +51,10 @@ import java.util.Locale;
  * opportunities that lasted at least 300 ms, a bot answers nearly every one
  * (ratio &gt;= 0.85) with a mean reaction inside 100-280 ms and a coefficient
  * of variation of at most 0.10 - a beat no human choosing when to click can
- * hold across a whole fight.</p>
+ * hold across a whole fight. Modules with longer, narrowly jittered sleeps
+ * (up to 450 ms) are covered by a late band requiring a reaction CV of at
+ * most 0.04, because their machine-steady beat survives tick quantization
+ * where a human's reaction spread cannot.</p>
  */
 @CheckData(name = "TriggerBot", stableKey = "aethel.misc.trigger_bot",
         description = "Attacks on the first tick a target enters a static crosshair", experimental = true)
@@ -108,6 +111,8 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
     private double metronomeMinMeanMs;
     private double metronomeMaxMeanMs;
     private double metronomeMaxCv;
+    private double metronomeLateMaxMeanMs;
+    private double metronomeLateMaxCv;
 
     public TriggerBot(AethelPlayer player) {
         super(player);
@@ -134,6 +139,8 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         metronomeMinMeanMs = config.getDoubleElse("attack-patterns.trigger-metronome-min-mean-ms", 100.0D);
         metronomeMaxMeanMs = config.getDoubleElse("attack-patterns.trigger-metronome-max-mean-ms", 280.0D);
         metronomeMaxCv = config.getDoubleElse("attack-patterns.trigger-metronome-max-cv", 0.10D);
+        metronomeLateMaxMeanMs = config.getDoubleElse("attack-patterns.trigger-metronome-late-max-mean-ms", 460.0D);
+        metronomeLateMaxCv = config.getDoubleElse("attack-patterns.trigger-metronome-late-max-cv", 0.04D);
     }
 
     @Override
@@ -416,13 +423,25 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         }
 
         double mean = sum / firedCount;
-        if (mean < metronomeMinMeanMs || mean > metronomeMaxMeanMs) {
+        if (mean < metronomeMinMeanMs) {
             return;
         }
 
         double variance = Math.max(0.0D, sumSq / firedCount - mean * mean);
         double cv = Math.sqrt(variance) / mean;
-        if (cv > metronomeMaxCv) {
+
+        double bandMaxMs;
+        if (mean <= metronomeMaxMeanMs) {
+            bandMaxMs = metronomeMaxMeanMs;
+            if (cv > metronomeMaxCv) {
+                return;
+            }
+        } else if (mean <= metronomeLateMaxMeanMs) {
+            bandMaxMs = metronomeLateMaxMeanMs;
+            if (cv > metronomeLateMaxCv) {
+                return;
+            }
+        } else {
             return;
         }
 
@@ -432,8 +451,8 @@ public class TriggerBot extends Check implements RotationListener, PacketReceive
         }
 
         flag(String.format(Locale.ROOT,
-                "Metronome triggerbot: %d of the last %d crosshair opportunities attacked, mean reaction %.0f ms with cv %.2f",
-                firedCount, metronomeWindow, mean, cv));
+                "Metronome triggerbot: %d of the last %d crosshair opportunities attacked, mean reaction %.0f ms with cv %.2f in the %.0f-%.0f ms band",
+                firedCount, metronomeWindow, mean, cv, metronomeMinMeanMs, bandMaxMs));
         lastFlagNanos = now;
         Arrays.fill(opportunityFired, false);
         Arrays.fill(opportunityRtMs, 0.0D);
