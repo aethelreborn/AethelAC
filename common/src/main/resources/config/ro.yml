@@ -241,6 +241,21 @@ aim-analysis:
     decay-ratio-max: 0.995
     decay-ratio-spread: 0.06
     decay-min-start: 6.0
+    # Rotation grid detection (RotationGrid check): a legitimate mouse stream
+    # consists of whole multiples of one sensitivity quantum. The check fits
+    # the smallest well-populated delta cluster inside this quantum band and
+    # then counts combat rotation deltas that are neither multiples of it nor
+    # explained by any other populated cluster. Tolerance is absolute degrees;
+    # violations are counted over the probe ring; combat window is ms since
+    # the last attack; cooldown is seconds between flags.
+    grid-min-quantum: 0.015
+    grid-max-quantum: 0.72
+    grid-cluster-evidence: 8
+    grid-tolerance-deg: 0.004
+    grid-min-violations: 8
+    grid-window-samples: 30
+    grid-combat-window-ms: 3000
+    grid-flag-cooldown-seconds: 5
 
 idle-automation:
     # Anti-AFK automation detection (IdleAutomation check): a player who only
@@ -547,4 +562,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 53
+config-version: 54

@@ -184,9 +184,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v52 → v53: adds the {@code jump-analysis} knockback reset knobs for
      * the JumpReset check.
+     *
+     * <p>v53 → v54: adds the {@code aim-analysis} rotation grid knobs for the
+     * RotationGrid check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 53, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 54, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
