@@ -336,10 +336,22 @@ inventory-automation:
     click-min-count: 60
     click-mean-interval-ms: 110.0
     # Menu-bot cadence detection (FastClick second tier): click interval CV
-    # ceiling and the mean interval band for GUI navigation bots.
+    # ceiling and the mean interval band for GUI navigation bots. The
+    # variance, not the pace, is the machine criterion - human item selection
+    # injects tens of milliseconds of jitter even at fast loot rates.
     menu-cadence-cv: 0.045
-    menu-min-interval-ms: 250
+    menu-min-interval-ms: 110
     menu-max-interval-ms: 900
+    # Zero-reaction looting detection (FastClick third tier): the first click
+    # on a freshly opened window this many ms or less after the round-trip
+    # floor is a module reacting to the packet instead of the screen; this
+    # many such clicks inside the counter window flag. Windows whose
+    # round-trip floor exceeds the ping ceiling are never judged, and bedrock
+    # (Geyser/Floodgate) players are exempt.
+    click-reaction-min-ms: 70.0
+    click-reaction-min-events: 3
+    click-reaction-counter-seconds: 10
+    click-reaction-max-ping-ms: 300
     # Hotbar tool automation detection (AutoToolChain check): lookback window
     # in seconds, minimum swap cycles and the mean turnaround ceiling in ms.
     tool-swap-window-seconds: 60
@@ -629,4 +641,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 59
+config-version: 60

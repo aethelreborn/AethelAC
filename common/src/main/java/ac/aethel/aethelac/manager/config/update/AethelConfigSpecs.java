@@ -206,9 +206,17 @@ public final class AethelConfigSpecs {
      * <p>v58 → v59: adds the {@code inventory-automation} rotation-tier
      * knobs for the InvWalk check (summed yaw+pitch delta floor, counted
      * updates and the counter window).
+     *
+     * <p>v59 → v60: extends the FastClick menu-cadence band down to 110 ms
+     * (the CV ceiling stays the machine criterion) and adds the
+     * {@code inventory-automation} zero-reaction looting knobs for the
+     * FastClick third tier (apparent-reaction floor, counted clicks, counter
+     * window and the round-trip floor ceiling). Operators who pinned the old
+     * 250 ms {@code menu-min-interval-ms} keep their value; new installs get
+     * the widened band.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 59, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 60, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
