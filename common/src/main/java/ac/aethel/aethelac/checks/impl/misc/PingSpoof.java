@@ -5,6 +5,7 @@ import ac.aethel.aethelac.checks.CheckData;
 import ac.aethel.aethelac.checks.type.PacketReceiveListener;
 import ac.aethel.aethelac.checks.type.PacketSendListener;
 import ac.aethel.aethelac.player.AethelPlayer;
+import ac.aethel.aethelac.utils.anticheat.LogUtil;
 import ac.aethel.aethelac.utils.reflection.GeyserUtil;
 import ac.grim.grimac.api.config.ConfigManager;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
@@ -16,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Detects keepalive latency spoofing: clients that delay only their replies
@@ -59,12 +61,17 @@ import java.util.Locale;
  * and it lowers every paired divergence. Bedrock (Geyser / Floodgate)
  * players are exempt because their stack answers both streams through a
  * proxy with different timing.</p>
+ *
+ * <p>If the optional Bedrock-detection API fails, this check is skipped for
+ * that player and the failure is logged once rather than guessing their
+ * client type.</p>
  */
 @CheckData(name = "PingSpoof", stableKey = "aethel.misc.ping_spoof",
         description = "Keepalive round trips diverge from surrounding transaction round trips",
         experimental = true)
 public class PingSpoof extends Check implements PacketReceiveListener, PacketSendListener {
 
+    private static final AtomicBoolean GEYSER_FAILURE_LOGGED = new AtomicBoolean();
     private static final int KEEPALIVE_RING = 16;
     private static final int TRANSACTION_RING = 64;
     private static final int PENDING_CAPACITY = 4;
@@ -341,13 +348,15 @@ public class PingSpoof extends Check implements PacketReceiveListener, PacketSen
 
     private boolean bedrock() {
         if (bedrock == null) {
-            boolean result = false;
             try {
-                result = GeyserUtil.isBedrockPlayer(player.uuid);
-            } catch (Throwable ignored) {
-                // Geyser/Floodgate API absent or unhappy - treat as a Java player.
+                bedrock = GeyserUtil.isBedrockPlayer(player.uuid);
+            } catch (RuntimeException | LinkageError exception) {
+                bedrock = true;
+                if (GEYSER_FAILURE_LOGGED.compareAndSet(false, true)) {
+                    LogUtil.warn("Could not determine Bedrock status; PingSpoof will skip affected players",
+                            exception);
+                }
             }
-            bedrock = result;
         }
         return bedrock;
     }
