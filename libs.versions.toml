@@ -28,6 +28,9 @@ mongoDriverSync = "5.3.1"
 netty = "4.1.85.Final"
 snakeyaml = "2.2"
 configuralize = "1.4.1" # :slim classifier is applied in build.gradle.kts
+guava = "33.4.8-jre"
+gson = "2.13.2"
+jsr305 = "3.0.2"
 
 # --- Build & Tooling ---
 fabric-loader = "0.16.14"
@@ -75,6 +78,9 @@ jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version
 mongoDriverSync = { group = "org.mongodb", name = "mongodb-driver-sync", version.ref = "mongoDriverSync" }
 netty = { group = "io.netty", name = "netty-all", version.ref = "netty" }
 snakeyaml = { group = "org.yaml", name = "snakeyaml", version.ref = "snakeyaml" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+jsr305 = { group = "com.google.code.findbugs", name = "jsr305", version.ref = "jsr305" }
 
 # --- Build Tooling (Fabric) ---
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabric-loader" }

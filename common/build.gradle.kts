@@ -80,9 +80,11 @@ dependencies {
     }
 
     compileOnly(libs.floodgate.api) {
-        isTransitive = false // Server provides Floodgate; its legacy common snapshot
-        // is unavailable and unused here.
+        isTransitive = false // Server provides Floodgate; its legacy common snapshot is unavailable.
     }
+    compileOnly(libs.guava)
+    compileOnly(libs.gson)
+    compileOnly(libs.jsr305)
     compileOnly(libs.viaversion)
     compileOnly(libs.viabackwards)
     compileOnly(libs.netty)
