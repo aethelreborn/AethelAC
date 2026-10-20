@@ -310,6 +310,17 @@ what a flag is worth:
   gates and are meant to be layered over the invariant set, not to stand
   alone against a cheater who randomizes their signatures.
 
+**Deployment note - `experimental-checks`:** with the switch set to `false`
+every behavioral tier above is completely silent - the flag is dropped before
+the violation counter, so there are no alerts, no punishments and no stored
+evidence at all. The bundled default is `true`, but a config carried over from
+before that default flipped keeps its old `false`, and the config upgrade path
+used to append `false` for missing keys. A server in that state effectively
+runs the invariant set alone, so the state is now reported loudly on the first
+join: `AethelAC: N checks loaded (M experimental tiers enabled)`, or a warning
+naming how many tiers are dormant. If you see the warning, set
+`experimental-checks: true` in `config.yml`.
+
 Active hardening roadmap for the behavioral families ("make the probabilistic
 checks carry proof-like weight"):
 

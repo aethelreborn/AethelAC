@@ -3,6 +3,15 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.3] - 2026-10-20
+
+- Report at startup how many experimental check tiers are enabled, and warn
+  when `experimental-checks: false` leaves them silent. Config upgrades now
+  append the shipped `true` default when the key is missing; bundled configs
+  and the deployment guide explain the consequences. No config-version bump.
+- Make `PingSpoof` skip players when the optional Geyser/Floodgate status
+  lookup fails, and log the first failure instead of assuming a Java client.
+
 ## [v4.26] - 2026-10-19
 
 - Add `PingSpoof` (experimental): flags keepalive latency spoofing, the

@@ -67,11 +67,13 @@ under `common/src/main/resources/{config,punishments,messages}`.
   1260000).
 - **Every push to main creates a release.** Keep CHANGELOG matching what ships.
 - Release tags: vX → vX.1; vX.n (n<24) → vX.(n+1); vX.24 → v(X+1).
-  Released through **v4.24** as of this handoff (config version **61**).
+  Latest GitHub release tag is **v5.2**; next main push is expected to
+  release **v5.3** (config version **62**).
 
 ### Config versioning (per stage that adds config)
 1. Add keys to all **13** files in `common/src/main/resources/config/*.yml`.
-2. Bump `config-version:` in all 13 (currently **61** → next 62...).
+2. Bump `config-version:` in all 13 (currently **62** → next 63 when a stage
+   adds keys; comment-only edits do not need a bump).
 3. Add AethelConfigSpecs docstring line `vN → vN+1: ...` and bump
    `ConfigUpdater.Spec.builder("/config/", N+1, ConfigFlavor.V2)`.
 4. Do it with a python script following `scripts/stage_script_template.py`
@@ -257,17 +259,37 @@ under `common/src/main/resources/{config,punishments,messages}`.
 - Behavioral C-tier criticism from user's reviewer: aim/triggerbot/autoclicker/
   fingerprint were "threshold guesses" — this session answered it with the
   invariant-hardening stages v4.1–v4.5.
+- **Experimental tier gate (v4.28 audit)**: `Check.recordFlag` returns before
+  the violation counter, the alert and the punishment manager when
+  `experimental && !player.isExperimentalChecks()` — so with
+  `experimental-checks: false` every experimental tier is *fully* silent (no
+  alerts, no punishments, no data-store evidence). 90 of the 167 check
+  classes carry `experimental = true`. The bundled default flipped false →
+  true in `20ff976` ("Harden default configuration", Oct 16) with no
+  migration for existing files, and `ConfigManagerFileImpl.addSuperDebug`
+  appended `false` for configs missing the key, so any config carried over
+  from before that date keeps false and silently runs the invariant set
+  alone. Leading suspect for third-party evaluations that reuse an old
+  config and look weak on aim/automation categories — the very families
+  marked experimental. v4.28 reports the state at first init (INFO when
+  enabled, WARN naming the dormant count when not) and appends the shipped
+  `true` on upgrade.
 
 ## 6. Current state (as of this handoff)
 
-- **Latest release: v4.26** (PingSpoof keepalive-vs-transaction divergence
-  tier, CI 39245309082; v4.25 = handoff refresh; v4.24 = NoBreakDelay
-  post-break cooldown tier). **NEXT RELEASE NUMBER: v4.27 -
+- **Latest release: v5.2** (GitHub release tag on `22a0017`; the local
+  experimental-tier audit and PingSpoof fail-closed fix are queued for the
+  next push). **NEXT RELEASE NUMBER: v5.3 -
   increment this on EVERY push to main, including docs-only pushes (each
   push creates a release!).** Config version **62**, messages version 6,
-  13 config locales / 11 punishment locales / 11 message locales. All CI
-  green.
-- **This session shipped 35 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
+  13 config locales / 11 punishment locales / 11 message locales. Latest
+  observed CI run **39246005571** succeeded.
+- Historical stage numbering: v4.28 was the experimental tier activation
+  audit (startup report + upgrade default + bundled-config notes); v4.27 =
+  handoff refresh `22a0017` CI 39246005571; v4.26 = PingSpoof
+  keepalive-vs-transaction divergence tier, CI 39245309082; v4.25 = handoff
+  refresh; v4.24 = NoBreakDelay post-break cooldown tier.
+- **This session shipped 37 releases**: v3.16 AnchorCadence, v3.17 AirPlace,
   v3.18 CrystalCadence tick tier, v3.19 Accuracy, v3.20 CloseSpoof,
   v3.21 JumpCadence, v3.22 PearlSwap, v3.23 UniformClick, v3.24 InvWalk,
   v4.0 stability audit, v4.1 HiddenAim, v4.2 TriggerBot precision tier,
@@ -280,10 +302,24 @@ under `common/src/main/resources/{config,punishments,messages}`.
   v4.20 InvWalk rotation tier, v4.21 handoff refresh, v4.22 FastClick
   zero-reaction looting tier + fast menu-cadence band, v4.23 handoff
   refresh, v4.24 NoBreakDelay post-break cooldown tier, v4.25 handoff
-  refresh, v4.26 PingSpoof keepalive-vs-transaction divergence tier.
+  refresh, v4.26 PingSpoof keepalive-vs-transaction divergence tier,
+  v4.27 handoff refresh, v4.28 experimental tier activation audit.
   (Full details per stage in `SESSION_LOG.md`.)
-- Repo tip at handoff: `5a13737` plus the handoff refresh commit that
-  carries this file.
+- Repo tip at handoff: `22a0017`; pending local stage commits include
+  `8549105` (activation report), `6b73ab9` (bundled-config notes), and the
+  docs commit that carries this file.
+- **v4.28 experimental activation audit shipped** (no new check): the first
+  CheckManager init now reports `AethelAC: N checks loaded (M experimental
+  tiers enabled)` or a WARN naming how many of N checks are dormant when
+  `experimental-checks: false`; `ConfigManagerFileImpl.addSuperDebug`
+  appends the shipped `true` instead of `false`; all 13 bundled configs
+  carry a comment explaining what false silences; README gets the deployment
+  note in the reliability-tier section. No config-version bump (comment-only
+  resource change) — config stays **62**.
+- **Pending for v5.3**: PingSpoof skips a player if the optional
+  Geyser/Floodgate status lookup fails, and logs the first such failure.
+  This avoids judging proxy timing with Java-client assumptions. No config
+  or punishment changes.
 - **v4.11 RotationGrid shipped** (per-axis 256-sample delta window + histogram
   cluster fit + armed combat probes + 30-probe burst ring), extended in
   **v4.13** with quantum memory (120 s) and a 300-probe horizon tier (5%
@@ -407,7 +443,14 @@ under `common/src/main/resources/{config,punishments,messages}`.
    "KeepAlive delays" module shape);
    (d) FailSwing-style pre-swing bands stay research-blocked: a human
    holding attack produces the same packets without a machine-cadence
-   filter.
+   filter;
+   (e) policy, not a tier: the `experimental-checks` switch is all-or-nothing
+   and 90 of 167 checks sit behind it (see v4.28 in section 5). An operator
+   who deliberately runs `experimental-checks: false` also loses the
+   invariant-hardened tiers from v4.1-v4.5 that were built to carry
+   proof-like weight. Revisit which of them are battle-tested enough to ship
+   non-experimental (per-tier graduation), so the switch only drops the
+   genuinely FP-risky tail.
 2. Closed by simulation - do NOT re-open without new evidence (details in
    SESSION_LOG v4.22/v4.24 entries + section 5): straight-line TickLock
    precision tier (sim8/sim9: flags perfect-prediction humans at 1.00),
