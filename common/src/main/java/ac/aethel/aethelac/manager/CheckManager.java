@@ -143,6 +143,7 @@ public class CheckManager implements BasicReloadable {
         // TODO: migrate the rest of these to pre-via
                 .put(PacketOrderProcessor.class, player.packetOrderProcessor)
                 .put(Reach.class, new Reach(player))
+                .put(ThroughWalls.class, new ThroughWalls(player))
                 .put(Autoclicker.class, new Autoclicker(player))
                 .put(SlowCadence.class, new SlowCadence(player))
                 .put(UniformClick.class, new UniformClick(player))

@@ -52,6 +52,7 @@ import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPl
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientUseItem;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.longs.Long2LongOpenHashMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
@@ -68,6 +69,17 @@ import java.util.Set;
 public class CompensatedWorld implements PacketWorld {
     public static final ClientVersion blockVersion = PacketEvents.getAPI().getServerManager().getVersion().toClientVersion();
     private static final WrappedBlockState airData = WrappedBlockState.getByGlobalId(blockVersion, 0);
+
+    // When the server last told this client about a block change, keyed by serialized position.
+    // A through-wall verdict needs to distinguish a wall that has stood for seconds (the client
+    // must have received it) from a block placed less than one round trip ago (the client may
+    // still be looking at the old world). Only recent history is kept; anything older is
+    // reported as Long.MAX_VALUE, which callers treat as "old enough".
+    private static final long BLOCK_CHANGE_HISTORY_MS = 5_000L;
+    private static final int BLOCK_CHANGE_HISTORY_LIMIT = 4_096;
+    private final Long2LongOpenHashMap blockChangedAt = new Long2LongOpenHashMap();
+    private long lastBlockChangePrune;
+
     public final AethelPlayer player;
     public final Long2ObjectMap<Column> chunks;
     // Packet locations for blocks
@@ -320,12 +332,41 @@ public class CompensatedWorld implements PacketWorld {
                 player.pointThreeEstimator.handleChangeBlock(x, y, z, previousState);
 
                 chunk.set(x & 0xF, offsetY & 0xF, z & 0xF, combinedID);
+                rememberBlockChange(asVector, System.currentTimeMillis());
                 player.compensatedGeysers.updateBlock(x, y, z, previousState, newState, minHeight);
 
                 // Handle stupidity such as fluids changing in idle ticks.
                 player.pointThreeEstimator.handleChangeBlock(x, y, z, newState);
             }
         }
+    }
+
+    private void rememberBlockChange(Vector3i pos, long now) {
+        blockChangedAt.put(pos.getSerializedPosition(), now);
+
+        if (blockChangedAt.size() > BLOCK_CHANGE_HISTORY_LIMIT && now - lastBlockChangePrune > BLOCK_CHANGE_HISTORY_MS) {
+            lastBlockChangePrune = now;
+            long cutoff = now - BLOCK_CHANGE_HISTORY_MS;
+            Long2LongOpenHashMap kept = new Long2LongOpenHashMap();
+            for (Map.Entry<Long, Long> entry : blockChangedAt.entrySet()) {
+                if (entry.getValue() >= cutoff) {
+                    kept.put(entry.getKey(), entry.getValue());
+                }
+            }
+            blockChangedAt.clear();
+            blockChangedAt.putAll(kept);
+        }
+    }
+
+    /**
+     * How long ago the server last told this client about a change at this position.
+     * {@link Long#MAX_VALUE} means the position has not changed within the retained
+     * history (or arrived with a chunk), so it is safe to treat it as long-standing.
+     */
+    public long getBlockAgeMillis(int x, int y, int z) {
+        long changedAt = blockChangedAt.get(new Vector3i(x, y, z).getSerializedPosition());
+        if (changedAt == 0L) return Long.MAX_VALUE;
+        return Math.max(0L, System.currentTimeMillis() - changedAt);
     }
 
     public void tickOpenable(int blockX, int blockY, int blockZ) {
