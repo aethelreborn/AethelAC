@@ -224,9 +224,15 @@ public final class AethelConfigSpecs {
      * (median paired keepalive-vs-transaction divergence floor, the
      * keepalive-stream spread gates, the pairing window and the sample/event
      * counts).
+     *
+     * <p>v62 → v63: adds the {@code cheat-client} section for the CheatClient
+     * check (cheat client brands, registered channel names/namespaces and
+     * Forge handshake mod ids). Same drift-free default rewrite as v61 → v62:
+     * the section is added with the bundled lists and an operator's own lists
+     * are preserved.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 62, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 63, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

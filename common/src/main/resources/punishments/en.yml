@@ -109,6 +109,17 @@ Punishments:
       - "5:5 [proxy]"
       - "15:0 kick %player% AethelAC: Known cheat client fingerprint"
       - "30:0 ban %player% 30d AethelAC: Known cheat client (%vl% fingerprint violations)"
+  CheatClient:
+    remove-violations-after: 600
+    checks:
+      - "CheatClient"
+    commands:
+      - "1:1 [alert]"
+      - "1:1 [log]"
+      - "2:2 [webhook]"
+      - "2:2 [proxy]"
+      - "1:0 kick %player% AethelAC: Known cheat client detected"
+      - "4:0 ban %player% 30d AethelAC: Cheat client (%vl% violations)"
   Misc:
     remove-violations-after: 600
     checks:

@@ -67,6 +67,126 @@ client-fingerprint:
         - "salhack"
         - "lambda"
 
+cheat-client:
+    # Cheat client brands (the minecraft:brand payload) - substring match,
+    # case-insensitive. A match flags the CheatClient check, which kicks on
+    # the first hit. The brand is spoofable, so this mainly catches clients
+    # that do not bother to hide.
+    brands:
+        - "vape"
+        - "prestige"
+        - "krypton"
+        - "myau"
+        - "liquidbounce"
+        - "meteor"
+        - "wurst"
+        - "aristois"
+        - "salhack"
+        - "konas"
+        - "novoline"
+        - "astolfo"
+        - "bleachhack"
+        - "inertia"
+        - "rusherhack"
+        - "phobos"
+        - "fdp"
+        - "nucleus"
+        - "koks"
+        - "ghostly"
+        - "exhibiton"
+        - "blexware"
+        - "rageware"
+        - "pandaware"
+        - "asteria"
+        - "aethelclient"
+        - "tru3club"
+    # Channels the client registers (minecraft:register payload) and the
+    # namespace in front of the colon - substring match, case-insensitive.
+    # Modded cheat clients register their channels under their own name.
+    channels:
+        - "vape"
+        - "vapeclient"
+        - "prestige"
+        - "krypton"
+        - "myau"
+        - "liquidbounce"
+        - "meteorclient"
+        - "meteor-client"
+        - "meteor:"
+        - "wurst:"
+        - "wurstclient"
+        - "impact:"
+        - "impactclient"
+        - "aristois"
+        - "sigma:"
+        - "konas:"
+        - "konasclient"
+        - "inertia:"
+        - "rusherhack"
+        - "future:"
+        - "rageware"
+        - "blc:cheat"
+        - "nucleus"
+        - "phobos"
+        - "fdp"
+        - "koks"
+        - "ghostly"
+        - "exhibiton"
+        - "blexware"
+        - "xplus"
+        - "tenacity"
+        - "nextgen"
+        - "crescent"
+        - "pyro"
+        - "xenon"
+        - "hellion"
+        - "salhack"
+        - "novoline"
+        - "bleachhack"
+        - "aethelclient"
+        - "tru3club"
+    # Mod ids from a Forge/FML handshake the client volunteers - exact
+    # match. The server never asks for a handshake, so this only fires for
+    # clients that send one unprompted.
+    mod-ids:
+        - "meteor-client"
+        - "meteorclient"
+        - "liquidbounce"
+        - "wurst"
+        - "impact"
+        - "aristois"
+        - "sigma"
+        - "salhack"
+        - "konas"
+        - "fdp"
+        - "nucleus"
+        - "inertia"
+        - "rusherhack"
+        - "phobos"
+        - "blexware"
+        - "rise"
+        - "koks"
+        - "prestige"
+        - "vape"
+        - "vapeclient"
+        - "rageware"
+        - "pyro"
+        - "crescent"
+        - "tenacity"
+        - "xplus"
+        - "nextgen"
+        - "xenon"
+        - "argon"
+        - "hellion"
+        - "asteria"
+        - "pandaware"
+        - "myau"
+        - "krypton"
+        - "bleachhack"
+        - "novoline"
+        - "aethelclient"
+        - "tru3club"
+
 attack-patterns:
     # Autoclicker detection (sustained attacks per second within the window).
     # 18 CPS across a full minute or 20 CPS across 20 seconds is beyond
@@ -661,4 +781,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 62
+config-version: 63
