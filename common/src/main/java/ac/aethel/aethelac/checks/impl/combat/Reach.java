@@ -280,14 +280,20 @@ public class Reach extends Check implements PacketReceiveListener {
         }
 
         // +3 would be 3 + 3 = 6, which is the pre-1.20.5 behaviour, preventing "Missed Hitbox"
-        final double distance = maxReach + 3;
+        // The attack packet arrives before the movement packet of the same
+        // tick, so the eye we reconstruct is one tick old - while falling,
+        // that tick is worth real eye height and stretches the measured
+        // distance, so the fall is corrected and its residual uncertainty is
+        // added to the budget.
+        final double fallOffset = player.getEyeFallOffset();
+        final double distance = maxReach + 3 + player.getEyeFallUncertainty();
 
         final double[] possibleEyeHeights = player.getPossibleEyeHeights();
         for (Vector3dm lookVec : possibleLookDirs) {
             lookVec.multiply(distance);
 
             for (double eye : possibleEyeHeights) {
-                final Vector3d eyePos = new Vector3d(x, y + eye, z);
+                final Vector3d eyePos = new Vector3d(x, y + eye - fallOffset, z);
                 Vector3d endReachPos = eyePos.add(lookVec.getX(), lookVec.getY(), lookVec.getZ());
 
                 Vector3d intercept = ReachUtils.calculateIntercept(targetBox, eyePos, endReachPos).first();

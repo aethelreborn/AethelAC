@@ -87,8 +87,13 @@ public class RotationBreak extends Check implements BlockBreakListener, PostFlyi
             maxEyeHeight = Math.max(maxEyeHeight, height);
         }
 
-        SimpleCollisionBox eyePositions = new SimpleCollisionBox(player.x, player.y + minEyeHeight, player.z, player.x, player.y + maxEyeHeight, player.z);
-        eyePositions.expand(player.getMovementThreshold());
+        // The dig packet arrives before the movement packet of the same tick,
+        // so the eye we reconstruct is one tick old. While the player falls,
+        // that tick is worth real eye height and can miss the block.
+        double fallOffset = player.getEyeFallOffset();
+        SimpleCollisionBox eyePositions = new SimpleCollisionBox(player.x, player.y + minEyeHeight - fallOffset, player.z,
+                player.x, player.y + maxEyeHeight - fallOffset, player.z);
+        eyePositions.expand(player.getMovementThreshold() + player.getEyeFallUncertainty());
 
         // If the player is inside a block, then they can ray trace through the block and hit the other side of the block
         if (eyePositions.isIntersected(box)) {

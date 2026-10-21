@@ -37,8 +37,14 @@ public class PositionPlace extends BlockPlaceCheck implements BlockPlaceListener
         // Don't give 0.03 lenience if the player is a 1.8 player and we know they couldn't have 0.03'd because idle packet
         double movementThreshold = !player.packetStateData.didLastMovementIncludePosition || player.canSkipTicks() ? player.getMovementThreshold() : 0;
 
-        SimpleCollisionBox eyePositions = new SimpleCollisionBox(player.x, player.y + minEyeHeight, player.z, player.x, player.y + maxEyeHeight, player.z);
-        eyePositions.expand(movementThreshold);
+        // The placement packet arrives before the movement packet of the same
+        // tick, so the eye we reconstruct is one tick old. While the player
+        // falls, that tick is worth real eye height and would flip this
+        // face-side test on its own.
+        double fallOffset = player.getEyeFallOffset();
+        SimpleCollisionBox eyePositions = new SimpleCollisionBox(player.x, player.y + minEyeHeight - fallOffset, player.z,
+                player.x, player.y + maxEyeHeight - fallOffset, player.z);
+        eyePositions.expand(movementThreshold + player.getEyeFallUncertainty());
 
         // If the player is inside a block, then they can ray trace through the block and hit the other side of the block
         if (eyePositions.isIntersected(combined)) {
