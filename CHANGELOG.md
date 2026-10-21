@@ -3,6 +3,20 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.14] - 2026-10-21
+
+- Extend `ThroughWalls` from attacks to entity interactions. The client's
+  crosshair pick is the same for `ATTACK`, `INTERACT` and `INTERACT_AT`: the
+  entity is only selected when it is nearer than the first solid block on the
+  eye ray, so a right-click on a player through a wall is equally impossible
+  for a vanilla client. The cursor vector is not needed - the client's
+  selection is the yaw/pitch ray - so the same deferred-rotation and
+  block-age gates apply unchanged, with no new geometry and no new false
+  positive surface.
+- The violation description is now "Attacked or interacted with a player
+  through a solid block". The check name, stable key and punishment group are
+  unchanged, so existing locales and operator overrides keep working.
+
 ## [v5.13] - 2026-10-21
 
 - Bound the per-viewer block-change history used by `ThroughWalls`. A lag
