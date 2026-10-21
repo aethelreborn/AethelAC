@@ -10,9 +10,18 @@ All notable changes to AethelAC. Releases are cut automatically by CI from
   entity is only selected when it is nearer than the first solid block on the
   eye ray, so a right-click on a player through a wall is equally impossible
   for a vanilla client. The cursor vector is not needed - the client's
-  selection is the yaw/pitch ray - so the same deferred-rotation and
-  block-age gates apply unchanged, with no new geometry and no new false
-  positive surface.
+  selection is the yaw/pitch ray - so the same held-rotation and block-age
+  gates apply unchanged, with no new geometry and no new false positive
+  surface.
+- Correct the rotation reconstruction used by the check. The earlier builds
+  waited for the movement packet that follows the interaction, but the click
+  does not use that tick's rotation: it uses the previous render frame's pick,
+  which was rendered with the rotation the server already holds. Judging with
+  the next tick's rotation could charge a player whose aim was clear before the
+  turn. The check now evaluates immediately against the held rotation and
+  requires the last two rotations to be within six degrees, which bounds the
+  modern client's render interpolation. This is the same rule the v5.9
+  interaction-ray study established for position, applied to rotation.
 - The violation description is now "Attacked or interacted with a player
   through a solid block". The check name, stable key and punishment group are
   unchanged, so existing locales and operator overrides keep working.

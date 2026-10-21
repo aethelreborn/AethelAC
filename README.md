@@ -85,19 +85,21 @@ and can be tuned per server.
 - `ThroughWalls` rejects attacks and entity interactions whose aim ray crosses
   a solid block before it reaches the target. The client's entity pick only
   returns a target that is nearer than the first block hit, so this geometry is
-  impossible for an unmodified client. The verdict is deferred to the movement
-  packet that follows the action - both 1.8 and modern clients queue the
-  interaction before that packet - so the rotation used is exactly the one the
-  client aimed with, not the previous tick's. Blocks changed within the last
-  round trip are ignored, as are actions within a second of the player's own
-  block break (a rejected client-side break can leave the client seeing air
-  where the server still has the block). Placements are deliberately not
-  exempt: a predicted placement makes the client see more than the server,
-  which can only hide an action. The target's lag-compensated hitbox is
-  measured from the highest possible eye height, so every gate can only hide an
-  action, never invent one. If a block-change burst ever exceeds the tracked
-  history, the check stays silent for that five-second window instead of
-  guessing which walls are fresh.
+  impossible for an unmodified client. The click uses the previous render
+  frame's pick, and the server already holds the rotation that frame was
+  rendered with - both 1.8 and modern clients queue the interaction before the
+  tick that reports the new rotation - so the verdict is taken immediately
+  against that held rotation. It only runs when the last two rotations differ
+  by at most six degrees, which bounds the render interpolation between them.
+  Blocks changed within the last round trip are ignored, as are actions within
+  a second of the player's own block break (a rejected client-side break can
+  leave the client seeing air where the server still has the block).
+  Placements are deliberately not exempt: a predicted placement makes the
+  client see more than the server, which can only hide an action. The target's
+  lag-compensated hitbox is measured from the highest possible eye height, so
+  every gate can only hide an action, never invent one. If a block-change burst
+  ever exceeds the tracked history, the check stays silent for that five-second
+  window instead of guessing which walls are fresh.
 - Punishments ship tiered ladders per check group: alerts from the first flag,
   console kick at 30-80 violations, and a 30-day ban at 40-140 violations
   depending on the group. Violation memory spans ten minutes.
