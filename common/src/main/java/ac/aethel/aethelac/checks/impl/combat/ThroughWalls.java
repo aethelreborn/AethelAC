@@ -111,7 +111,7 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
         }
 
         final PacketEntity entity = player.compensatedEntities.getEntity(packet.getEntityId());
-        if (entity == null || entity.entityID == player.entityID || !EntityTypes.PLAYER.equals(entity.getType())) return;
+        if (entity == null || packet.getEntityId() == player.entityID || !EntityTypes.PLAYER.equals(entity.getType())) return;
 
         // The client's eye is whichever pose it was in. Standing is the highest height,
         // so using it can only make the ray see more, never less: false negatives only.
