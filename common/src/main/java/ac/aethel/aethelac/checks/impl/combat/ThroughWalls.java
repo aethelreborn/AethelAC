@@ -141,6 +141,12 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
     }
 
     private void evaluate(PendingAttack attack, long now) {
+        // While the world's recent-change history has overflowed we cannot tell a
+        // fresh wall from an old one; stay silent for that window.
+        if (player.compensatedWorld.isBlockHistoryUncertain()) {
+            return;
+        }
+
         // A break sent between the attack and this movement packet can also
         // leave the two world copies disagreeing.
         if (now - player.lastBlockBreak < QUIET_BLOCK_BREAK_MS) {

@@ -79,6 +79,7 @@ public class CompensatedWorld implements PacketWorld {
     private static final int BLOCK_CHANGE_HISTORY_LIMIT = 4_096;
     private final Long2LongOpenHashMap blockChangedAt = new Long2LongOpenHashMap();
     private long lastBlockChangePrune;
+    private long blockHistoryUncertainUntil;
 
     public final AethelPlayer player;
     public final Long2ObjectMap<Column> chunks;
@@ -344,18 +345,37 @@ public class CompensatedWorld implements PacketWorld {
     private void rememberBlockChange(Vector3i pos, long now) {
         blockChangedAt.put(pos.getSerializedPosition(), now);
 
-        if (blockChangedAt.size() > BLOCK_CHANGE_HISTORY_LIMIT && now - lastBlockChangePrune > BLOCK_CHANGE_HISTORY_MS) {
-            lastBlockChangePrune = now;
-            long cutoff = now - BLOCK_CHANGE_HISTORY_MS;
-            Long2LongOpenHashMap kept = new Long2LongOpenHashMap();
-            for (Map.Entry<Long, Long> entry : blockChangedAt.entrySet()) {
-                if (entry.getValue() >= cutoff) {
-                    kept.put(entry.getKey(), entry.getValue());
+        if (blockChangedAt.size() > BLOCK_CHANGE_HISTORY_LIMIT) {
+            if (now - lastBlockChangePrune > BLOCK_CHANGE_HISTORY_MS) {
+                lastBlockChangePrune = now;
+                long cutoff = now - BLOCK_CHANGE_HISTORY_MS;
+                Long2LongOpenHashMap kept = new Long2LongOpenHashMap();
+                for (Map.Entry<Long, Long> entry : blockChangedAt.entrySet()) {
+                    if (entry.getValue() >= cutoff) {
+                        kept.put(entry.getKey(), entry.getValue());
+                    }
                 }
+                blockChangedAt.clear();
+                blockChangedAt.putAll(kept);
             }
-            blockChangedAt.clear();
-            blockChangedAt.putAll(kept);
+
+            // A lag machine or a dense explosion can outpace the aging prune. Drop the
+            // history rather than grow without bound, and suppress occlusion verdicts
+            // until everything that was in the window has aged out; forgetting recent
+            // changes would otherwise make a fresh wall look long-standing.
+            if (blockChangedAt.size() > BLOCK_CHANGE_HISTORY_LIMIT) {
+                blockChangedAt.clear();
+                blockHistoryUncertainUntil = now + BLOCK_CHANGE_HISTORY_MS;
+            }
         }
+    }
+
+    /**
+     * True while the recent block-change history overflowed and has not aged out.
+     * Callers that depend on distinguishing fresh from old blocks must stay silent.
+     */
+    public boolean isBlockHistoryUncertain() {
+        return System.currentTimeMillis() < blockHistoryUncertainUntil;
     }
 
     /**
