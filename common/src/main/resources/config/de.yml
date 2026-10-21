@@ -519,6 +519,14 @@ reaction-analysis:
     damage-reaction-mean-ms: 120.0
     damage-reaction-min-pairs: 6
     damage-reaction-window-seconds: 300
+    # Subtract the measured transaction ping from the reaction delta so
+    # the ceiling above judges the client-side reaction instead of the
+    # round trip. Without it the tier is blind on servers whose ping is
+    # at or above the ceiling.
+    damage-reaction-ping-compensation: true
+    # Count clicks on the armor slots of the personal inventory as damage
+    # reactions (AutoArmor).
+    damage-reaction-armor-slots: true
 
 fishing-analysis:
     # Auto-fish detection (AutoFish check): the reel must land inside this
@@ -780,4 +788,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 63
+config-version: 64

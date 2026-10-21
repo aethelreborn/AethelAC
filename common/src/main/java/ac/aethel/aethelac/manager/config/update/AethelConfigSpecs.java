@@ -230,9 +230,13 @@ public final class AethelConfigSpecs {
      * Forge handshake mod ids). Same drift-free default rewrite as v61 → v62:
      * the section is added with the bundled lists and an operator's own lists
      * are preserved.
+     *
+     * <p>v63 → v64: adds the {@code reaction-analysis} knobs for the
+     * DamageReaction check (ping compensation for the reaction delta and the
+     * armor-slot dimension).
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 63, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 64, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);
