@@ -711,33 +711,6 @@ public class AethelPlayer implements GrimUser {
         }
     }
 
-    /**
-     * How far the client's eye has dropped since the position the server
-     * last received.
-     *
-     * <p>A placement, dig or attack packet is sent before the movement packet
-     * of the same tick, so the eye every interaction check reconstructs is one
-     * tick old. While the player is falling that single tick is worth a
-     * block of eye height at terminal speed - enough to flip a face-side
-     * test, push a distance past the reach limit or miss the block with the
-     * placement ray. The distance comes from the server's own velocity for
-     * the last tick, so a client cannot buy itself a larger uncertainty by
-     * claiming a bigger drop.</p>
-     */
-    public double getEyeFallOffset() {
-        double fall = -clientVelocity.getY();
-        return fall > 0.0D ? fall : 0.0D;
-    }
-
-    /**
-     * How much eye height may still be wrong after {@link
-     * #getEyeFallOffset()} has been applied: the velocity is one tick old,
-     * so the acceleration of that tick is still unaccounted for.
-     */
-    public double getEyeFallUncertainty() {
-        return getEyeFallOffset() * 0.15 + 0.05;
-    }
-
     @Override
     public PacketWorld getPacketWorld() {
         return compensatedWorld;

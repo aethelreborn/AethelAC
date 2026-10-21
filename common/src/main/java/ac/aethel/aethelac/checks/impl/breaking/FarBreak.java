@@ -25,16 +25,11 @@ public class FarBreak extends Check implements BlockBreakListener {
         if (!player.cameraEntity.isSelf() || player.inVehicle() || blockBreak.action == DiggingAction.CANCELLED_DIGGING)
             return; // falses
 
-        // The dig packet arrives before the movement packet of the same tick,
-        // so the eye we reconstruct is one tick old - while falling, that
-        // tick is worth real eye height and inflates the measured distance.
-        double fallOffset = player.getEyeFallOffset();
         double min = Double.MAX_VALUE;
         for (double d : player.getPossibleEyeHeights()) {
-            double eyeY = player.y + d - fallOffset;
             SimpleCollisionBox box = new SimpleCollisionBox(blockBreak.position);
-            Vector3dm best = VectorUtils.cutBoxToVector(player.x, eyeY, player.z, box);
-            min = Math.min(min, best.distanceSquared(player.x, eyeY, player.z));
+            Vector3dm best = VectorUtils.cutBoxToVector(player.x, player.y + d, player.z, box);
+            min = Math.min(min, best.distanceSquared(player.x, player.y + d, player.z));
         }
 
         // getPickRange() determines this?

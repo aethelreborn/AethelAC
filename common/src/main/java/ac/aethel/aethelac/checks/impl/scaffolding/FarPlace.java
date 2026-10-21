@@ -26,18 +26,12 @@ public class FarPlace extends BlockPlaceCheck implements BlockPlaceListener {
 
         if (place.material == StateTypes.SCAFFOLDING) return;
 
-        // The placement packet arrives before the movement packet of the same
-        // tick, so the eye we reconstruct is one tick old - while falling,
-        // that tick is worth real eye height and inflates the measured
-        // distance.
-        double fallOffset = player.getEyeFallOffset();
         double min = Double.MAX_VALUE;
         final double[] possibleEyeHeights = player.getPossibleEyeHeights();
         for (double d : possibleEyeHeights) {
-            double eyeY = player.y + d - fallOffset;
             SimpleCollisionBox box = new SimpleCollisionBox(blockPos);
-            Vector3dm best = VectorUtils.cutBoxToVector(player.x, eyeY, player.z, box);
-            min = Math.min(min, best.distanceSquared(player.x, eyeY, player.z));
+            Vector3dm best = VectorUtils.cutBoxToVector(player.x, player.y + d, player.z, box);
+            min = Math.min(min, best.distanceSquared(player.x, player.y + d, player.z));
         }
 
         // getPickRange() determines this?
