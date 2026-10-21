@@ -95,7 +95,9 @@ and can be tuned per server.
   placement makes the client see more than the server, which can only hide an
   attack. The target's lag-compensated hitbox is measured from the highest
   possible eye height, so every gate can only hide an attack, never invent
-  one.
+  one. If a block-change burst ever exceeds the tracked history, the check
+  stays silent for that five-second window instead of guessing which walls are
+  fresh.
 - Punishments ship tiered ladders per check group: alerts from the first flag,
   console kick at 30-80 violations, and a 30-day ban at 40-140 violations
   depending on the group. Violation memory spans ten minutes.

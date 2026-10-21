@@ -3,6 +3,27 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.13] - 2026-10-21
+
+- Bound the per-viewer block-change history used by `ThroughWalls`. A lag
+  machine or dense explosion could push more than the 4096-entry budget inside
+  the five-second prune interval. The map now prunes on overflow and, if the
+  window is still over budget, drops the history and suppresses occlusion
+  verdicts for five seconds. Forgetting recent changes without that pause
+  would make a freshly placed wall look long-standing - the exact false
+  positive the age gate exists to prevent. Normal building and mining stay far
+  below the budget, so the pause is never reached in ordinary play.
+
+## [v5.12] - 2026-10-21
+
+- Narrow `ThroughWalls`' block-action exemption to breaks only. The first cut
+  skipped attacks for a second after any block placement or item use, but 1.8
+  sword blocking emits a block-placement/use packet every four ticks, so
+  `lastBlockPlaceUseItem` stayed permanently fresh and the check would never
+  have run for most 1.8 PvP. Placements are not a false-positive source: a
+  predicted placement makes the client see more than the server, which can
+  only hide an attack. The failed-prediction break window remains exempt.
+
 ## [v5.11] - 2026-10-21
 
 - Add `ThroughWalls`, the occlusion invariant from the guide's entity
@@ -15,13 +36,11 @@ All notable changes to AethelAC. Releases are cut automatically by CI from
 - The check is built so every uncertain input can only excuse an attack, never
   create one: the verdict is deferred to the movement packet that follows the
   attack (both 1.8 and modern clients queue the attack first, so this supplies
-  the exact attack-tick rotation), ignores blocks whose state changed within
-  the last second plus the player's transaction ping, and skips attacks within
-  a second of the player's own block break (the rejected-prediction window).
-  It deliberately does not skip on item use: 1.8 sword blocking emits a
-  block-placement packet every four ticks, which would otherwise disable the
-  check for most 1.8 PvP. A pending attack older than 250 ms is dropped rather
-  than judged with a stale rotation.
+  the exact attack-tick rotation), it skips attacks within one second of the
+  player's own dig or place, uses the highest possible eye height, and ignores
+  blocks whose state changed within the last second plus the player's
+  transaction ping. A pending attack older than 250 ms is dropped rather than
+  judged with a stale rotation.
 - `CompensatedWorld` now retains the last five seconds of block-change times
   per viewer (bounded to 4096 positions and pruned on insertion), exposed as
   `getBlockAgeMillis`. Identical-state resyncs are still not recorded; only
