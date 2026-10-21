@@ -82,6 +82,16 @@ and can be tuned per server.
   that has not happened yet. The only interaction component that runs a tick
   behind is the client's yaw and pitch, which the ray checks already try as
   candidates.
+- `ThroughWalls` rejects attacks whose aim ray crosses a solid block before it
+  reaches the target. The client's entity pick only returns a target that is
+  nearer than the first block hit, so this geometry is impossible for an
+  unmodified client. The verdict is deferred to the movement packet that
+  follows the attack - both 1.8 and modern clients queue the attack before
+  that packet - so the rotation used is exactly the one the client aimed
+  with, not the previous tick's. Blocks changed within the last round trip or
+  within a second of the player's own dig/place are ignored, and the target's
+  lag-compensated hitbox is measured from the highest possible eye height, so
+  every gate can only hide an attack, never invent one.
 - Punishments ship tiered ladders per check group: alerts from the first flag,
   console kick at 30-80 violations, and a 30-day ban at 40-140 violations
   depending on the group. Violation memory spans ten minutes.

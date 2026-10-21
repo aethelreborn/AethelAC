@@ -3,6 +3,32 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.11] - 2026-10-21
+
+- Add `ThroughWalls`, the occlusion invariant from the guide's entity
+  interaction chapter. A vanilla client raycasts blocks first and only
+  considers an entity that is nearer than the first block hit, so an attack
+  whose aimed ray crosses a solid block before the target cannot be produced
+  by an unmodified client. The check reconstructs the same ray with the
+  engine's own `HitboxData`/`WorldRayTrace` block shapes and flags when the
+  block is strictly in front of the lag-compensated target box.
+- The check is built so every uncertain input can only excuse an attack, never
+  create one: the verdict is deferred to the movement packet that follows the
+  attack (both 1.8 and modern clients queue the attack first, so this supplies
+  the exact attack-tick rotation), it skips attacks within one second of the
+  player's own dig or place, uses the highest possible eye height, and ignores
+  blocks whose state changed within the last second plus the player's
+  transaction ping. A pending attack older than 250 ms is dropped rather than
+  judged with a stale rotation.
+- `CompensatedWorld` now retains the last five seconds of block-change times
+  per viewer (bounded to 4096 positions and pruned on insertion), exposed as
+  `getBlockAgeMillis`. Identical-state resyncs are still not recorded; only
+  visible changes are.
+- A dedicated `ThroughWalls` punishment group ships in all 11 punishment
+  locales: alerts from five violations, console kick at 40 and a 30-day ban at
+  80, so a one-off geometry disagreement cannot punish while a sustained
+  through-wall aura still does.
+
 ## [v5.10] - 2026-10-21
 
 - Make the optional ping ceiling actually cancel attacks. `PingPolicy` never
