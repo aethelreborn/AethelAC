@@ -24,9 +24,7 @@ import com.github.retrooper.packetevents.protocol.world.states.type.StateType;
 import com.github.retrooper.packetevents.util.Vector3d;
 import com.github.retrooper.packetevents.util.Vector3i;
 import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientInteractEntity;
-import com.github.retrooper.packetevents.wrapper.play.client.WrapperPlayClientPlayerFlying;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +35,17 @@ import java.util.List;
  * wall. An interaction packet whose aimed ray is blocked before it reaches the target
  * is therefore impossible for an unmodified client.
  *
- * <p>The verdict is deferred by one packet. Both 1.8 ({@code clickMouse()} before
- * {@code theWorld.updateEntities()}) and 1.21 ({@code handleInputEvents()} before
- * {@code world.tickEntities()}) queue the interaction before the tick's movement packet,
- * so at interaction time the server still holds the previous rotation. Waiting for the
- * movement packet that follows the interaction gives the exact angle the client aimed
- * with; evaluating immediately would have to guess between two ticks.
+ * <p>The rotation is reconstructed from the packet's own moment, not from the next
+ * movement packet. A click uses the previous render frame's pick, and the server
+ * already holds the rotation that frame was rendered with: 1.8
+ * ({@code clickMouse()} before {@code theWorld.updateEntities()}) and 1.21
+ * ({@code handleInputEvents()} before {@code world.tickEntities()}) both queue the
+ * interaction before the tick that reports the new rotation. The held rotation is
+ * therefore the aimed one, up to the render interpolation between the last two ticks;
+ * the check only runs when that change is small enough to make the difference
+ * irrelevant.
  *
- * <p>Three further sources of legitimate divergence are compensated for:
+ * <p>Further sources of legitimate divergence are compensated for:
  * <ul>
  *   <li>A block placed by another player reaches this client after one network trip.
  *       Blocks changed within the last round trip are ignored.</li>
@@ -52,9 +53,10 @@ import java.util.List;
  *       server still has the block. Attacks within a second of a break are
  *       ignored; placements are not, since a predicted placement can only make
  *       the client see more than the server.</li>
- *   <li>The target box is the interpolation-aware box captured at attack time, expanded
- *       by a small margin, and the eye is the highest possible height, so pose and
- *       interpolation changes can only hide an attack, never invent one.</li>
+ *   <li>The target box is the interpolation-aware box at interaction time, expanded
+ *       past the client's targeting margin, and the eye is the highest possible
+ *       height, so pose and interpolation changes can only hide an action, never
+ *       invent one.</li>
  * </ul>
  */
 @CheckData(name = "ThroughWalls", stableKey = "aethel.combat.through_walls",
@@ -64,7 +66,7 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
     // break prediction can leave the client seeing air where the server still
     // has the block; that window is one round trip, covered with margin here.
     // Placements are deliberately not included: a predicted placement makes the
-    // client see more than the server, which can only hide an attack.
+    // client see more than the server, which can only hide an action.
     private static final long QUIET_BLOCK_BREAK_MS = 1_000L;
     // Minimum age of the blocking block before its presence is trusted.
     private static final long MIN_BLOCK_AGE_MS = 1_000L;
@@ -72,15 +74,11 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
     // interpolation can add a little more. Expanding past both makes a visible
     // sliver win the benefit of the doubt.
     private static final double BOX_MARGIN = 0.15;
-    // The next movement packet normally arrives in the same tick. Beyond a few ticks
-    // the stored rotation is no longer the attack's, so the attack is dropped instead.
-    private static final long PENDING_TTL_MS = 250L;
-    private static final int MAX_PENDING = 8;
-
-    private record PendingAction(SimpleCollisionBox box, double eyeX, double eyeY, double eyeZ, long capturedAt) {
-    }
-
-    private final ArrayDeque<PendingAction> pending = new ArrayDeque<>(2);
+    // Largest change between the last two rotations for which render interpolation
+    // cannot move the pick by a meaningful angle. A faster turn is skipped: the
+    // next movement packet would be needed to know the aimed angle, and using it
+    // would judge the click with a rotation the client had not aimed with yet.
+    private static final double STABLE_ROTATION_DEGREES = 6.0;
 
     public ThroughWalls(AethelPlayer player) {
         super(player);
@@ -93,17 +91,8 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
 
     @Override
     public void onPacketReceive(PacketReceiveEvent event) {
-        if (event.getPacketType().equals(PacketType.Play.Client.INTERACT_ENTITY)) {
-            capture(event);
-            return;
-        }
+        if (!event.getPacketType().equals(PacketType.Play.Client.INTERACT_ENTITY)) return;
 
-        if (WrapperPlayClientPlayerFlying.isFlying(event.getPacketType())) {
-            evaluatePending(System.currentTimeMillis());
-        }
-    }
-
-    private void capture(PacketReceiveEvent event) {
         final WrapperPlayClientInteractEntity packet = new WrapperPlayClientInteractEntity(event);
         // The crosshair pick gates every entity action, not only attacks: a right-click
         // on an entity is only sent once the ray has selected that entity.
@@ -113,7 +102,17 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
                 && action != WrapperPlayClientInteractEntity.InteractAction.INTERACT_AT) {
             return;
         }
+
         if (player.gamemode == GameMode.SPECTATOR || player.inVehicle() || !player.cameraEntity.isSelf()) return;
+
+        // The click used the previous frame's pick, which is the rotation the server
+        // holds right now. If the last two ticks differ by more than a few degrees,
+        // the frame's interpolation is farther from that rotation than the target's
+        // angular size, so the ray is not usable.
+        if (Math.abs(player.yaw - player.lastYaw) > STABLE_ROTATION_DEGREES
+                || Math.abs(player.pitch - player.lastPitch) > STABLE_ROTATION_DEGREES) {
+            return;
+        }
 
         // A rejected client-side break can leave the client seeing air where the
         // server still has the block; such a hit is not a wall cheat.
@@ -122,8 +121,17 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
             return;
         }
 
+        // While the world's recent-change history has overflowed we cannot tell a
+        // fresh wall from an old one; stay silent for that window.
+        if (player.compensatedWorld.isBlockHistoryUncertain()) {
+            return;
+        }
+
         final PacketEntity entity = player.compensatedEntities.getEntity(packet.getEntityId());
         if (entity == null || packet.getEntityId() == player.entityID || !EntityTypes.PLAYER.equals(entity.getType())) return;
+
+        final double range = player.compensatedEntities.self.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
+        final Vector3dm look = ReachUtils.getLook(player, player.yaw, player.pitch);
 
         // The client's eye is whichever pose it was in. Standing is the highest height,
         // so using it can only make the ray see more, never less: false negatives only.
@@ -132,43 +140,13 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
             eyeHeight = Math.max(eyeHeight, possible);
         }
 
-        pending.addLast(new PendingAction(entity.getPossibleCollisionBoxes().copy(),
-                player.x, player.y + eyeHeight, player.z, now));
-        while (pending.size() > MAX_PENDING) {
-            pending.removeFirst();
-        }
-    }
-
-    private void evaluatePending(long now) {
-        PendingAction action;
-        while ((action = pending.pollFirst()) != null) {
-            if (now - action.capturedAt() > PENDING_TTL_MS) continue;
-            evaluate(action, now);
-        }
-    }
-
-    private void evaluate(PendingAction action, long now) {
-        // While the world's recent-change history has overflowed we cannot tell a
-        // fresh wall from an old one; stay silent for that window.
-        if (player.compensatedWorld.isBlockHistoryUncertain()) {
-            return;
-        }
-
-        // A break sent between the attack and this movement packet can also
-        // leave the two world copies disagreeing.
-        if (now - player.lastBlockBreak < QUIET_BLOCK_BREAK_MS) {
-            return;
-        }
-
-        final double range = player.compensatedEntities.self.getAttributeValue(Attributes.ENTITY_INTERACTION_RANGE);
-        final Vector3dm look = ReachUtils.getLook(player, player.yaw, player.pitch);
-        final Vector3d eye = new Vector3d(attack.eyeX(), attack.eyeY(), attack.eyeZ());
+        final Vector3d eye = new Vector3d(player.x, player.y + eyeHeight, player.z);
         final Vector3d end = new Vector3d(eye.x + look.getX() * range,
                 eye.y + look.getY() * range, eye.z + look.getZ() * range);
 
-        // If the attack's own rotation does not cover the lag-compensated box, the
-        // attack fails a different invariant and belongs to Hitboxes, not here.
-        final SimpleCollisionBox box = attack.box().expand(BOX_MARGIN);
+        // If the held rotation does not even cover the lag-compensated box, the action
+        // fails a different invariant and belongs to Hitboxes, not here.
+        final SimpleCollisionBox box = entity.getPossibleCollisionBoxes().copy().expand(BOX_MARGIN);
         final Pair<Vector3d, BlockFace> entityHit = ReachUtils.calculateIntercept(box, eye, end);
         if (entityHit.first() == null) return;
         final double entityDistance = Vector3dm.from(entityHit.first()).distanceSquared(eye.x, eye.y, eye.z);
