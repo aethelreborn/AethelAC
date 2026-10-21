@@ -31,18 +31,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Vanilla cannot attack an entity that a solid block occludes: the client raycasts the
- * blocks first and only considers entities nearer than the first block hit, so
- * {@code EntityRenderer.getMouseOver} never returns an entity behind a wall. An attack
- * packet whose aimed ray is blocked before it reaches the target is therefore impossible
- * for an unmodified client.
+ * Vanilla cannot attack or interact with an entity that a solid block occludes: the
+ * client raycasts the blocks first and only considers entities nearer than the first
+ * block hit, so {@code EntityRenderer.getMouseOver} never returns an entity behind a
+ * wall. An interaction packet whose aimed ray is blocked before it reaches the target
+ * is therefore impossible for an unmodified client.
  *
  * <p>The verdict is deferred by one packet. Both 1.8 ({@code clickMouse()} before
  * {@code theWorld.updateEntities()}) and 1.21 ({@code handleInputEvents()} before
- * {@code world.tickEntities()}) queue the attack before the tick's movement packet, so
- * at attack time the server still holds the previous rotation. Waiting for the movement
- * packet that follows the attack gives the exact angle the client aimed with; evaluating
- * immediately would have to guess between two ticks.
+ * {@code world.tickEntities()}) queue the interaction before the tick's movement packet,
+ * so at interaction time the server still holds the previous rotation. Waiting for the
+ * movement packet that follows the interaction gives the exact angle the client aimed
+ * with; evaluating immediately would have to guess between two ticks.
  *
  * <p>Three further sources of legitimate divergence are compensated for:
  * <ul>
@@ -58,7 +58,7 @@ import java.util.List;
  * </ul>
  */
 @CheckData(name = "ThroughWalls", stableKey = "aethel.combat.through_walls",
-        description = "Attacked a player through a solid block", setback = 0, decay = 0.01)
+        description = "Attacked or interacted with a player through a solid block", setback = 0, decay = 0.01)
 public class ThroughWalls extends Check implements PacketReceiveListener {
     // Grace period after this player's own block break. A rejected client-side
     // break prediction can leave the client seeing air where the server still
@@ -77,10 +77,10 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
     private static final long PENDING_TTL_MS = 250L;
     private static final int MAX_PENDING = 8;
 
-    private record PendingAttack(SimpleCollisionBox box, double eyeX, double eyeY, double eyeZ, long capturedAt) {
+    private record PendingAction(SimpleCollisionBox box, double eyeX, double eyeY, double eyeZ, long capturedAt) {
     }
 
-    private final ArrayDeque<PendingAttack> pending = new ArrayDeque<>(2);
+    private final ArrayDeque<PendingAction> pending = new ArrayDeque<>(2);
 
     public ThroughWalls(AethelPlayer player) {
         super(player);
@@ -105,11 +105,18 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
 
     private void capture(PacketReceiveEvent event) {
         final WrapperPlayClientInteractEntity packet = new WrapperPlayClientInteractEntity(event);
-        if (packet.getAction() != WrapperPlayClientInteractEntity.InteractAction.ATTACK) return;
+        // The crosshair pick gates every entity action, not only attacks: a right-click
+        // on an entity is only sent once the ray has selected that entity.
+        final WrapperPlayClientInteractEntity.InteractAction action = packet.getAction();
+        if (action != WrapperPlayClientInteractEntity.InteractAction.ATTACK
+                && action != WrapperPlayClientInteractEntity.InteractAction.INTERACT
+                && action != WrapperPlayClientInteractEntity.InteractAction.INTERACT_AT) {
+            return;
+        }
         if (player.gamemode == GameMode.SPECTATOR || player.inVehicle() || !player.cameraEntity.isSelf()) return;
 
         // A rejected client-side break can leave the client seeing air where the
-        // server still has the block; such an attack is not a wall cheat.
+        // server still has the block; such a hit is not a wall cheat.
         final long now = System.currentTimeMillis();
         if (now - player.lastBlockBreak < QUIET_BLOCK_BREAK_MS) {
             return;
@@ -125,7 +132,7 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
             eyeHeight = Math.max(eyeHeight, possible);
         }
 
-        pending.addLast(new PendingAttack(entity.getPossibleCollisionBoxes().copy(),
+        pending.addLast(new PendingAction(entity.getPossibleCollisionBoxes().copy(),
                 player.x, player.y + eyeHeight, player.z, now));
         while (pending.size() > MAX_PENDING) {
             pending.removeFirst();
@@ -133,14 +140,14 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
     }
 
     private void evaluatePending(long now) {
-        PendingAttack attack;
-        while ((attack = pending.pollFirst()) != null) {
-            if (now - attack.capturedAt() > PENDING_TTL_MS) continue;
-            evaluate(attack, now);
+        PendingAction action;
+        while ((action = pending.pollFirst()) != null) {
+            if (now - action.capturedAt() > PENDING_TTL_MS) continue;
+            evaluate(action, now);
         }
     }
 
-    private void evaluate(PendingAttack attack, long now) {
+    private void evaluate(PendingAction action, long now) {
         // While the world's recent-change history has overflowed we cannot tell a
         // fresh wall from an old one; stay silent for that window.
         if (player.compensatedWorld.isBlockHistoryUncertain()) {
