@@ -3,6 +3,28 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.6] - 2026-10-21
+
+- Add `CheatClient`: a strict cheat-client detector that reads three
+  server-observable artefacts out of the login handshake - the client brand
+  (`minecraft:brand`), the channels the client registers
+  (`minecraft:register`, including the namespace in front of the colon) and
+  the mod ids of a Forge/FML handshake the client volunteers. Vape, Prestige,
+  Krypton, Myau, LiquidBounce, Meteor, Wurst, Aristois, Sigma, Impact,
+  Nucleus, FDP, RusherHack, Phobos and the rest ship in the new
+  `cheat-client` lists (config 62 -> 63). The lists are the union of the
+  published fingerprint sets of Allium, the smp-network cheat signatures,
+  PACC, Windfall and Guardian, trimmed of the names legitimate clients also
+  carry (Sodium, Hanabi, OptiFine, Iris, Lunar, Badlion, Prism, Forge,
+  Fabric, Geyser). A match kicks the player on the first flag and bans on the
+  fourth, so a known cheat client cannot sit on a server. Bedrock
+  (Geyser/Floodgate) players are exempt, and a failure in the optional
+  Bedrock lookup skips the check rather than guessing.
+- Note the limit honestly: a ghost client that spoofs its brand to `vanilla`
+  and registers no channel leaves nothing for any brand or channel check.
+  Against those users the behavioural tiers - an attack with no arm swing,
+  timer drift, impossible packets - are what actually bite.
+
 ## [v5.3] - 2026-10-20
 
 - Report at startup how many experimental check tiers are enabled, and warn

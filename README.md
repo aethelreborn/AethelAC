@@ -84,6 +84,21 @@ and can be tuned per server.
   channels, see `client-fingerprint` in `config.yml`) flag the `Fingerprint`
   check: alerts and logs from the first match, a console kick at 15 repeated
   matches, and a 30-day ban at 30.
+- `CheatClient` is the strict one. It reads three artefacts a client sends
+  whether it wants to or not: the `minecraft:brand` payload, the channel list
+  from `minecraft:register` (and the namespace in front of the colon), and
+  the mod ids of a Forge/FML handshake the client volunteers. Vape, Prestige,
+  Krypton, Myau, LiquidBounce, Meteor, Wurst, Aristois, Sigma, Impact and the
+  rest ship in the `cheat-client` lists in `config.yml`; a match kicks the
+  player on the first hit and bans on the fourth, so a known cheat client
+  cannot sit on a server. The lists are the union of the published
+  fingerprint sets of several anticheats, trimmed of the names legitimate
+  clients also carry (Sodium, Hanabi, OptiFine, Iris, Lunar, Badlion,
+  Prism, Forge, Fabric).
+- The honest limit: a ghost client that spoofs its brand to `vanilla` and
+  registers no channel leaves nothing for any brand or channel check. Against
+  those users the teeth are the behavioural tiers - an attack with no arm
+  swing, timer drift, impossible packets - not the fingerprint.
 
 ### Automation detection suite
 
