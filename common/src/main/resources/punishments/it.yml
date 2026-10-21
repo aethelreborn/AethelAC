@@ -81,6 +81,17 @@ Punishments:
       - "10:5 [proxy]"
       - "25:0 kick %player% AethelAC: Hitbox violation"
       - "50:0 ban %player% 30d AethelAC: Hitboxes (%vl% violations)"
+  ThroughWalls:
+    remove-violations-after: 600
+    checks:
+      - "ThroughWalls"
+    commands:
+      - "5:5 [alert]"
+      - "1:1 [log]"
+      - "20:10 [webhook]"
+      - "20:10 [proxy]"
+      - "40:0 kick %player% AethelAC: Through-wall violation"
+      - "80:0 ban %player% 30d AethelAC: ThroughWalls (%vl% violations)"
   Fingerprint:
     remove-violations-after: 600
     checks:
