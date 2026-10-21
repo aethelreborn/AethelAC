@@ -3,6 +3,29 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.7] - 2026-10-21
+
+- Fix `DamageReaction` blindness on high-ping servers. The tier measured the
+  delay from the server's own health update to the client's reaction packet,
+  which carries one full round trip, and judged it against a 120 ms mean
+  ceiling. On a server whose ping sits at or above that ceiling the tier
+  could never fire: simulated bot reaction rate 1.000 at 0-100 ms ping and
+  0.000 from 140 ms upwards. The check now subtracts the measured
+  transaction ping - the same round trip Grim already times - and judges the
+  client-side reaction the reflex floor actually applies to. Simulated
+  validation (400 sessions per model and ping): bot reaction 0-25 ms flags
+  1.000 at 0, 60, 140, 250 and 400 ms ping, while human lognormal reactions
+  (medians 320 / 220 / 180 ms) and the coincidence class (an unrelated click
+  inside the window after 5% of damage events) stay at 0.000 - including on a
+  server where 10% of transactions carry a 200-800 ms lag spike.
+- Extend `DamageReaction` with the AutoArmor dimension: clicks on the armor
+  slots of the personal inventory (slots 5-8) now count as damage
+  reactions, which is the machine-speed signature of armour automation.
+  Container windows are excluded so chest slots are never mistaken for
+  personal-inventory slots, and the offhand dimension is narrowed the same
+  way. New config keys `damage-reaction-ping-compensation` and
+  `damage-reaction-armor-slots` (config 63 -> 64).
+
 ## [v5.6] - 2026-10-21
 
 - Add `CheatClient`: a strict cheat-client detector that reads three

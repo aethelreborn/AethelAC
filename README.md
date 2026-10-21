@@ -276,9 +276,15 @@ Inventory and macro automation:
   sub-degree lock indefinitely. Straight-line motion without reversals is
   exempt by design.
 - `DamageReaction` (`reaction-analysis` in `config.yml`) flags
-  ClickPearl/AutoGApple/AutoSwap style automation: six or more item uses or
-  offhand manipulations (offhand clicks or swap actions) within 120 ms (mean)
-  of a health decrease over five minutes.
+  ClickPearl/AutoGApple/AutoSwap/AutoArmor style automation: six or more item
+  uses, offhand manipulations (offhand clicks or swap actions) or armor-slot
+  clicks within 120 ms (mean) of a health decrease over five minutes. The
+  measured reaction carries one full round trip, so the check subtracts the
+  measured transaction ping and judges the client-side reaction - without
+  that compensation the tier cannot fire at all on a server whose ping sits
+  at or above the ceiling (a 140 ms server blinded it completely, simulated
+  bot rate 0.000; with the compensation bots flag 1.000 at 0-400 ms ping
+  while every modelled human class stays at 0.000).
 - `IdleAutomation` (`idle-automation` in `config.yml`) flags anti-AFK modules
   that jump or swing sparsely for minutes while the player sends no rotation,
   movement or interaction.
