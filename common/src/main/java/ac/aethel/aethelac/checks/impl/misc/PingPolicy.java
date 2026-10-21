@@ -27,6 +27,15 @@ public class PingPolicy extends Check implements PacketReceiveListener {
         super(player);
     }
 
+    /**
+     * A policy, not a detection: it never flags, so no punishment group lists
+     * it and the group-derived enabled flag would keep the ceiling inert.
+     */
+    @Override
+    public boolean isPolicy() {
+        return true;
+    }
+
     @Override
     public void onReload(@NotNull ConfigManager config) {
         ceilingMs = config.getIntElse("attack-patterns.cancel-attack-over-ping-ms", -1);

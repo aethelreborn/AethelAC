@@ -82,8 +82,20 @@ public class Check extends AethelProcessor implements AbstractCheck {
         reload();
     }
 
+    /**
+     * Policy modules act on the packet stream (for example cancelling attacks
+     * over a configured ping) instead of detecting a violation. They never
+     * flag, so they can never appear in a punishment group, and the enabled
+     * flag - which is derived from group membership - would leave them
+     * permanently inert. Such a module overrides this to run regardless of
+     * the group ledger while still honouring the modification permissions.
+     */
+    public boolean isPolicy() {
+        return false;
+    }
+
     public boolean shouldModifyPackets() {
-        return isEnabled
+        return (isEnabled || isPolicy())
                 && !player.disableAethel
                 && !player.noModifyPacketPermission
                 && !noModifyPacketPermission
