@@ -3,6 +3,25 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.8] - 2026-10-21
+
+- Make the interaction ray checks fall-aware. A placement, dig or attack
+  packet is sent before the movement packet of the same tick, so the eye
+  every one of those checks reconstructs is one tick old - and while the
+  player is falling that single tick is worth a block of eye height at
+  terminal speed. `PositionPlace`, `PositionBreakA`, `RotationBreak`,
+  `FarBreak`, `FarPlace` and `Reach` now shift the reconstructed eye down by
+  the distance the server's own velocity says the player fell, and add the
+  residual uncertainty to their tolerance. The distance comes from the
+  server's estimate of the client's velocity, so a client cannot buy itself
+  a larger uncertainty by claiming a bigger drop. Simulated: with the raw
+  reconstruction a legitimate player interacting with the block at their
+  feet is flagged 15 times across six fall speeds (0.5-3.9 blocks per tick);
+  with the correction the false flags are 0 while every out-of-reach
+  interaction still flags (18 of 18). This is the false-positive class the
+  field documented for placement-ray checks, where a build competition
+  filled with alerts for legal placements.
+
 ## [v5.7] - 2026-10-21
 
 - Fix `DamageReaction` blindness on high-ping servers. The tier measured the

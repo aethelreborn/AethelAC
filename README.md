@@ -74,6 +74,11 @@ and can be tuned per server.
 - Timer checks allow 60 ms of drift; negative and vehicle timers are tightened.
 - Packet spam, transaction time, and ping abuse limits are cut to a third of
   defaults; verbose flags are mirrored to the console.
+- Interaction rays (reach, dig and placement geometry) correct the eye
+  height for the fall the player made since the last movement packet: the
+  interaction packet arrives before the movement packet of the same tick, so
+  a falling player's eye was reconstructed up to a block too high, which
+  flagged legitimate interactions with the block at their feet.
 - Punishments ship tiered ladders per check group: alerts from the first flag,
   console kick at 30-80 violations, and a 30-day ban at 40-140 violations
   depending on the group. Violation memory spans ten minutes.
