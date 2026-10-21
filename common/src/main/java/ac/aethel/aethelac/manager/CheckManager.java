@@ -31,6 +31,7 @@ import ac.aethel.aethelac.checks.impl.misc.AutoFish;
 import ac.aethel.aethelac.checks.impl.misc.AutoToolChain;
 import ac.aethel.aethelac.checks.impl.misc.ClientBrand;
 import ac.aethel.aethelac.checks.impl.misc.ClientFingerprint;
+import ac.aethel.aethelac.checks.impl.misc.CheatClient;
 import ac.aethel.aethelac.checks.impl.misc.DropBurst;
 import ac.aethel.aethelac.checks.impl.misc.PackSpoof;
 import ac.aethel.aethelac.checks.impl.misc.PingPolicy;
@@ -161,6 +162,7 @@ public class CheckManager implements BasicReloadable {
                 .put(TeamHandler.class, new TeamHandler(player))
                 .put(ClientBrand.class, new ClientBrand(player))
                 .put(ClientFingerprint.class, new ClientFingerprint(player))
+                .put(CheatClient.class, new CheatClient(player))
                 .put(IdleAutomation.class, new IdleAutomation(player))
                 .put(FastClick.class, new FastClick(player))
                 .put(DamageReaction.class, new DamageReaction(player))
