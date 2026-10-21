@@ -15,11 +15,13 @@ All notable changes to AethelAC. Releases are cut automatically by CI from
 - The check is built so every uncertain input can only excuse an attack, never
   create one: the verdict is deferred to the movement packet that follows the
   attack (both 1.8 and modern clients queue the attack first, so this supplies
-  the exact attack-tick rotation), it skips attacks within one second of the
-  player's own dig or place, uses the highest possible eye height, and ignores
-  blocks whose state changed within the last second plus the player's
-  transaction ping. A pending attack older than 250 ms is dropped rather than
-  judged with a stale rotation.
+  the exact attack-tick rotation), ignores blocks whose state changed within
+  the last second plus the player's transaction ping, and skips attacks within
+  a second of the player's own block break (the rejected-prediction window).
+  It deliberately does not skip on item use: 1.8 sword blocking emits a
+  block-placement packet every four ticks, which would otherwise disable the
+  check for most 1.8 PvP. A pending attack older than 250 ms is dropped rather
+  than judged with a stale rotation.
 - `CompensatedWorld` now retains the last five seconds of block-change times
   per viewer (bounded to 4096 positions and pruned on insertion), exposed as
   `getBlockAgeMillis`. Identical-state resyncs are still not recorded; only
