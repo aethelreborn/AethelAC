@@ -3,7 +3,30 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
-## [v5.8] - 2026-10-21
+## [v5.9] - 2026-10-21
+
+- Revert the fall correction to the interaction eye. v5.8 assumed that a
+  placement, dig or attack packet is built from a position one tick older
+  than the one the server holds. Reading the client tick order shows the
+  opposite. 1.8.9 handles the mouse and calls `rightClickMouse()` from the
+  previous render frame's `objectMouseOver` (`Minecraft.java` 2154) and only
+  then ticks the world, moves the player and sends the movement packet
+  (2207). 1.21.11 calls `handleInputEvents()` / `doItemUse()` (1949, 2161)
+  before `world.tickEntities()` (1960). The raycast and the server therefore
+  use the same position, and the eye was never stale. Shifting it down made
+  `Reach` reconstruct an eye below the real one for a falling attacker: with
+  no intercept the check cancels the hit and flags `Hitboxes`, a group with a
+  30-day ban ladder. Simulated against a same-level target, the shifted
+  reconstruction starts missing at about 1.2 blocks/tick of fall and misses
+  every legitimate attack at 2.0-3.5 blocks after ~15 ticks (0 of 4), while
+  the correct reconstruction hits all four at every fall speed including
+  terminal. The check code and the eye helpers are reverted to their
+  pre-v5.8 state; the v5.8 entry is kept for history and marked superseded.
+- Record the verified geometry in the README, and keep the rotation
+  candidates that already cover the one thing that *is* a tick behind: the
+  client's yaw and pitch.
+
+## [v5.8] - 2026-10-21 (superseded by v5.9)
 
 - Make the interaction ray checks fall-aware. A placement, dig or attack
   packet is sent before the movement packet of the same tick, so the eye
