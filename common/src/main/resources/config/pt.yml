@@ -335,7 +335,9 @@ attack-patterns:
     # absorb out-of-order packet batching on high latency connections.
     timing-max-ping-ms: 150
     # Optional policy: cancel attack packets from players above this ping so
-    # their hits do not register on the server. -1 disables.
+    # their hits do not register on the server. -1 disables. Policy modules
+    # never flag and are not listed in punishments.yml; they run whenever this
+    # value is positive, still honouring the per-player modification permissions.
     cancel-attack-over-ping-ms: -1
     # Anchor macro detection (AnchorCadence check): two clicks on the same
     # respawn anchor within this many ms count as one charge-detonate cycle;
