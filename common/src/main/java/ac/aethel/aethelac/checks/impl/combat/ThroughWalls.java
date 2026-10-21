@@ -48,8 +48,10 @@ import java.util.List;
  * <ul>
  *   <li>A block placed by another player reaches this client after one network trip.
  *       Blocks changed within the last round trip are ignored.</li>
- *   <li>A block this player just broke or placed may disagree between the two worlds.
- *       Attacks within a second of a block action are ignored.</li>
+ *   <li>A rejected client-side break may leave the client seeing air where the
+ *       server still has the block. Attacks within a second of a break are
+ *       ignored; placements are not, since a predicted placement can only make
+ *       the client see more than the server.</li>
  *   <li>The target box is the interpolation-aware box captured at attack time, expanded
  *       by a small margin, and the eye is the highest possible height, so pose and
  *       interpolation changes can only hide an attack, never invent one.</li>
@@ -58,8 +60,12 @@ import java.util.List;
 @CheckData(name = "ThroughWalls", stableKey = "aethel.combat.through_walls",
         description = "Attacked a player through a solid block", setback = 0, decay = 0.01)
 public class ThroughWalls extends Check implements PacketReceiveListener {
-    // Grace period after this player's own block changes.
-    private static final long QUIET_BLOCK_ACTION_MS = 1_000L;
+    // Grace period after this player's own block break. A rejected client-side
+    // break prediction can leave the client seeing air where the server still
+    // has the block; that window is one round trip, covered with margin here.
+    // Placements are deliberately not included: a predicted placement makes the
+    // client see more than the server, which can only hide an attack.
+    private static final long QUIET_BLOCK_BREAK_MS = 1_000L;
     // Minimum age of the blocking block before its presence is trusted.
     private static final long MIN_BLOCK_AGE_MS = 1_000L;
     // The client's pick expands entity boxes by 0.1 for its targeting margin, and
@@ -102,11 +108,10 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
         if (packet.getAction() != WrapperPlayClientInteractEntity.InteractAction.ATTACK) return;
         if (player.gamemode == GameMode.SPECTATOR || player.inVehicle() || !player.cameraEntity.isSelf()) return;
 
-        // The player's own break/place prediction can legitimately differ from the
-        // server's copy of the world for the rest of that action.
+        // A rejected client-side break can leave the client seeing air where the
+        // server still has the block; such an attack is not a wall cheat.
         final long now = System.currentTimeMillis();
-        if (now - player.lastBlockBreak < QUIET_BLOCK_ACTION_MS
-                || now - player.lastBlockPlaceUseItem < QUIET_BLOCK_ACTION_MS) {
+        if (now - player.lastBlockBreak < QUIET_BLOCK_BREAK_MS) {
             return;
         }
 
@@ -136,10 +141,9 @@ public class ThroughWalls extends Check implements PacketReceiveListener {
     }
 
     private void evaluate(PendingAttack attack, long now) {
-        // A block this player just broke or placed, including one sent between the
-        // attack and this movement packet, makes the world copies disagree.
-        if (now - player.lastBlockBreak < QUIET_BLOCK_ACTION_MS
-                || now - player.lastBlockPlaceUseItem < QUIET_BLOCK_ACTION_MS) {
+        // A break sent between the attack and this movement packet can also
+        // leave the two world copies disagreeing.
+        if (now - player.lastBlockBreak < QUIET_BLOCK_BREAK_MS) {
             return;
         }
 
