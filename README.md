@@ -198,7 +198,10 @@ Attack patterns (`attack-patterns` in `config.yml`):
   transaction ping exceeds `attack-patterns.timing-max-ping-ms` (150 ms by
   default) to absorb out-of-order packet batching on high latency links.
   `attack-patterns.cancel-attack-over-ping-ms` (disabled by default) optionally
-  cancels attack packets above a ping ceiling so the hits never register.
+  cancels attack packets above a ping ceiling so the hits never register. It
+  is a policy switch rather than a check: it never flags, so it is not listed
+  in `punishments.yml`, and it runs whenever the ceiling is positive while
+  still honouring the per-player modification permissions.
 
 Aim analysis (`aim-analysis` in `config.yml`), all sharing the `AimHeuristics`
 ladder:

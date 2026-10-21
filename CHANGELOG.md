@@ -3,6 +3,21 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.10] - 2026-10-21
+
+- Make the optional ping ceiling actually cancel attacks. `PingPolicy` never
+  flags, so no punishment group can list it, and `shouldModifyPackets()`
+  required the group-derived enabled flag - which meant
+  `attack-patterns.cancel-attack-over-ping-ms` never cancelled a packet on
+  any install, even when an operator set a ceiling. A narrow `isPolicy()`
+  hook now lets policy modules bypass the group ledger while keeping every
+  other modification gate (anticheat disabled, per-player no-modify,
+  exemption). No detection overrides the hook and `flag()` is unchanged, so
+  violation recording is untouched. The bundled config comment in all 13
+  locales now states why the switch needs no `punishments.yml` entry.
+- Note for operators: this does not change any default. The ceiling ships at
+  `-1`; the stage fixes the behaviour for servers that opt in.
+
 ## [v5.9] - 2026-10-21
 
 - Revert the fall correction to the interaction eye. v5.8 assumed that a
