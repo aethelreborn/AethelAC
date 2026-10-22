@@ -54,23 +54,30 @@ import java.util.Map;
  * the check only runs when that change is small enough to make the difference
  * irrelevant.
  *
- * <p>Block placement is gated by the same pick. 1.8's {@code rightClickMouse()} sends
- * the position, side and hit vector of {@code objectMouseOver}, and 1.21's
+ * <p>Block use and placement are gated by the same pick. 1.8's
+ * {@code rightClickMouse()} sends the position, side and hit vector of
+ * {@code objectMouseOver} to {@code onPlayerRightClick()}, and 1.21's
  * {@code doItemUse()} sends the {@code BlockHitResult} from
- * {@code updateCrosshairTarget()}; both only exist when the block is the one the
- * crosshair actually selected. A placement whose hit point is hidden behind a solid
- * block is therefore impossible. The check converts the packet's block-relative cursor
- * to an absolute point and samples a small precision grid around it (1.8 encodes the
- * cursor in 1/16-block steps). The placement is accepted if any sample is visible from
- * any possible eye position and height; only a fully occluded cursor flags. The face
- * matters too: a visible support block with its hidden back face would put the new
- * block on the far side of the wall, so a sample only counts when the clicked face is
- * the first face of the support that the eye ray meets. Chests,
- * barriers, lecterns and scaffolding are not treated as occluders because their
+ * {@code updateCrosshairTarget()} to {@code interactBlock()}; both only exist when
+ * the block is the one the crosshair actually selected. This is not limited to block
+ * items: 1.8 passes the same {@code objectMouseOver} fields for every item, and 1.21
+ * passes the same {@code crosshairTarget} for every item. Buckets, flint and steel,
+ * hoes, bone meal and spawn eggs therefore carry the same clicked face point. The
+ * placed-block position differs by item (a block item is placed against the face, a
+ * bucket may fill the clicked block, a hoe may change it), but the visibility
+ * invariant is on the clicked point, not on the placed position. An interaction whose
+ * hit point is hidden behind a solid block is therefore impossible. The check converts
+ * the packet's block-relative cursor to an absolute point and samples a small precision
+ * grid around it (1.8 encodes the cursor in 1/16-block steps). The interaction is
+ * accepted if any sample is visible from any possible eye position and height; only a
+ * fully occluded cursor flags. The face matters too: a visible support block with its
+ * hidden back face would put a new block on the far side of the wall, so a sample only
+ * counts when the clicked face is the first face of the support that the eye ray meets.
+ * Chests, barriers, lecterns and scaffolding are not treated as occluders because their
  * target outline can differ from their collision shape, and non-solid blocks
  * (torches, vines, fire, rails, pressure plates) are ignored: 1.8's pick uses
  * collision boxes, and remaining conservative on modern clients is preferable to
- * charging a player who placed a block past a torch.
+ * charging a player who used or placed past a torch.
  *
  * <p>Further sources of legitimate divergence are compensated for:
  * <ul>
@@ -85,7 +92,7 @@ import java.util.Map;
  * </ul>
  */
 @CheckData(name = "ThroughWalls", stableKey = "aethel.combat.through_walls",
-        description = "Attacked, interacted with, or placed against a block through a solid block",
+        description = "Attacked or interacted with an entity or block through a solid block",
         setback = 0, decay = 0.01)
 public class ThroughWalls extends Check implements PacketReceiveListener, BlockPlaceListener {
     // Grace period after this player's own block break. A rejected client-side
@@ -226,7 +233,7 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
 
     @Override
     public void onBlockPlace(final BlockPlace place) {
-        if (!checkPlacements || !place.isBlock) return;
+        if (!checkPlacements) return;
         if (place.getFace() == null || place.getFace() == BlockFace.OTHER) return;
         if (place.material == StateTypes.SCAFFOLDING || place.cursor == null) return;
         if (player.gamemode == GameMode.SPECTATOR || player.inVehicle() || !player.cameraEntity.isSelf()) return;
@@ -247,7 +254,11 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
         // Track the placement before any early return. The client predicts it
         // immediately, so a later placement against the predicted block must not be
         // judged against the older server-side shape (or air) at that position.
-        recentPlacements.put(place.getPlacedBlockPos(), now);
+        // Non-block use actions (a bucket, a hoe, a spawn egg) do not predict a block
+        // at the placed position, so only real block placements are tracked.
+        if (place.isBlock) {
+            recentPlacements.put(place.getPlacedBlockPos(), now);
+        }
 
         final WrappedBlockState state = player.compensatedWorld.getBlock(support);
         if (state.getType().isAir() || state.getType() == StateTypes.SCAFFOLDING) return;
@@ -381,7 +392,8 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
 
         if (firstOccluder == null || freshForeignOccluder) return;
 
-        flag("action=place support=" + support.getX() + "," + support.getY() + "," + support.getZ()
+        flag("action=" + (place.isBlock ? "place" : "use")
+                + " support=" + support.getX() + "," + support.getY() + "," + support.getZ()
                 + " occluder=" + firstOccluder.getX() + "," + firstOccluder.getY() + "," + firstOccluder.getZ()
                 + " age=" + oldestOccluderAge + "ms samples=" + samples.size());
     }
