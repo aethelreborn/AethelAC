@@ -732,6 +732,12 @@ Reach:
     # Jeśli nie jesteś serwerem skoncentrowanym na PvP w wersji 1.8, ten dodatkowy pakiet nie jest zalecany.
     enable-post-packet: true
 
+ThroughWalls:
+    # Also check block placements: the clicked face point must be visible from
+    # at least one possible eye position. Set false to keep the original
+    # attack/entity-interaction coverage only.
+    check-placements: true
+
 exploit:
     # Można uzyskać duże prędkości podczas sprintu i skoku z elytrą. To ustawienie zapobiega temu exploitowi, gdy jest ustawione na false.
     # Mojang zepsuł kod sieciowy, powodując, że start lotu elytrą jest obsługiwany przez klienta, a koniec przez serwer.
@@ -794,4 +800,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 64
+config-version: 65

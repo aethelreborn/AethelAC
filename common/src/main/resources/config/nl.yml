@@ -732,6 +732,12 @@ Reach:
     # Tenzij je een 1.8 PvP server bent, wordt dit extra pakket niet aangeraden
     enable-post-packet: true
 
+ThroughWalls:
+    # Also check block placements: the clicked face point must be visible from
+    # at least one possible eye position. Set false to keep the original
+    # attack/entity-interaction coverage only.
+    check-placements: true
+
 exploit:
     # Je kunt hoge snelheden krijgen als je sprint met een elytra, dit voorkomt de exploit als het op false staat
     # Mojang heeft de netcode verpest door elytra's client-sided te laten starten en elytra's server-sided te laten eindigen
@@ -793,4 +799,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 64
+config-version: 65

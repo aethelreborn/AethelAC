@@ -732,6 +732,12 @@ Reach:
     # 1.8 PvP odaklı bir sunucu değilseniz, bu ek paket önerilmez
     enable-post-packet: true
 
+ThroughWalls:
+    # Also check block placements: the clicked face point must be visible from
+    # at least one possible eye position. Set false to keep the original
+    # attack/entity-interaction coverage only.
+    check-placements: true
+
 exploit:
     # Elytra ile sprint zıplarken yüksek hızlar kazanabilirsiniz, bu ayar false olarak ayarlandığında bu istismarı önler
     # Mojang, elytra'nın istemci tarafında başlamasını ve sunucu tarafında bitmesini sağlayarak netcode'u bozdu
@@ -793,4 +799,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 64
+config-version: 65

@@ -234,9 +234,12 @@ public final class AethelConfigSpecs {
      * <p>v63 → v64: adds the {@code reaction-analysis} knobs for the
      * DamageReaction check (ping compensation for the reaction delta and the
      * armor-slot dimension).
+     *
+     * <p>v64 → v65: adds the {@code ThroughWalls.check-placements} toggle for
+     * the block-placement coverage of the ThroughWalls check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 64, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 65, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

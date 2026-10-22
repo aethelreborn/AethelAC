@@ -754,6 +754,12 @@ Reach:
     # 禁用此功能仍会检查到作弊者，不会导致误报
     # 除非你是专注于1.8版本的PvP服务器，否则不建议使用这个额外的数据包
 
+ThroughWalls:
+    # Also check block placements: the clicked face point must be visible from
+    # at least one possible eye position. Set false to keep the original
+    # attack/entity-interaction coverage only.
+    check-placements: true
+
 exploit:
     allow-sprint-jumping-when-using-elytra: false
     # 是否允许玩家在使用鞘翅时候进行的疾跑跳跃
@@ -810,4 +816,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 64
+config-version: 65

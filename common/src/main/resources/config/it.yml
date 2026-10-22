@@ -713,6 +713,12 @@ Reach:
     # Abilita l'invio di pacchetti aggiuntivi per il rilevamento degli attacchi
     enable-post-packet: true
 
+ThroughWalls:
+    # Also check block placements: the clicked face point must be visible from
+    # at least one possible eye position. Set false to keep the original
+    # attack/entity-interaction coverage only.
+    check-placements: true
+
 exploit:
     # Abilita il salto in sprint con l'elytra
     allow-sprint-jumping-when-using-elytra: false
@@ -772,4 +778,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 64
+config-version: 65

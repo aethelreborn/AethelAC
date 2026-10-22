@@ -736,6 +736,12 @@ Reach:
     # A menos que estiver em um servidor focado em PvP, esse pacote adicional não é recomendado.
     enable-post-packet: true
 
+ThroughWalls:
+    # Also check block placements: the clicked face point must be visible from
+    # at least one possible eye position. Set false to keep the original
+    # attack/entity-interaction coverage only.
+    check-placements: true
+
 exploit:
     # Você pode ganhar altas velocidades se pular correndo com uma elytra, previne isso de ocorrer quando definido falso.
     # A Mojang vacilou com o netcode por fazer a Elytra iniciar pelo lado do cliente.
@@ -799,4 +805,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 64
+config-version: 65

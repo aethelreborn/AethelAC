@@ -737,6 +737,12 @@ Reach:
     # PvP特化の1.8サーバーでない限り、この追加パケットの有効化は推奨されません
     enable-post-packet: true
 
+ThroughWalls:
+    # Also check block placements: the clicked face point must be visible from
+    # at least one possible eye position. Set false to keep the original
+    # attack/entity-interaction coverage only.
+    check-placements: true
+
 exploit:
     # エリトラでダッシュジャンプを行うと非常に高い速度を得られるエクスプロイト（意図しない挙動）があります。
     # この設定をfalseにすると、そのエクスプロイトを防ぎます
@@ -801,4 +807,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 64
+config-version: 65
