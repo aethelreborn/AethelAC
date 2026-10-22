@@ -82,8 +82,9 @@ and can be tuned per server.
   that has not happened yet. The only interaction component that runs a tick
   behind is the client's yaw and pitch, which the ray checks already try as
   candidates.
-- `ThroughWalls` rejects attacks, entity interactions, and block use/placements
-  whose aim ray or clicked face point is hidden behind a solid block. The
+- `ThroughWalls` rejects attacks, entity interactions, block use/placements and
+  block breaks whose aim ray, clicked face point or named break face is hidden
+  behind a solid block. The
   client's entity pick only returns a target that is nearer than the first
   block hit, and its block pick only sends an interaction or placement for the
   block its crosshair actually selected, so both geometries are impossible for
@@ -94,9 +95,11 @@ and can be tuned per server.
   rotation. For attacks and interactions, the check only runs when the last
   two rotations differ by at most six degrees, which bounds the render
   interpolation between them.
-  Blocks changed within the last round trip are ignored, as are actions within
-  a second of the player's own block break (a rejected client-side break can
-  leave the client seeing air where the server still has the block).
+  Blocks changed within the last round trip are ignored. Entity, use and
+  placement actions within a second of the player's own block break are also
+  ignored (a rejected client-side break can leave the client seeing air where
+  the server still has the block); a break only exempts its own recently
+  completed position, so continuous mining does not disable break coverage.
   Block use and placements do not exempt an entity action: a predicted placement
   makes the client see more than the server, which can only hide an action.
   Block use and placements themselves are exempt for one second after a break for
@@ -110,6 +113,22 @@ and can be tuned per server.
   only counts when the ray reaches the support on the clicked face; hitting the
   support's front face never validates its hidden back face, which would place
   the new block on the far side of the wall. Only a fully occluded cursor flags.
+  Block breaks use the same client pick without a cursor. 1.8's `clickMouse()`
+  sends the `objectMouseOver` block position and `sideHit`; 1.21's
+  `handleBlockBreaking()` and `doAttack()` attack the `crosshairTarget` block
+  with its `getSide()`. The break packet names only the block and face, so the
+  check samples the named face of the target's own target shape on a 7x7 grid
+  (center, interior and near-edge points) from every possible eye. One visible
+  sample accepts the break; only a face wholly behind an old solid block flags.
+  The server's own crosshair pick is the fast path, so normal mining is one
+  trace; the per-sample path is limited to one check per 50 ms per player so a
+  spam of hidden starts cannot amplify CPU, and one flag per interval is enough
+  for the punishment group. Non-solid targets and extended shapes (fences,
+  walls, lecterns, shelves, scaffolding) are skipped, as are targets in the
+  last-round-trip age window, own recent placements, and targets or occluders
+  at the player's own recently completed break position. The block paths are
+  separately switchable with `ThroughWalls.check-placements` and
+  `ThroughWalls.check-breaks`.
   Non-solid target-only blocks (torches, vines, fire, rails, pressure plates)
   are never treated as walls: 1.8's pick uses collision boxes, and staying
   conservative on modern clients is preferable to charging a player who used

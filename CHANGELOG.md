@@ -3,6 +3,33 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.17] - 2026-10-22
+
+- Extend `ThroughWalls` to block breaks. 1.8's `clickMouse()` sends the
+  `objectMouseOver` block position and `sideHit` to `clickBlock()`, and 1.21's
+  `handleBlockBreaking()` / `doAttack()` attack the `crosshairTarget` block
+  with its `getSide()`; a vanilla client never names a block its crosshair did
+  not reach first. A break packet carries only the target block and face, so
+  the check samples the named face of the target's own target shape on a 7x7
+  grid from every possible eye. One visible sample accepts the break; only a
+  face wholly behind an old solid block flags.
+- Reuse the support/occluder age, history-uncertainty, own-placement and
+  lenient-occluder gates. Add a position-specific own-break exemption so a
+  rejected client-side break is not mistaken for a wall, while continuous
+  mining does not disable break coverage. Non-solid and extended-shape targets
+  (fences, walls, lecterns, shelves, scaffolding) are skipped.
+- A wall/visible/sliver simulation covered hidden full cubes (side, top and far
+  faces), visible and one-high-wall top faces, a wall behind the target,
+  center/edge gaps with an aligned eye, a slab and a chest-like target. Hidden
+  cases flagged and visible cases passed. A sliver narrower than the 2% edge
+  samples is left to the server pick fast path.
+- The server's own crosshair pick is the fast path (normal mining is one
+  trace); the sample path is limited to one check per 50 ms per player, so a
+  spam of hidden starts cannot amplify CPU. `ThroughWalls.check-breaks`
+  defaults true; config version 66. This is the block-break counterpart to the
+  v5.15/v5.16 use/placement coverage; it does not cover non-solid or
+  extended-shape breaks.
+
 ## [v5.16] - 2026-10-22
 
 - Extend `ThroughWalls` block coverage from block items to every real-face
