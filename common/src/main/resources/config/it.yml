@@ -714,9 +714,9 @@ Reach:
     enable-post-packet: true
 
 ThroughWalls:
-    # Also check block placements: the clicked face point must be visible from
-    # at least one possible eye position. Set false to keep the original
-    # attack/entity-interaction coverage only.
+    # Also check block use and placements: the clicked face point must be
+    # visible from at least one possible eye position. Set false to keep the
+    # original attack/entity-interaction coverage only.
     check-placements: true
 
 exploit:

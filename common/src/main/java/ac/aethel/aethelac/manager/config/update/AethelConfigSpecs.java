@@ -236,7 +236,7 @@ public final class AethelConfigSpecs {
      * armor-slot dimension).
      *
      * <p>v64 → v65: adds the {@code ThroughWalls.check-placements} toggle for
-     * the block-placement coverage of the ThroughWalls check.
+     * the block use/placement coverage of the ThroughWalls check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
         return ConfigUpdater.Spec.builder("/config/", 65, ConfigUpdater.ConfigFlavor.V2)

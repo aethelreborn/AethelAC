@@ -755,9 +755,9 @@ Reach:
     # 除非你是专注于1.8版本的PvP服务器，否则不建议使用这个额外的数据包
 
 ThroughWalls:
-    # Also check block placements: the clicked face point must be visible from
-    # at least one possible eye position. Set false to keep the original
-    # attack/entity-interaction coverage only.
+    # Also check block use and placements: the clicked face point must be
+    # visible from at least one possible eye position. Set false to keep the
+    # original attack/entity-interaction coverage only.
     check-placements: true
 
 exploit:
