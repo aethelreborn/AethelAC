@@ -237,9 +237,12 @@ public final class AethelConfigSpecs {
      *
      * <p>v64 → v65: adds the {@code ThroughWalls.check-placements} toggle for
      * the block use/placement coverage of the ThroughWalls check.
+     *
+     * <p>v65 → v66: adds the {@code ThroughWalls.check-breaks} toggle for the
+     * block-break coverage of the ThroughWalls check.
      */
     public static @NotNull ConfigUpdater.Spec mainConfig() {
-        return ConfigUpdater.Spec.builder("/config/", 65, ConfigUpdater.ConfigFlavor.V2)
+        return ConfigUpdater.Spec.builder("/config/", 66, ConfigUpdater.ConfigFlavor.V2)
                 .migration(10, ctx -> {
                     String typeRaw = ctx.input().getString("history.database.type");
                     String type = typeRaw == null ? null : typeRaw.trim().toUpperCase(Locale.ROOT);

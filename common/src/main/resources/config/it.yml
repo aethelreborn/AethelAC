@@ -718,6 +718,10 @@ ThroughWalls:
     # visible from at least one possible eye position. Set false to keep the
     # original attack/entity-interaction coverage only.
     check-placements: true
+    # Also check block breaks: the named face must be visible from at least
+    # one possible eye position. Set false to keep the attack, entity
+    # interaction, use and placement coverage only.
+    check-breaks: true
 
 exploit:
     # Abilita il salto in sprint con l'elytra
@@ -778,4 +782,4 @@ max-ping-firework-boost: 350
 update-permission-ticks: 20
 
 config-flavor: V2
-config-version: 65
+config-version: 66
