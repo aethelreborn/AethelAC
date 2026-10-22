@@ -3,6 +3,26 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.16] - 2026-10-22
+
+- Extend `ThroughWalls` block coverage from block items to every real-face
+  use-on-block action. 1.8's `rightClickMouse()` passes the block position, side
+  and hit vector from `objectMouseOver` to `onPlayerRightClick()` for every item,
+  and 1.21's `doItemUse()` passes the `crosshairTarget` `BlockHitResult` to
+  `interactBlock()`. Buckets, flint and steel, hoes, bone meal, spawn eggs, wax,
+  brushes and other use-on-block items therefore send the same clicked point, so
+  the placement visibility check applies unchanged. The placed-block position is
+  item-specific; the invariant is on the clicked point, not on what the item does
+  with it.
+- Keep the existing support-age, occluder-age, own-placement, break-quiet,
+  history, range and face gates. Non-block uses are not added to the
+  predicted-placement map because they do not predict a block at that position.
+- Verbose flags now print `action=use` for a non-block use and `action=place` for
+  a block item. `ThroughWalls.check-placements` now covers both use and placement
+  packets; the config version stays 65 because the key and default are unchanged.
+- This supersedes the v5.15 scope note that bucket and non-block use-item paths
+  were not covered.
+
 ## [v5.15] - 2026-10-22
 
 - Extend `ThroughWalls` from entity actions to block placements. The client
@@ -31,9 +51,8 @@ All notable changes to AethelAC. Releases are cut automatically by CI from
   shape; extended-outline supports (lecterns, shelves, scaffolding) are skipped
   entirely. Non-solid target-only blocks (torches, vines, fire, rails, pressure
   plates) are ignored as occluders, matching the 1.8 collision pick and staying
-  conservative on modern clients. Bucket and non-block use-item paths remain out
-  of scope because their hitboxes and use-versus-place semantics are not yet
-  proven.
+  conservative on modern clients. Bucket and non-block use-item paths were
+  deferred to v5.16.
 - Add `ThroughWalls.check-placements` (default `true`) and bump the config
   version to 65 across all 13 locales. The check name, stable key and existing
   punishment group are unchanged, so existing tiers and locale overrides keep

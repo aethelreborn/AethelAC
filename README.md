@@ -82,12 +82,12 @@ and can be tuned per server.
   that has not happened yet. The only interaction component that runs a tick
   behind is the client's yaw and pitch, which the ray checks already try as
   candidates.
-- `ThroughWalls` rejects attacks, entity interactions, and block placements
+- `ThroughWalls` rejects attacks, entity interactions, and block use/placements
   whose aim ray or clicked face point is hidden behind a solid block. The
   client's entity pick only returns a target that is nearer than the first
-  block hit, and its block pick only sends a placement for the block its
-  crosshair actually selected, so both geometries are impossible for an
-  unmodified client. The click uses the previous render frame's pick, and the
+  block hit, and its block pick only sends an interaction or placement for the
+  block its crosshair actually selected, so both geometries are impossible for
+  an unmodified client. The click uses the previous render frame's pick, and the
   server already holds the rotation that frame was rendered with - both 1.8
   and modern clients queue the interaction before the tick that reports the
   new rotation - so the verdict is taken immediately against that held
@@ -97,25 +97,27 @@ and can be tuned per server.
   Blocks changed within the last round trip are ignored, as are actions within
   a second of the player's own block break (a rejected client-side break can
   leave the client seeing air where the server still has the block).
-  Placements do not exempt an entity action: a predicted placement makes the
-  client see more than the server, which can only hide an action. Block
-  placements themselves are exempt for one second after a break for the same
-  rejected-break reason. For placements, the packet cursor is the clicked
-  point on the support block's face, so the check converts it to absolute
-  coordinates and accepts the placement if any sample in a precision grid
-  covering the 1/16-block cursor cell is visible from any possible eye position
-  and height. A sample only counts when the ray reaches the support on the
-  clicked face; hitting the support's front face never validates its hidden back
-  face, which would place the new block on the far side of the wall. Only a
-  fully occluded cursor flags. Non-solid target-only blocks
-  (torches, vines, fire, rails, pressure plates) are never treated as walls:
-  1.8's pick uses collision boxes, and staying conservative on modern clients
-  is preferable to charging a player who placed a block past a torch. The
-  target's lag-compensated hitbox is measured from
-  the highest possible eye height, so every gate can only hide an action,
-  never invent one. If a block-change burst ever exceeds the tracked history,
-  the check stays silent for that five-second window instead of guessing which
-  walls are fresh.
+  Block use and placements do not exempt an entity action: a predicted placement
+  makes the client see more than the server, which can only hide an action.
+  Block use and placements themselves are exempt for one second after a break for
+  the same rejected-break reason. For block use and placements, the packet cursor
+  is the clicked point on the support block's face, so the check converts it to
+  absolute coordinates and accepts the interaction if any sample in a precision
+  grid covering the 1/16-block cursor cell is visible from any possible eye
+  position and height. This includes buckets, flint and steel, hoes, bone meal,
+  spawn eggs and every other use-on-block item, not only block items: the same
+  crosshair hit result supplies the packet position, face and cursor. A sample
+  only counts when the ray reaches the support on the clicked face; hitting the
+  support's front face never validates its hidden back face, which would place
+  the new block on the far side of the wall. Only a fully occluded cursor flags.
+  Non-solid target-only blocks (torches, vines, fire, rails, pressure plates)
+  are never treated as walls: 1.8's pick uses collision boxes, and staying
+  conservative on modern clients is preferable to charging a player who used
+  or placed past a torch. For entity actions, the target's lag-compensated
+  hitbox is measured from the highest possible eye height, so every gate can
+  only hide an action, never invent one. If a block-change burst ever exceeds
+  the tracked history, the check stays silent for that five-second window
+  instead of guessing which walls are fresh.
 - Punishments ship tiered ladders per check group: alerts from the first flag,
   console kick at 30-80 violations, and a 30-day ban at 40-140 violations
   depending on the group. Violation memory spans ten minutes.
