@@ -321,8 +321,7 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
 
         for (Vector3d eye : eyes) {
             for (Vector3d sample : samples) {
-                final double sampleDistanceSquared = eye.distanceSquared(
-                        sample.getX(), sample.getY(), sample.getZ());
+                final double sampleDistanceSquared = distanceSquared(eye, sample);
                 if (sampleDistanceSquared > rangeSquared) continue;
 
                 final HitData hit = traceBlock(eye, extendPast(eye, sample), heldItem, support);
@@ -451,16 +450,27 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
 
     private static void addEye(List<Vector3d> eyes, double x, double y, double z) {
         for (Vector3d eye : eyes) {
-            if (eye.distanceSquared(x, y, z) < 1e-12) return;
+            if (distanceSquared(eye, x, y, z) < 1e-12) return;
         }
         eyes.add(new Vector3d(x, y, z));
     }
 
     private static boolean anyEyeWithin(Vector3d point, List<Vector3d> eyes, double rangeSquared) {
         for (Vector3d eye : eyes) {
-            if (eye.distanceSquared(point.getX(), point.getY(), point.getZ()) <= rangeSquared) return true;
+            if (distanceSquared(eye, point) <= rangeSquared) return true;
         }
         return false;
+    }
+
+    private static double distanceSquared(Vector3d a, Vector3d b) {
+        return distanceSquared(a, b.getX(), b.getY(), b.getZ());
+    }
+
+    private static double distanceSquared(Vector3d a, double x, double y, double z) {
+        final double dx = a.getX() - x;
+        final double dy = a.getY() - y;
+        final double dz = a.getZ() - z;
+        return dx * dx + dy * dy + dz * dz;
     }
 
     private static Vector3d samplePoint(Vector3i support, Vector3d cursor, BlockFace face, double a, double b) {
