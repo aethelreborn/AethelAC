@@ -3,6 +3,42 @@
 All notable changes to AethelAC. Releases are cut automatically by CI from
 `main`; this file summarizes what each stage shipped.
 
+## [v5.15] - 2026-10-22
+
+- Extend `ThroughWalls` from entity actions to block placements. The client
+  sends a placement only for the block its crosshair actually selected: 1.8's
+  `rightClickMouse()` reads `objectMouseOver.getBlockPos()`, `sideHit` and
+  `hitVec`, and 1.21's `doItemUse()` reads the `BlockHitResult` produced by
+  `updateCrosshairTarget()`. The packet cursor is therefore a real point on the
+  support block's face, not an arbitrary coordinate. A placement whose cursor
+  point is hidden behind a solid block is impossible for an unmodified client,
+  regardless of whether the module is AutoWeb, AutoDrain, Anchor or AutoCrystal.
+- The check converts the block-relative cursor to absolute coordinates and
+  traces from every plausible eye position (current, previous, midpoint) and
+  every possible eye height to a 5x5 grid on 1.8 (1/16-block cursor
+  quantisation, +/- 1/32) or a 3x3 grid on modern clients. One visible sample
+  accepts the placement; only a fully occluded cursor flags. The face itself is
+  checked: the server's own pick must select the same face for the fast path,
+  and a sample only counts when the ray reaches the support on the clicked face.
+  A visible support block with its hidden back face would otherwise place the
+  new block on the far side of the wall. A 25-sample wall
+  case, a visible corner-sliver case, and the visible-face cursor sweep were
+  simulated before implementation; the sweep produced zero false flags. The
+  server's own pick is a fast path when it selects the same support face. Blocks changed within the last round trip,
+  a support placed by this player in the last second, and actions within a
+  second of a break are ignored. Chests, barriers and lecterns are not treated
+  as occluders because their target outline can differ from their collision
+  shape; extended-outline supports (lecterns, shelves, scaffolding) are skipped
+  entirely. Non-solid target-only blocks (torches, vines, fire, rails, pressure
+  plates) are ignored as occluders, matching the 1.8 collision pick and staying
+  conservative on modern clients. Bucket and non-block use-item paths remain out
+  of scope because their hitboxes and use-versus-place semantics are not yet
+  proven.
+- Add `ThroughWalls.check-placements` (default `true`) and bump the config
+  version to 65 across all 13 locales. The check name, stable key and existing
+  punishment group are unchanged, so existing tiers and locale overrides keep
+  working. The violation description now covers placements as well.
+
 ## [v5.14] - 2026-10-21
 
 - Extend `ThroughWalls` from attacks to entity interactions. The client's
