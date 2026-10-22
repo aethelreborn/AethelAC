@@ -2,9 +2,11 @@ package ac.aethel.aethelac.checks.impl.combat;
 
 import ac.aethel.aethelac.checks.Check;
 import ac.aethel.aethelac.checks.CheckData;
+import ac.aethel.aethelac.checks.type.BlockBreakListener;
 import ac.aethel.aethelac.checks.type.BlockPlaceListener;
 import ac.aethel.aethelac.checks.type.PacketReceiveListener;
 import ac.aethel.aethelac.player.AethelPlayer;
+import ac.aethel.aethelac.utils.anticheat.update.BlockBreak;
 import ac.aethel.aethelac.utils.anticheat.update.BlockPlace;
 import ac.aethel.aethelac.utils.collisions.HitboxData;
 import ac.aethel.aethelac.utils.collisions.datatypes.CollisionBox;
@@ -21,6 +23,7 @@ import com.github.retrooper.packetevents.protocol.attribute.Attributes;
 import com.github.retrooper.packetevents.protocol.entity.type.EntityTypes;
 import com.github.retrooper.packetevents.protocol.packettype.PacketType;
 import com.github.retrooper.packetevents.protocol.player.ClientVersion;
+import com.github.retrooper.packetevents.protocol.player.DiggingAction;
 import com.github.retrooper.packetevents.protocol.player.GameMode;
 import com.github.retrooper.packetevents.protocol.world.BlockFace;
 import com.github.retrooper.packetevents.protocol.world.states.WrappedBlockState;
@@ -79,12 +82,25 @@ import java.util.Map;
  * collision boxes, and remaining conservative on modern clients is preferable to
  * charging a player who used or placed past a torch.
  *
+ * <p>Block breaking uses the same pick without a cursor. 1.8's {@code clickMouse()}
+ * sends the position and side of {@code objectMouseOver} to {@code clickBlock()}, and
+ * 1.21's {@code handleBlockBreaking()} / {@code doAttack()} send the
+ * {@code crosshairTarget} position and side to {@code attackBlock()}. The break packet
+ * carries only the target block and face, so the check samples the named face of the
+ * target's target shape (partial blocks use their real surface) and accepts the break
+ * if any sample is visible from any possible eye. A break whose named face is entirely
+ * behind a solid block is impossible. Non-solid targets and extended shapes (fences,
+ * walls, lecterns, shelves, scaffolding) are skipped because their outlines are
+ * not safely comparable here; the server's own crosshair pick is used as a fast path.
+ *
  * <p>Further sources of legitimate divergence are compensated for:
  * <ul>
  *   <li>A block placed by another player reaches this client after one network trip.
  *       Blocks changed within the last round trip are ignored.</li>
  *   <li>A rejected client-side break may leave the client seeing air where the
- *       server still has the block. Actions within a second of a break are ignored.</li>
+ *       server still has the block. Entity, use and placement actions within a
+ *       second of a break are ignored; a break only ignores its own recently
+ *       broken position, so continuous mining does not disable break coverage.</li>
  *   <li>The target box is the interpolation-aware box at interaction time, expanded
  *       past the client's targeting margin, and the eye is the highest possible
  *       height, so pose and interpolation changes can only hide an action, never
@@ -92,9 +108,9 @@ import java.util.Map;
  * </ul>
  */
 @CheckData(name = "ThroughWalls", stableKey = "aethel.combat.through_walls",
-        description = "Attacked or interacted with an entity or block through a solid block",
+        description = "Attacked, interacted with, or broke a block through a solid block",
         setback = 0, decay = 0.01)
-public class ThroughWalls extends Check implements PacketReceiveListener, BlockPlaceListener {
+public class ThroughWalls extends Check implements PacketReceiveListener, BlockPlaceListener, BlockBreakListener {
     // Grace period after this player's own block break. A rejected client-side
     // break prediction can leave the client seeing air where the server still
     // has the block; that window is one round trip, covered with margin here.
@@ -128,12 +144,27 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
     // A support placed in this window may still be the old block (or air) in
     // compensatedWorld; the server applies the placement after the tick.
     private static final long RECENT_OWN_PLACEMENT_MS = 1_000L;
+    // A break completed by this client in this window may still exist server-side
+    // if the break was rejected; do not turn that ghost into a wall.
+    private static final long RECENT_OWN_BREAK_MS = 1_000L;
+    // Repeated starts for the same block are the same click stream; check once.
+    private static final long START_CACHE_MS = 500L;
+    // Bound the expensive sample trace. The server pick fast path is not limited;
+    // only suspicious starts that need per-sample tracing share this budget.
+    private static final long BREAK_CHECK_INTERVAL_MS = 50L;
+    private static final int MAX_BREAK_SAMPLES = 256;
     private static final double FACE_EDGE_EPSILON = 0.002;
 
     private final Map<Vector3i, Long> recentPlacements = new HashMap<>();
-    // Set by onReload, which Check calls during construction. Do not give this a
+    private final Map<Vector3i, Long> recentOwnBreaks = new HashMap<>();
+    @Nullable
+    private Vector3i lastBreakStart;
+    private long lastBreakStartAt;
+    private long lastExpensiveBreakCheck;
+    // Set by onReload, which Check calls during construction. Do not give these a
     // field initializer: it would overwrite the config value after super() returns.
     private boolean checkPlacements;
+    private boolean checkBreaks;
 
     public ThroughWalls(AethelPlayer player) {
         super(player);
@@ -143,6 +174,7 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
     public void onReload(@NotNull ConfigManager config) {
         super.onReload(config);
         this.checkPlacements = config.getBooleanElse("ThroughWalls.check-placements", true);
+        this.checkBreaks = config.getBooleanElse("ThroughWalls.check-breaks", true);
     }
 
     @Override
@@ -398,24 +430,188 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
                 + " age=" + oldestOccluderAge + "ms samples=" + samples.size());
     }
 
+    @Override
+    public void onBlockBreak(final BlockBreak blockBreak) {
+        final long now = System.currentTimeMillis();
+        pruneRecentOwnBreaks(now);
+
+        // Track the client's own completed breaks so a rejected break cannot be
+        // mistaken for a wall. The client can see air at that position while the
+        // server still has the block.
+        if (blockBreak.action == DiggingAction.FINISHED_DIGGING) {
+            if (lastBreakStart != null && lastBreakStart.equals(blockBreak.position)
+                    && !blockBreak.block.getType().isAir()) {
+                recentOwnBreaks.put(blockBreak.position, now);
+            }
+            lastBreakStart = null;
+            return;
+        }
+        if (blockBreak.action == DiggingAction.CANCELLED_DIGGING) {
+            if (lastBreakStart != null && lastBreakStart.equals(blockBreak.position)) {
+                lastBreakStart = null;
+            }
+            return;
+        }
+        if (blockBreak.action != DiggingAction.START_DIGGING) return;
+        if (!checkBreaks) return;
+
+        final boolean repeatedStart = lastBreakStart != null
+                && lastBreakStart.equals(blockBreak.position)
+                && now - lastBreakStartAt < START_CACHE_MS;
+        if (repeatedStart) return;
+
+        // Record the first start of this block (or a repeat after the cache
+        // window). Repeats inside the window do not move the timestamp, so a
+        // client that spams the same target is checked at most once per window,
+        // and an early gate cannot suppress that target forever.
+        lastBreakStart = blockBreak.position;
+        lastBreakStartAt = now;
+
+        if (blockBreak.face == BlockFace.OTHER) return;
+        if (player.gamemode == GameMode.SPECTATOR || player.inVehicle() || !player.cameraEntity.isSelf()) return;
+        if (blockBreak.isCancelled()) return;
+
+        final Vector3i target = blockBreak.position;
+        final StateType targetType = blockBreak.block.getType();
+        // Air, fluids and target-only blocks belong to AirLiquidBreak/PhantomBreak.
+        // Extended outlines need per-block target/collision handling; leave them
+        // silent rather than risk a shape mismatch.
+        if (targetType.isAir() || !targetType.isSolid() || targetType.exceedsCube()
+                || targetType == StateTypes.MOVING_PISTON || targetType == StateTypes.SCAFFOLDING) {
+            return;
+        }
+
+        if (recentOwnBreaks.containsKey(target)) return;
+        if (player.compensatedWorld.isBlockHistoryUncertain()) return;
+
+        final long targetAge = player.compensatedWorld.getBlockAgeMillis(
+                target.getX(), target.getY(), target.getZ());
+        if (targetAge < MIN_BLOCK_AGE_MS + player.getTransactionPing()) return;
+
+        final StateType heldItem = player.inventory.getHeldItem().getType().getPlacedType();
+
+        // Fast path: the server's own pick already selects this block and face.
+        // Normal mining ends here after one trace.
+        final HitData currentHit = WorldRayTrace.getNearestBlockHitResult(
+                player, heldItem, false, false, false);
+        if (currentHit != null && currentHit.position().equals(target)
+                && currentHit.closestDirection() == blockBreak.face) {
+            return;
+        }
+
+        // The sample trace is the expensive part. A module spamming hidden starts
+        // must not be able to use it as a CPU amplifier; one flag per interval is
+        // enough for the punishment group.
+        if (now - lastExpensiveBreakCheck < BREAK_CHECK_INTERVAL_MS) return;
+        lastExpensiveBreakCheck = now;
+
+        final List<SimpleCollisionBox> targetBoxes = new ArrayList<>();
+        HitboxData.getBlockHitbox(player, heldItem, player.getClientVersion(), blockBreak.block, true,
+                target.getX(), target.getY(), target.getZ()).downCast(targetBoxes);
+        if (targetBoxes.isEmpty()) return;
+
+        final List<Vector3d> eyes = new ArrayList<>();
+        for (double eyeHeight : eyeHeights()) {
+            eyes.addAll(eyePositions(eyeHeight));
+        }
+        for (Vector3d eye : eyes) {
+            if (insideAnyBox(eye, targetBoxes)) return;
+        }
+
+        final List<Vector3d> samples = breakSamples(targetBoxes, blockBreak.face);
+        if (samples.isEmpty() || samples.size() > MAX_BREAK_SAMPLES) return;
+
+        double range = player.compensatedEntities.self.getAttributeValue(Attributes.BLOCK_INTERACTION_RANGE);
+        if (range <= 0) {
+            range = player.getClientVersion().isOlderThan(ClientVersion.V_1_9) ? 5.0 : 4.5;
+        }
+        range += PLACEMENT_RANGE_MARGIN;
+        final double rangeSquared = range * range;
+
+        Vector3i firstOccluder = null;
+        long oldestOccluderAge = Long.MAX_VALUE;
+        boolean freshForeignOccluder = false;
+        final int pingThreshold = player.getTransactionPing();
+
+        for (Vector3d eye : eyes) {
+            for (Vector3d sample : samples) {
+                final double sampleDistanceSquared = distanceSquared(eye, sample);
+                if (sampleDistanceSquared > rangeSquared) continue;
+
+                final HitData hit = traceBlock(eye, extendPast(eye, sample), heldItem, null, target);
+                if (hit == null) continue;
+
+                if (hit.position().equals(target)) {
+                    if (hit.closestDirection() == blockBreak.face) {
+                        // One clear point on the named face is enough.
+                        return;
+                    }
+                    // A different face of the target hides this sample. That is a
+                    // face problem, handled by PositionBreakA, not a wall.
+                    continue;
+                }
+                if (isLenientOccluder(hit.state().getType())) {
+                    return;
+                }
+                if (recentOwnBreaks.containsKey(hit.position())) {
+                    // The client may see air here after its own rejected break.
+                    return;
+                }
+
+                final double hitDistanceSquared = hit.blockHitLocation().distanceSquared(
+                        eye.getX(), eye.getY(), eye.getZ());
+                if (hitDistanceSquared < MIN_OCCLUDER_HIT_DISTANCE_SQ) {
+                    // The eye is inside a block; that is a different problem.
+                    return;
+                }
+                if (hitDistanceSquared > sampleDistanceSquared + 0.01) continue;
+
+                if (firstOccluder == null) {
+                    firstOccluder = hit.position();
+                }
+                final long age = player.compensatedWorld.getBlockAgeMillis(
+                        hit.position().getX(), hit.position().getY(), hit.position().getZ());
+                oldestOccluderAge = Math.min(oldestOccluderAge, age);
+                if (!recentPlacements.containsKey(hit.position())
+                        && age < MIN_BLOCK_AGE_MS + pingThreshold) {
+                    freshForeignOccluder = true;
+                }
+            }
+        }
+
+        if (firstOccluder == null || freshForeignOccluder) return;
+
+        flag("action=break target=" + target.getX() + "," + target.getY() + "," + target.getZ()
+                + " face=" + blockBreak.face
+                + " occluder=" + firstOccluder.getX() + "," + firstOccluder.getY() + "," + firstOccluder.getZ()
+                + " age=" + oldestOccluderAge + "ms samples=" + samples.size());
+    }
+
     private HitData traceBlock(Vector3d start, Vector3d end) {
         final StateType heldItem = player.inventory.getHeldItem().getType().getPlacedType();
-        return traceBlock(start, end, heldItem, null);
+        return traceBlock(start, end, heldItem, null, null);
     }
 
     private HitData traceBlock(Vector3d start, Vector3d end, StateType heldItem, @Nullable Vector3i support) {
+        return traceBlock(start, end, heldItem, support, null);
+    }
+
+    private HitData traceBlock(Vector3d start, Vector3d end, StateType heldItem,
+                               @Nullable Vector3i support, @Nullable Vector3i target) {
         return WorldRayTrace.traverseBlocks(player, start, end, (block, position) -> {
+            final boolean isTarget = target != null && position.equals(target);
             // Non-solid blocks (torches, vines, fire, rails, pressure plates, ...)
             // have target boxes in HitboxData but are ignored by the 1.8 block pick
             // (and, conservatively, by this check on modern clients). The clicked
             // support itself is still considered: a modern client can target a
-            // torch or vine, and its own outline is a real pick.
-            if ((support == null || !position.equals(support)) && !block.getType().isSolid()) {
+            // torch or vine, and its own outline is a real pick. The break target
+            // is considered too, so its own target shape can be traced.
+            if (!isTarget && (support == null || !position.equals(support)) && !block.getType().isSolid()) {
                 return null;
             }
 
             final CollisionBox data = HitboxData.getBlockHitbox(player, heldItem, player.getClientVersion(),
-                    block, false, position.getX(), position.getY(), position.getZ());
+                    block, isTarget, position.getX(), position.getY(), position.getZ());
             final List<SimpleCollisionBox> boxes = new ArrayList<>();
             data.downCast(boxes);
 
@@ -524,6 +720,33 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
                 sample.getZ() + dz * factor);
     }
 
+    private static List<Vector3d> breakSamples(List<SimpleCollisionBox> boxes, BlockFace face) {
+        // The center is first so a visible face returns without testing the rest.
+        // The 2% and 98% points cover a visible sliver at the face edge.
+        final double[] fractions = {0.5, 0.1, 0.3, 0.7, 0.9, 0.02, 0.98};
+        final List<Vector3d> samples = new ArrayList<>();
+        for (SimpleCollisionBox box : boxes) {
+            final double width = box.maxX - box.minX;
+            final double height = box.maxY - box.minY;
+            final double depth = box.maxZ - box.minZ;
+            for (double u : fractions) {
+                for (double v : fractions) {
+                    final Vector3d sample = switch (face) {
+                        case UP -> new Vector3d(box.minX + width * u, box.maxY, box.minZ + depth * v);
+                        case DOWN -> new Vector3d(box.minX + width * u, box.minY, box.minZ + depth * v);
+                        case NORTH -> new Vector3d(box.minX + width * u, box.minY + height * v, box.minZ);
+                        case SOUTH -> new Vector3d(box.minX + width * u, box.minY + height * v, box.maxZ);
+                        case WEST -> new Vector3d(box.minX, box.minY + height * v, box.minZ + depth * u);
+                        case EAST -> new Vector3d(box.maxX, box.minY + height * v, box.minZ + depth * u);
+                        default -> null;
+                    };
+                    if (sample != null) samples.add(sample);
+                }
+            }
+        }
+        return samples;
+    }
+
     private static boolean insideAnyBox(Vector3d point, List<SimpleCollisionBox> boxes) {
         for (SimpleCollisionBox box : boxes) {
             if (point.getX() >= box.minX - 1e-6 && point.getX() <= box.maxX + 1e-6
@@ -556,5 +779,9 @@ public class ThroughWalls extends Check implements PacketReceiveListener, BlockP
 
     private void pruneRecentPlacements(long now) {
         recentPlacements.entrySet().removeIf(entry -> now - entry.getValue() > RECENT_OWN_PLACEMENT_MS);
+    }
+
+    private void pruneRecentOwnBreaks(long now) {
+        recentOwnBreaks.entrySet().removeIf(entry -> now - entry.getValue() > RECENT_OWN_BREAK_MS);
     }
 }
